@@ -56,7 +56,8 @@ export default {
     --tran-05: all 0.3s ease;
 }
 
-ol,ul {
+ol,
+ul {
     padding-left: 0rem;
 }
 
@@ -193,7 +194,7 @@ header .image-text .profession {
     justify-content: center;
     font-size: 22px;
     cursor: pointer;
-    transition: var(--tran-05); 
+    transition: var(--tran-05);
 }
 
 body.dark .sidebar header .toggle {
@@ -339,7 +340,7 @@ body.dark .switch::before {
     top: 0;
     left: 250px;
     height: 100vh;
-    width: calc(100% - 350px);
+    width: calc(100% - 250px);
     background-color: var(--body-color);
     transition: var(--tran-05);
 }
@@ -352,9 +353,9 @@ body.dark .switch::before {
 }
 
 .sidebar.close~.home {
-    left: 75px;
+    left: 88px;
     height: 100vh;
-    width: calc(100% - 150px);
+    width: calc(100% - 75px);
 }
 
 body.dark .home .text {

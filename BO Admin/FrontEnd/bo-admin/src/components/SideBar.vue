@@ -28,7 +28,7 @@
                 <ul class="menu-links">
 
                     <!--------------- DASHBOARD --------------->
-                    <li class="nav-link">
+                    <li class="">
                         <a href="#">
                             <b-icon icon="house" class="rounded-circle p-1" variant="light"
                                 style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
@@ -37,7 +37,7 @@
                     </li>
 
                     <!--------------- ALL USER --------------->
-                    <li class="nav-link">
+                    <li class="">
                         <a href="#">
                             <b-icon icon="person" class="rounded-circle p-1" variant="light"
                                 style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
