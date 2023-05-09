@@ -91,8 +91,4 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
     border-bottom-right-radius: 0.25rem !important;
 }
-
-/* .home {
-    margin-right: 50px;
-} */
 </style>

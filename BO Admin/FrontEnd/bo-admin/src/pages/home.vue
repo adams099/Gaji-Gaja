@@ -1,6 +1,6 @@
 <template>
-    <body :class="{dark : isDark}">
-        <Sidebar  @TestEmit="NyobaEmit"></Sidebar>
+    <body :class="{ dark: isDark }">
+        <Sidebar @TestEmit="NyobaEmit"></Sidebar>
         <PageOne></PageOne>
     </body>
 </template>
@@ -16,20 +16,13 @@ export default {
         PageOne
 
     },
-    data(){
-        return{
+    data() {
+        return {
             isDark: false
         }
     },
-    methods:{
-        NyobaEmit(){
-            // if (n == 1) {
-            //     console.log('1')
-            //     this.success = true;
-            // } else {
-            //     console.log('2')
-            //     this.success = false;
-            // }
+    methods: {
+        NyobaEmit() {
             this.isDark = !this.isDark
         }
     }
@@ -61,6 +54,10 @@ export default {
     --tran-03: all 0.3s ease;
     --tran-04: all 0.3s ease;
     --tran-05: all 0.3s ease;
+}
+
+ol,ul {
+    padding-left: 0rem;
 }
 
 body {
@@ -196,7 +193,7 @@ header .image-text .profession {
     justify-content: center;
     font-size: 22px;
     cursor: pointer;
-    transition: var(--tran-05);
+    transition: var(--tran-05); 
 }
 
 body.dark .sidebar header .toggle {
@@ -342,7 +339,7 @@ body.dark .switch::before {
     top: 0;
     left: 250px;
     height: 100vh;
-    width: calc(100% - 250px);
+    width: calc(100% - 350px);
     background-color: var(--body-color);
     transition: var(--tran-05);
 }
@@ -355,9 +352,9 @@ body.dark .switch::before {
 }
 
 .sidebar.close~.home {
-    left: 78px;
+    left: 75px;
     height: 100vh;
-    width: calc(100% - 78px);
+    width: calc(100% - 150px);
 }
 
 body.dark .home .text {
