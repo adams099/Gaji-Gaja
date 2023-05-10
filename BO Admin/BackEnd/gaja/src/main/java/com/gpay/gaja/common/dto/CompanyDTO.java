@@ -13,4 +13,7 @@ public class CompanyDTO {
     private String postal;
     private String adminName;
     private String adminEmail;
+    private String status;
+    private String sender;
+
 }
