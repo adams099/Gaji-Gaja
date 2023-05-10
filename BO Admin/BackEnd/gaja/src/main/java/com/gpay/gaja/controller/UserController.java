@@ -2,10 +2,15 @@ package com.gpay.gaja.controller;
 
 import com.gpay.gaja.common.dto.NgaturLuwh;
 import com.gpay.gaja.common.dto.UserDTO;
+import com.gpay.gaja.config.SafetyConfiguration;
+import com.gpay.gaja.config.SecurityConfiguration;
 import com.gpay.gaja.service.UserService;
 
 import lombok.Data;
 
+import java.sql.Date;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +36,13 @@ public class UserController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
+    @PostMapping("/saveV2")
+    public ResponseEntity<UserDTO> savev2(@RequestBody UserDTO userDTO) throws Exception {
+        userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
+        UserDTO dto = service.save(userDTO);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
     @GetMapping("/getAll")
     public List<UserDTO> getAll() {
         List<UserDTO> dto = service.getAll();
@@ -42,5 +54,36 @@ public class UserController {
         NgaturLuwh test = new NgaturLuwh();
         test.setData(service.login(userDTO));
         return new ResponseEntity<>(test, HttpStatus.OK);
+    }
+
+    @GetMapping("/loginV2")
+    public ResponseEntity<?> loginv2(@RequestBody UserDTO userDTO) throws Exception {
+        NgaturLuwh test = new NgaturLuwh();
+        String gaa = service.login(userDTO);
+        String testis = SafetyConfiguration.decrypt(gaa);
+        String asw = userDTO.getPass();
+        if (testis.equals(asw)) {
+            UserDTO gimm = service.findByEmail(userDTO.getEmail());
+            String ancrit = LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername();
+            test.setData(ancrit);
+            test.setRole(gimm.getRole());
+            return new ResponseEntity<>(test, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/loginV3")
+    public ResponseEntity<?> loginv3(@RequestBody UserDTO userDTO) throws Exception {
+        // test.setData(service.login(userDTO));
+        String val1 = SafetyConfiguration.decrypt(service.login(userDTO));
+        String val2 = SafetyConfiguration.decrypt(userDTO.getPass());
+        if (val1.equals(val2)) {
+            NgaturLuwh test = new NgaturLuwh();
+            UserDTO gimm = service.findByEmail(userDTO.getEmail());
+            test.setData(LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername());
+            test.setRole(gimm.getRole());
+            return new ResponseEntity<>(test, HttpStatus.OK);
+        }
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
