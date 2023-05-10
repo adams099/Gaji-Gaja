@@ -1,29 +1,55 @@
 <template>
     <body :class="{ dark: isDark }">
-        <Sidebar @TestEmit="NyobaEmit"></Sidebar>
-        <PageOne></PageOne>
+        <Sidebar @TestEmit="NyobaEmit" @TestEmit2="NyobaEmits"></Sidebar>
+        <PageOne v-if="pa1"></PageOne>
+        <CompanyComp v-if="pa2"></CompanyComp>
+        <AllUser v-if="pa3"></AllUser>
+
+
     </body>
 </template>
 
 <script>
 import Sidebar from "../components/SideBar.vue"
 import PageOne from "../components/PageOne.vue"
+import CompanyComp from "../components/CompanyComp.vue"
+import AllUser from "../components/AllUserComp.vue"
 
 export default {
     name: "SidebarS",
     components: {
         Sidebar,
-        PageOne
+        PageOne,
+        CompanyComp,
+        AllUser
 
     },
     data() {
         return {
-            isDark: false
+            isDark: false,
+            pa1: true,
+            pa2: false,
+            pa3: false
         }
     },
     methods: {
         NyobaEmit() {
             this.isDark = !this.isDark
+        },
+        NyobaEmits(n) {
+            if (n == 1) {
+                this.pa1 = true
+                this.pa2 = false
+                this.pa3 = false
+            } else if (n == 2) {
+                this.pa1 = false
+                this.pa2 = true
+                this.pa3 = false
+            } else {
+                this.pa1 = false
+                this.pa2 = false
+                this.pa3 = true
+            }
         }
     }
 }

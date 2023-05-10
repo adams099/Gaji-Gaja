@@ -12,102 +12,68 @@
         </div>
       </div>
 
-      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"
-        ><b-icon
-          icon="arrow-right-circle"
-          class="rounded-circle p-1"
-          variant="light"
-          style="
+      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"><b-icon icon="arrow-right-circle"
+          class="rounded-circle p-1" variant="light" style="
             width: 30px;
             height: 30px;
             margin-left: 0px;
             background-color: #695cfe;
-          "
-        ></b-icon
-      ></i>
+          "></b-icon></i>
     </header>
 
     <div class="menu-bar">
       <div class="menu">
         <!-- <li class="search-box">
-                        <i class='bx bx-search icon'></i>
-                        <input type="text" placeholder="Search...">
-                    </li> -->
+          <i class='bx bx-search icon'></i>
+          <input type="text" placeholder="Search...">
+        </li> -->
 
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
-          <router-link
-            :to="`/home`"
-            class="side-btn"
-            active-class="active"
-            exact
-          >
+          <a class="side-btn" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="house"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >Dashboard</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Dashboard</span>
               </a>
             </li>
-          </router-link>
+          </a>
 
           <!--------------- ALL USER --------------->
-          <router-link
-            to="/allUser"
-            class="side-btn"
-            active-class="active"
-            exact
-          >
+          <a class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="person"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >All User</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">All User</span>
               </a>
             </li>
-          </router-link>
+          </a>
 
           <!--------------- COMPANY --------------->
-          <li class="">
-            <a>
-              <b-icon
-                icon="building"
-                class="rounded-circle p-1"
-                variant="light"
-                style="
+          <a class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
+            <li class="">
+              <a>
+                <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
                   width: 30px;
                   height: 30px;
                   margin-left: 10px;
                   background-color: #695cfe;
-                "
-              ></b-icon>
-              <span class="text nav-text" style="margin-left: 5px"
-                >Company</span
-              >
-            </a>
-          </li>
+                "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Company</span>
+              </a>
+            </li>
+          </a>
+
         </ul>
       </div>
 
@@ -115,17 +81,12 @@
         <li class="">
           <router-link :to="`/`">
             <a>
-              <b-icon
-                icon="door-closed"
-                class="rounded-circle p-1"
-                variant="light"
-                style="
+              <b-icon icon="door-closed" class="rounded-circle p-1" variant="light" style="
                   width: 30px;
                   height: 30px;
                   margin-left: 10px;
                   background-color: #695cfe;
-                "
-              ></b-icon>
+                "></b-icon>
               <span class="text nav-text" style="margin-left: 5px">Logout</span>
             </a>
           </router-link>
@@ -133,17 +94,12 @@
 
         <li class="mode">
           <div class="sun-moon">
-            <b-icon
-              icon="moon"
-              class="rounded-circle p-1 mt-2"
-              variant="light"
-              style="
+            <b-icon icon="moon" class="rounded-circle p-1 mt-2" variant="light" style="
                 width: 30px;
                 height: 30px;
                 margin-left: 10px;
-                /* background-color: #695cfe; */
-              "
-            ></b-icon>
+                background-color: #695cfe;
+              "></b-icon>
             <i class="bx bx-sun icon sun"></i>
           </div>
           <span class="mode-text text">{{ textMode }}</span>
@@ -164,11 +120,32 @@ export default {
     return {
       isClose: false,
       textMode: "Dark Mode",
+      pa1: true,
+      pa2: false,
+      pa3: false
     };
   },
   methods: {
     SidebarClose() {
       this.isClose = !this.isClose;
+    },
+    NyobaEmis(n) {
+      if (n == 1) {
+        this.$emit('TestEmit2', 1)
+        this.pa1 = true
+        this.pa2 = false
+        this.pa3 = false
+      } else if (n == 2) {
+        this.$emit('TestEmit2', 2)
+        this.pa1 = false
+        this.pa2 = true
+        this.pa3 = false
+      } else {
+        this.$emit('TestEmit2', 3)
+        this.pa1 = false
+        this.pa2 = false
+        this.pa3 = true
+      }
     },
     ModeLandD() {
       // this.$emit
