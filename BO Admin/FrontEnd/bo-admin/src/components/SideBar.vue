@@ -12,19 +12,13 @@
         </div>
       </div>
 
-      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"
-        ><b-icon
-          icon="arrow-right-circle"
-          class="rounded-circle p-1"
-          variant="light"
-          style="
+      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"><b-icon icon="arrow-right-circle"
+          class="rounded-circle p-1" variant="light" style="
             width: 30px;
             height: 30px;
             margin-left: 0px;
             background-color: #695cfe;
-          "
-        ></b-icon
-      ></i>
+          "></b-icon></i>
     </header>
 
     <div class="menu-bar">
@@ -36,78 +30,50 @@
 
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
-          <router-link
-            :to="`/home`"
-            class="side-btn"
-            active-class="active"
-            exact
-          >
+          <router-link :to="`/home`" class="side-btn" active-class="active" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="house"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >Dashboard</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Dashboard</span>
               </a>
             </li>
           </router-link>
 
           <!--------------- ALL USER --------------->
-          <router-link
-            to="/allUser"
-            class="side-btn"
-            active-class="active"
-            exact
-          >
+          <router-link to="/allUser" class="side-btn" active-class="active" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="person"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >All User</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">All User</span>
               </a>
             </li>
           </router-link>
 
           <!--------------- COMPANY --------------->
-          <li class="">
-            <a>
-              <b-icon
-                icon="building"
-                class="rounded-circle p-1"
-                variant="light"
-                style="
+          <router-link to="/company" class="side-btn" active-class="active" exact>
+            <li class="">
+              <a>
+                <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
                   width: 30px;
                   height: 30px;
                   margin-left: 10px;
                   background-color: #695cfe;
-                "
-              ></b-icon>
-              <span class="text nav-text" style="margin-left: 5px"
-                >Company</span
-              >
-            </a>
-          </li>
+                "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Company</span>
+              </a>
+            </li>
+          </router-link>
+
         </ul>
       </div>
 
@@ -115,17 +81,12 @@
         <li class="">
           <router-link :to="`/`">
             <a>
-              <b-icon
-                icon="door-closed"
-                class="rounded-circle p-1"
-                variant="light"
-                style="
+              <b-icon icon="door-closed" class="rounded-circle p-1" variant="light" style="
                   width: 30px;
                   height: 30px;
                   margin-left: 10px;
                   background-color: #695cfe;
-                "
-              ></b-icon>
+                "></b-icon>
               <span class="text nav-text" style="margin-left: 5px">Logout</span>
             </a>
           </router-link>
@@ -133,17 +94,12 @@
 
         <li class="mode">
           <div class="sun-moon">
-            <b-icon
-              icon="moon"
-              class="rounded-circle p-1 mt-2"
-              variant="light"
-              style="
+            <b-icon icon="moon" class="rounded-circle p-1 mt-2" variant="light" style="
                 width: 30px;
                 height: 30px;
                 margin-left: 10px;
                 /* background-color: #695cfe; */
-              "
-            ></b-icon>
+              "></b-icon>
             <i class="bx bx-sun icon sun"></i>
           </div>
           <span class="mode-text text">{{ textMode }}</span>

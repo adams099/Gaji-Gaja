@@ -6,11 +6,12 @@
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
       <div class="card register p-5 rounded bg-light d-flex justify-content-center">
         <h2 class="head">Sign In</h2>
-        <form>
+        <form @submit.prevent="login">
           <div class="form-input">
-            <input type="email" id="email_login" name="email" class="form-control mb-4" placeholder="Email" required />
+            <input type="email" id="email_login" name="email" class="form-control mb-4" placeholder="Email" required
+              v-model="userLogin.email" />
             <input type="password" id="password_login" name="password" class="form-control mb-2" placeholder="Password"
-              required />
+              required v-model="userLogin.password" />
           </div>
           <div class="d-flex flex-row justify-content-end">
             <button to="/home" type="submit" tag="button" class="btn btn-primary mb-2">
@@ -25,14 +26,37 @@
 </template>
     
 <script>
+import userService from '@/services/userService';
 export default {
   name: "LoginComp",
   components: {},
 
-  data() { },
+  data() {
+    return {
+      userLogin: {
+        email: "",
+        password: ""
+      },
+      loginValid: false,
+      emailValid: false
+    }
+  },
 
-  methods: {},
-};
+  methods: {
+    login() {
+      console.log(this.userLogin);
+      userService.login(this.userLogin).then((response) => {
+        if (response.status == 200) {
+          this.$router.push("/home")
+        }
+      }).catch((e) => {
+        if (e.response.status === 500) {
+          this.loginValid
+        }
+      })
+    }
+  }
+}
 </script>
     
 <style scoped>
