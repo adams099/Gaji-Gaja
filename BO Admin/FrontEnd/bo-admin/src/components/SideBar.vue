@@ -28,22 +28,27 @@
                 <ul class="menu-links">
 
                     <!--------------- DASHBOARD --------------->
-                    <li class="">
-                        <a href="#">
-                            <b-icon icon="house" class="rounded-circle p-1" variant="light"
-                                style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
-                            <span class="text nav-text" style="margin-left: 5px;">Dashboard</span>
-                        </a>
-                    </li>
+                    <router-link :to="`/home`">
+                        <li class="">
+                            <a>
+                                <b-icon icon="house" class="rounded-circle p-1" variant="light"
+                                    style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
+                                <span class="text nav-text" style="margin-left: 5px;">Dashboard</span>
+                            </a>
+                        </li>
+                    </router-link>
+
 
                     <!--------------- ALL USER --------------->
-                    <li class="">
-                        <a href="#">
-                            <b-icon icon="person" class="rounded-circle p-1" variant="light"
-                                style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
-                            <span class="text nav-text" style="margin-left: 5px;">All User</span>
-                        </a>
-                    </li>
+                    <router-link to="/allUser">
+                        <li class="">
+                            <a>
+                                <b-icon icon="person" class="rounded-circle p-1" variant="light"
+                                    style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
+                                <span class="text nav-text" style="margin-left: 5px;">All User</span>
+                            </a>
+                        </li>
+                    </router-link>
 
                     <!--------------- COMPANY --------------->
                     <li class="">
@@ -59,11 +64,13 @@
 
             <div class="bottom-content">
                 <li class="">
-                    <a href="#">
-                        <b-icon icon="door-closed" class="rounded-circle p-1" variant="light"
-                            style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
-                        <span class="text nav-text" style="margin-left: 5px;">Logout</span>
-                    </a>
+                    <router-link :to="`/`">
+                        <a>
+                            <b-icon icon="door-closed" class="rounded-circle p-1" variant="light"
+                                style="width: 30px; height: 30px; margin-left: 10px; background-color: #695CFE;"></b-icon>
+                            <span class="text nav-text" style="margin-left: 5px;">Logout</span>
+                        </a>
+                    </router-link>
                 </li>
 
                 <li class="mode">
@@ -111,4 +118,16 @@ export default {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* .router-link-exact-active {
+    background-color: white;
+}
+
+.router-link-active {
+    background-color: #695CFE;
+}
+
+.router-link-exact-active .router-link-active {
+    background-color: #695CFE;
+} */
+</style>
