@@ -1,39 +1,19 @@
-.<template>
+<template>
   <div class="bg-primary h-100 d-flex align-items-center">
     <div>
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-      <div
-        class="card register p-5 rounded bg-light d-flex justify-content-center"
-      >
+      <div class="card register p-5 rounded bg-light d-flex justify-content-center">
         <h2 class="head">Sign In</h2>
         <form>
           <div class="form-input">
-            <input
-              type="email"
-              id="email_login"
-              name="email"
-              class="form-control mb-4"
-              placeholder="Email"
-              required
-            />
-            <input
-              type="password"
-              id="password_login"
-              name="password"
-              class="form-control mb-2"
-              placeholder="Password"
-              required
-            />
+            <input type="email" id="email_login" name="email" class="form-control mb-4" placeholder="Email" required />
+            <input type="password" id="password_login" name="password" class="form-control mb-2" placeholder="Password"
+              required />
           </div>
           <div class="d-flex flex-row justify-content-end">
-            <button
-              to="/home"
-              type="submit"
-              tag="button"
-              class="btn btn-primary mb-2"
-            >
+            <button to="/home" type="submit" tag="button" class="btn btn-primary mb-2">
               Log In
             </button>
           </div>
@@ -44,18 +24,18 @@
   </div>
 </template>
     
-    <script>
+<script>
 export default {
   name: "LoginComp",
   components: {},
 
-  data() {},
+  data() { },
 
   methods: {},
 };
 </script>
     
-    <style scoped>
+<style scoped>
 .input-group {
   position: relative;
 }
@@ -111,7 +91,7 @@ input:focus {
   margin-bottom: 2rem;
 }
 
-input:focus ~ label {
+input:focus~label {
   transform: translateY(-50%) scale(0.8);
   background-color: red;
   padding: 0 0.2em;
