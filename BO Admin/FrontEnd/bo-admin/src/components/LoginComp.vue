@@ -8,8 +8,9 @@
         class="card register p-5 rounded bg-light d-flex justify-content-center"
       >
         <h2 class="head">Sign In</h2>
-        <form>
+        <form @submit.prevent="login">
           <div class="form-input">
+<<<<<<< HEAD
             <input
               type="email"
               id="email_login"
@@ -27,6 +28,12 @@
               placeholder="Password"
               required
             />
+=======
+            <input type="email" id="email_login" name="email" class="form-control mb-4" placeholder="Email" required
+              v-model="userLogin.email" />
+            <input type="password" id="password_login" name="password" class="form-control mb-2" placeholder="Password"
+              required v-model="userLogin.password" />
+>>>>>>> 37113eb5f5d2e2d63d5efc2eee986f1b685d519d
           </div>
           <div class="d-flex flex-row justify-content-end">
             <button
@@ -38,7 +45,7 @@
               Log In
             </button>
           </div>
-          <p>Add User<a href="/Register"> Here!</a></p>
+          <!-- <p>Add User<a href="/Register"> Here!</a></p> -->
         </form>
       </div>
     </div>
@@ -46,14 +53,41 @@
 </template>
     
 <script>
+import userService from '@/services/userService';
 export default {
   name: "LoginComp",
   components: {},
 
+<<<<<<< HEAD
   data() {},
+=======
+  data() {
+    return {
+      userLogin: {
+        email: "",
+        password: ""
+      },
+      loginValid: false,
+      emailValid: false
+    }
+  },
+>>>>>>> 37113eb5f5d2e2d63d5efc2eee986f1b685d519d
 
-  methods: {},
-};
+  methods: {
+    login() {
+      console.log(this.userLogin);
+      userService.login(this.userLogin).then((response) => {
+        if (response.status == 200) {
+          this.$router.push("/home")
+        }
+      }).catch((e) => {
+        if (e.response.status === 500) {
+          this.loginValid
+        }
+      })
+    }
+  }
+}
 </script>
     
 <style scoped>

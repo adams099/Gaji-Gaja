@@ -9,55 +9,81 @@
           <div class="container mr-3">
             <div>
               <div>
-                <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
+                <b-button id="show-btn" @click="showModal" class="btn-primary"
+                  >Add</b-button
+                >
 
                 <b-modal ref="my-modal" hide-footer title="Add User Admin">
-                  <div class="d-block ">
+                  <div class="d-block">
                     <div class="form">
                       <div class="form-group">
                         <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                          placeholder="Enter Name">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="name"
+                          aria-describedby="emailHelp"
+                          placeholder="Enter Name"
+                        />
                       </div>
                       <div class="form-group">
                         <label for="username">Username</label>
-                        <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                          placeholder="Enter username">
+                        <input
+                          type="text"
+                          class="form-control"
+                          id="username"
+                          aria-describedby="emailHelp"
+                          placeholder="Enter username"
+                        />
                       </div>
                       <div class="form-group">
                         <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                          placeholder="Enter email">
+                        <input
+                          type="email"
+                          class="form-control"
+                          id="email"
+                          aria-describedby="emailHelp"
+                          placeholder="Enter email"
+                        />
                       </div>
                       <div class="form-group">
                         <label for="pass">Password</label>
-                        <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
-                          placeholder="Enter password">
-
+                        <input
+                          type="password"
+                          class="form-control"
+                          id="pass"
+                          aria-describedby="emailHelp"
+                          placeholder="Enter password"
+                        />
                       </div>
 
                       <!-- DROPDOWN -->
-                      <label for="username">Role User</label>
+                      <!-- <label for="username">Role User</label>
                       <select class="form-select mb-3" aria-label="Default select example">
                         <option selected class="option"> Role</option>
                         <option value="1">Admin</option>
                         <option value="2">Approval</option>
-                      </select>
+                      </select> -->
                     </div>
                   </div>
 
-                  <b-button class="mt-2" variant="primary" block @click="toggleModal">Submit</b-button>
-                  <b-button class="mt-2" variant="danger" block @click="toggleModal">Cancel</b-button>
+                  <div class="dflex justify-content-center">
+                    <b-button variant="primary" block @click="toggleModal"
+                      >Submit</b-button
+                    >
+                    <b-button variant="danger" block @click="toggleModal"
+                      >Cancel</b-button
+                    >
+                  </div>
                 </b-modal>
               </div>
             </div>
           </div>
         </div>
         <!-- MODAL BUTTON -->
-
       </div>
 
-      <table class="table ">
+      <table class="table">
         <thead class="text-center">
           <tr>
             <th scope="col">No</th>
@@ -83,24 +109,23 @@
 </template>
 
 <script>
-
 export default {
   name: "AllUserCompS",
 
   methods: {
     showModal() {
-      this.$refs['my-modal'].show()
+      this.$refs["my-modal"].show();
     },
     hideModal() {
-      this.$refs['my-modal'].hide()
+      this.$refs["my-modal"].hide();
     },
     toggleModal() {
       // We pass the ID of the button that we want to return focus to
       // when the modal has hidden
-      this.$refs['my-modal'].toggle('#toggle-btn')
-    }
-  }
-}
+      this.$refs["my-modal"].toggle("#toggle-btn");
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -120,7 +145,7 @@ thead {
 }
 
 .btn-danger {
-  margin-left: 10px;
+  /* margin-left: 10px; */
 }
 
 table {
@@ -164,16 +189,16 @@ table tr:last-child td:last-child {
 }
 
 .add-user {
-  background-color: #695CFE;
+  background-color: #695cfe;
   color: whitesmoke;
 }
 
 .show-botton {
-  background-color: #695CFE;
+  background-color: #695cfe;
 }
 
 .show-botton:hover {
-  background-color: #695CFE;
+  background-color: #695cfe;
 }
 
 .form-select {
@@ -184,7 +209,7 @@ table tr:last-child td:last-child {
 }
 
 .btn-primary {
-  background-color: #695CFE;
+  background-color: #695cfe;
 }
 
 .table {

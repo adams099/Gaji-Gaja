@@ -40,4 +40,10 @@ public class UserServiceImpl implements UserService {
         User UserOptional = repository.findByEmail(userDTO.getEmail()).get();
         return UserOptional.getPass();
     }
+
+    @Override
+    public UserDTO findByEmail(String id) {
+        Optional<User> UserOptional = repository.findByEmail(id);
+        return mapper.convertToDto(UserOptional.get());
+    }
 }
