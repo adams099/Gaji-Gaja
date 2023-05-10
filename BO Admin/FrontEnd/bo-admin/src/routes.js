@@ -6,13 +6,13 @@ import Company from "./pages/Company.vue";
 export default [
   {
     name: "login",
-    path: "/",
+    path: "/auth",
     component: Login,
   },
 
   {
     name: "home",
-    path: "/home",
+    path: "/",
     component: Home,
   },
   {

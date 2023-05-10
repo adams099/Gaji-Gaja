@@ -1,8 +1,8 @@
 <template>
-    <div>
+    <body :class="{ dark: isDark }">
         <Sidebar></Sidebar>
         <CompanyComp></CompanyComp>
-    </div>
+    </body>
 </template>
 
 <script>
@@ -15,6 +15,17 @@ export default {
         Sidebar,
         CompanyComp
     },
+
+    data() {
+        return {
+            isDark: false
+        }
+    },
+    methods: {
+        NyobaEmit() {
+            this.isDark = !this.isDark
+        }
+    }
 }
 
 </script>

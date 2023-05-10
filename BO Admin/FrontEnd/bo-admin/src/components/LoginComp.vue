@@ -18,7 +18,7 @@
               Log In
             </button>
           </div>
-          <p>Add User<a href="/Register"> Here!</a></p>
+          <!-- <p>Add User<a href="/Register"> Here!</a></p> -->
         </form>
       </div>
     </div>
