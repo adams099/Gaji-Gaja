@@ -26,5 +26,8 @@ public class Company {
     private String adminName;
     @Column(name = "admin_email", unique = true)
     private String adminEmail;
-
+    @Column(name = "status")
+    private String status;
+    @Column(name = "sender")
+    private String sender;
 }
