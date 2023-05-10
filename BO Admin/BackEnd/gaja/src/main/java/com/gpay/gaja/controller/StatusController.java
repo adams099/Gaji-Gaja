@@ -1,7 +1,7 @@
 package com.gpay.gaja.controller;
 
-import com.gpay.gaja.common.dto.CompanyDTO;
-import com.gpay.gaja.service.CompanyService;
+import com.gpay.gaja.common.dto.StatusDTO;
+import com.gpay.gaja.service.StatusService;
 
 import java.util.List;
 
@@ -12,26 +12,26 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping("company")
-public class CompanyController {
+@RequestMapping("status")
+public class StatusController {
     @Autowired
-    CompanyService service;
+    StatusService service;
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<CompanyDTO> findById(@PathVariable Long id) {
-        CompanyDTO dto = service.findById(id);
+    public ResponseEntity<StatusDTO> findById(@PathVariable Long id) {
+        StatusDTO dto = service.findById(id);
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
     @PostMapping("/save")
-    public ResponseEntity<CompanyDTO> save(@RequestBody CompanyDTO companyDTO) {
-        CompanyDTO dto = service.save(companyDTO);
+    public ResponseEntity<StatusDTO> save(@RequestBody StatusDTO statusDTO) {
+        StatusDTO dto = service.save(statusDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @GetMapping("/getAll")
-    public List<CompanyDTO> getAll() {
-        List<CompanyDTO> dto = service.getAll();
+    public List<StatusDTO> getAll() {
+        List<StatusDTO> dto = service.getAll();
         return dto;
     }
 }

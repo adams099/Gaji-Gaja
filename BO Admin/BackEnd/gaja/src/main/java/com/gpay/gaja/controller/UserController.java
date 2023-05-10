@@ -3,12 +3,8 @@ package com.gpay.gaja.controller;
 import com.gpay.gaja.common.dto.NgaturLuwh;
 import com.gpay.gaja.common.dto.UserDTO;
 import com.gpay.gaja.config.SafetyConfiguration;
-import com.gpay.gaja.config.SecurityConfiguration;
 import com.gpay.gaja.service.UserService;
 
-import lombok.Data;
-
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -19,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("user")
 public class UserController {
     @Autowired
@@ -66,7 +63,7 @@ public class UserController {
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
             String ancrit = LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername();
             test.setData(ancrit);
-            test.setRole(gimm.getRole());
+            test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -81,7 +78,7 @@ public class UserController {
             NgaturLuwh test = new NgaturLuwh();
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
             test.setData(LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername());
-            test.setRole(gimm.getRole());
+            test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

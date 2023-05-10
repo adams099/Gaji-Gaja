@@ -2,7 +2,6 @@ package com.gpay.gaja.common.mapper;
 
 import com.gpay.gaja.common.dto.UserDTO;
 import com.gpay.gaja.model.domain.User;
-import org.modelmapper.Condition;
 import org.modelmapper.Conditions;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
