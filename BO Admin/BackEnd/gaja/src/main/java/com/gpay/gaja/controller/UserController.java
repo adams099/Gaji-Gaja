@@ -29,12 +29,14 @@ public class UserController {
 
     @PostMapping("/save")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
+        userDTO.setCreated(LocalDateTime.now());
         UserDTO dto = service.save(userDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
     @PostMapping("/saveV2")
     public ResponseEntity<UserDTO> savev2(@RequestBody UserDTO userDTO) throws Exception {
+        userDTO.setCreated(LocalDateTime.now());
         userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
         UserDTO dto = service.save(userDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
@@ -61,7 +63,7 @@ public class UserController {
         String asw = userDTO.getPass();
         if (testis.equals(asw)) {
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
-            String ancrit = LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername();
+            String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getUsername();
             test.setData(ancrit);
             test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
@@ -69,7 +71,7 @@ public class UserController {
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
-    @GetMapping("/loginV3")
+    @PostMapping("/loginV3")
     public ResponseEntity<?> loginv3(@RequestBody UserDTO userDTO) throws Exception {
         // test.setData(service.login(userDTO));
         String val1 = SafetyConfiguration.decrypt(service.login(userDTO));
