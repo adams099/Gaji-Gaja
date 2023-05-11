@@ -127,19 +127,17 @@
                 <thead class="text-center">
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Nama Company</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Email Admin</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="companyData.lenghth > 0">
-                    <tr class="baris text-center" v-for="(item, index) in companyData" :key="index">
+                <tbody v-if="companyData.length > 0">
+                    <tr class=" baris text-center" v-for="(item, index) in companyData" :key="index">
                         <th scope="row" class="text-center">1</th>
-                        <td>{{ item.company_name }}</td>
-                        <td>{{ item.mailing_address }}</td>
-                        <td>{{ item.address }}</td>
+                        <td>{{ item.comName }}</td>
+                        <td>{{ item.adminEmail }}</td>
                         <td>In Review</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-primary" @click="showModalDetail">Detail</button>

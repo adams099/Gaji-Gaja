@@ -9,11 +9,11 @@ class User {
   }
 
   getAll() {
-    return http.get("/getAll");
+    return http.get("/user/getAll");
   }
 
   getUserById() {
-    return http.get("/{id}");
+    return http.get("/user/id/{id}");
   }
 }
 

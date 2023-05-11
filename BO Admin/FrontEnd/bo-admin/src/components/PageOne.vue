@@ -9,14 +9,16 @@
                     <div class="icon"></div>
                     <label class="jmlh">Jumlah User</label>
                     <p></p>
-                    <label class="angka">100</label>
+                    <label class="angka" v-if="userData.length > 0">{{ userData.length }}</label>
+                    <label class="angka" v-else>User Kosong</label>
                 </b-col>
             </div>
             <div class="card-2 text-center">
                 <b-col>
                     <label class="jmlh">Jumlah Company</label>
                     <p></p>
-                    <label class="angka">100</label>
+                    <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
+                    <label class="angka" v-else>Company Kosong</label>
                 </b-col>
             </div>
         </div>
@@ -26,9 +28,21 @@
 </template>
 
 <script>
+import userService from '@/services/userService'
+import companyService from '@/services/userService'
 
 export default {
     name: "PageOneS",
+
+    // DATA
+    data() {
+        return {
+            userData: [],
+            companyData: [],
+        };
+    },
+
+    // METHODS
     methods: {
         showModal() {
             this.$refs['my-modal'].show()
@@ -39,7 +53,41 @@ export default {
         toggleModal() {
 
             this.$refs['my-modal'].toggle('#toggle-btn')
-        }
+        },
+
+        getUser() {
+            userService
+                .getAll()
+                .then((response) => {
+                    this.userData = response.data;
+                    console.log(this.userData);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
+        getCompany() {
+            companyService
+                .getAll()
+                .then((response) => {
+                    this.companyData = response.data;
+                    console.log(this.companyData);
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
+
+
+    },
+
+    // MOUNTED
+
+    mounted() {
+        this.getUser();
+        this.getCompany();
     }
 }
 </script>

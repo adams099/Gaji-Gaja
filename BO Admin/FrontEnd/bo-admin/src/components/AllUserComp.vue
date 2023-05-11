@@ -9,29 +9,24 @@
             <!-------------------------- START ADD USER ---------------->
             <div>
               <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
-
               <b-modal ref="my-modal" hide-footer title="Add User Admin">
                 <div class="d-block">
                   <div class="form">
                     <div class="form-group">
                       <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        placeholder="Enter Name" />
+                      <input type="text" class="form-control" id="name" placeholder="Enter Name" />
                     </div>
                     <div class="form-group">
                       <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                        placeholder="Enter username" />
+                      <input type="text" class="form-control" id="username" placeholder="Enter username" />
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email" />
+                      <input type="email" class="form-control" id="email" placeholder="Enter email" />
                     </div>
                     <div class="form-group">
                       <label for="pass">Password</label>
-                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
-                        placeholder="Enter password" />
+                      <input type="password" class="form-control" id="pass" placeholder="Enter password" />
                     </div>
                   </div>
                 </div>
@@ -52,23 +47,19 @@
                   <div class="form">
                     <div class="form-group">
                       <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        placeholder="Enter Name" />
+                      <input type="text" class="form-control" id="name" placeholder="Enter Name" />
                     </div>
                     <div class="form-group">
                       <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                        placeholder="Enter username" />
+                      <input type="text" class="form-control" id="username" placeholder="Enter username" />
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email" />
+                      <input type="email" class="form-control" id="email" placeholder="Enter email" />
                     </div>
                     <div class="form-group">
                       <label for="pass">Password</label>
-                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
-                        placeholder="Enter password" />
+                      <input type="password" class="form-control" id="pass" placeholder="Enter password" />
                     </div>
                   </div>
                 </div>
@@ -91,7 +82,7 @@
             <th scope="col">Nama</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
-            <th scope="col ">Handle</th>
+            <th scope="col ">Action</th>
           </tr>
         </thead>
         <tbody v-if="userData.length > 0">
@@ -126,13 +117,14 @@ import userService from '@/services/userService.js';
 export default {
   name: "AllUserCompS",
 
+  // DATA
   data() {
     return {
-      userData: []
+      userData: [],
     }
   },
 
-
+  // METHODS
   methods: {
     // MODAL BOX
     showModal() {
@@ -160,6 +152,7 @@ export default {
     }
   },
 
+  // MOUNTED
   mounted() {
     this.getUser();
   },
