@@ -17,27 +17,27 @@
                       <label for="name">Name</label>
                       <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
                         placeholder="Enter Name" required v-model="userData.name" />
-                      <span v-if="error.name">Nama harus diisi!</span>
+                      <span class="valid" v-if="error.name">Nama harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="username">Username</label>
                       <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
                         placeholder="Enter username" required v-model="userData.username" />
-                      <span v-if="error.usernameada">Username sudah ada</span>
-                      <span v-if="error.username">Username harus diisi!</span>
+                      <span class="valid" v-if="error.usernameada">Username sudah ada</span>
+                      <span class="valid" v-if="error.username">Username harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
                       <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
                         placeholder="Enter email" required v-model="userData.email" />
-                      <span v-if="error.emailada">Email sudah ada</span>
-                      <span v-if="error.email">Email harus diisi!</span>
+                      <span class="valid" v-if="error.emailada">Email sudah ada</span>
+                      <span class="valid" v-if="error.email">Email harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="pass">Password</label>
                       <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
                         placeholder="Enter password" required v-model="userData.pass" />
-                      <span v-if="error.pass">Password harus diisi!</span>
+                      <span class="valid" v-if="error.pass">Password harus diisi!</span>
                     </div>
                   </div>
                 </div>
@@ -52,7 +52,6 @@
 
             <!---------------------- START UPDATE -------------------------->
             <div>
-
               <b-modal ref="update-modal" hide-footer title="Update User Data">
                 <div class="d-block">
                   <div class="form">
@@ -90,14 +89,14 @@
         </div>
       </div>
       <!---------------------- START USER TABLE -------------------------->
-      <table class="table">
+      <table class="table ">
         <thead class="text-center">
           <tr>
             <th scope="col">No</th>
             <th scope="col">Nama</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
-            <th scope="col ">Handle</th>
+            <th scope="col ">Action</th>
           </tr>
         </thead>
         <tbody v-if="userData.length > 0">
@@ -186,8 +185,8 @@ export default {
               this.error['emailada'] = true
             }
           })
-          .catch((e) => {
-            console.log(e);
+          .catch(() => {
+            console.log("valid-email");
           });
 
         await userService
@@ -197,8 +196,8 @@ export default {
               this.error['usernameada'] = true
             }
           })
-          .catch((e) => {
-            console.log(e);
+          .catch(() => {
+            console.log("valid-username");
           });
 
         if (this.error['usernameada'] == false && this.error['emailada'] == false) {
@@ -254,6 +253,12 @@ h5 {
 thead {
   background-color: #695cfe;
   color: aliceblue;
+}
+
+.valid {
+  font-size: 12px;
+  color: rgb(255, 47, 47);
+  font-style: italic;
 }
 
 .table {
