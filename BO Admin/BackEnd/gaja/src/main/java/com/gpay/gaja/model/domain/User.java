@@ -2,6 +2,8 @@ package com.gpay.gaja.model.domain;
 
 import lombok.Data;
 
+import java.time.LocalDateTime;
+
 import javax.persistence.*;
 
 @Entity
@@ -21,7 +23,15 @@ public class User {
     private String email;
     @Column(name = "password", length = 1000)
     private String pass;
-    @Column(name = "role")
-    private int role;
+    @Column(name = "role_id")
+    private int roleId;
+    @Column(name = "status_id")
+    private int statId;
+    @Column(name = "created_time")
+    private LocalDateTime created;
+    @Column(name = "created_by")
+    private String createdBy;
+    @Column(name = "approved_by")
+    private String approved;
 
 }

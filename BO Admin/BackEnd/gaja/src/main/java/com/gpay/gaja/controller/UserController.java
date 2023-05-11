@@ -63,7 +63,7 @@ public class UserController {
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
             String ancrit = LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername();
             test.setData(ancrit);
-            test.setRole(gimm.getRole());
+            test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -78,7 +78,7 @@ public class UserController {
             NgaturLuwh test = new NgaturLuwh();
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
             test.setData(LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername());
-            test.setRole(gimm.getRole());
+            test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
