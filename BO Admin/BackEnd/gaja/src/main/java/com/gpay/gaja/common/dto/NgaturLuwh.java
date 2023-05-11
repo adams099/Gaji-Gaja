@@ -5,5 +5,5 @@ import lombok.Data;
 @Data
 public class NgaturLuwh {
     private String data;
-    private String role;
+    private int roleId;
 }

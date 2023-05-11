@@ -4,17 +4,54 @@
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-      <div class="card register p-5 rounded bg-light d-flex justify-content-center">
+      <div
+        class="card register p-5 rounded bg-light d-flex justify-content-center"
+      >
         <h2 class="head">Sign In</h2>
-        <form @submit.prevent="login">
+        <form action="" @submit.prevent="loginFunc">
           <div class="form-input">
-            <input type="email" id="email_login" name="email" class="form-control mb-4" placeholder="Email" required
-              v-model="userLogin.email" />
-            <input type="password" id="password_login" name="password" class="form-control mb-2" placeholder="Password"
-              required v-model="userLogin.password" />
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="form-control mb-1"
+              placeholder="Email"
+              required
+              v-model="userLogin.email"
+            />
+            <span v-if="error.email" class="validation-message"
+              >Email harus diisi!</span
+            >
           </div>
+
+          <div class="form-input">
+            <input
+              type="password"
+              id="password"
+              name="password"
+              class="form-control mb-4"
+              placeholder="Password"
+              required
+              v-model="userLogin.pass"
+            />
+            <span v-if="error.password" class="validation-message"
+              >Password harus diisi!</span
+            >
+          </div>
+
+          <div class="form-input">
+            <span v-if="loginError" class="validation-message">
+              Email / Password is invalid!</span
+            >
+          </div>
+
           <div class="d-flex flex-row justify-content-end">
-            <button to="/home" type="submit" tag="button" class="btn btn-primary mb-2">
+            <button
+              to="/home"
+              type="submit"
+              tag="button"
+              class="btn btn-primary mb-1"
+            >
               Log In
             </button>
           </div>
@@ -26,7 +63,7 @@
 </template>
     
 <script>
-import userService from '@/services/userService';
+import userService from "@/services/userService";
 export default {
   name: "LoginComp",
   components: {},
@@ -35,28 +72,52 @@ export default {
     return {
       userLogin: {
         email: "",
-        password: ""
+        pass: "",
       },
-      loginValid: false,
-      emailValid: false
-    }
+      error: {
+        email: false,
+        password: false,
+      },
+      loginError: false,
+    };
   },
 
   methods: {
-    login() {
-      console.log(this.userLogin);
-      userService.login(this.userLogin).then((response) => {
-        if (response.status == 200) {
-          this.$router.push("/home")
+    loginFunc() {
+      this.loginError = false;
+      this.error = {};
+      let data = this.userLogin;
+      for (const property in data) {
+        if (data[property] === null || data[property] === "") {
+          this.error[property] = true;
         }
-      }).catch((e) => {
-        if (e.response.status === 500) {
-          this.loginValid
-        }
-      })
-    }
-  }
-}
+      }
+
+      if (Object.keys(this.error).length === 0) {
+        userService
+          .login(data)
+          .then((response) => {
+            if (response.status === 200) {
+              this.$session.start();
+
+              this.$session.set("jwt", response.data);
+              this.$router.push("/");
+            }
+          })
+          .catch((e) => {
+            if (
+              e.response.data.message.includes(
+                "Incorrect result size: Expected 1, actual 0"
+              )
+            ) {
+              this.loginError = true;
+            }
+          });
+      }
+    },
+  },
+  created() {},
+};
 </script>
     
 <style scoped>
@@ -75,7 +136,7 @@ input {
   background: none;
   padding: 1rem;
   font-size: 1rem;
-  color: #f5f5f5;
+  color: #060000;
   transition: 150ms cubic-bezier(0.5, 0, 0.2, 0);
 }
 
@@ -112,13 +173,26 @@ input:focus {
   display: flex;
   flex-direction: column;
   width: 100%;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+  margin-top: 1rem;
 }
 
-input:focus~label {
+input:focus ~ label {
   transform: translateY(-50%) scale(0.8);
   background-color: red;
   padding: 0 0.2em;
   color: #695cfe;
+}
+
+.validation-message {
+  color: red;
+  opacity: 0.7;
+  font-size: 0.8rem;
+}
+
+.validation-message-success {
+  color: green;
+  opacity: 0.7;
+  font-size: 0.8rem;
 }
 </style>

@@ -3,6 +3,7 @@ import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
 import App from './App.vue'
 import VueRouter from 'vue-router'
 import Routes from './routes.js'
+import VueSession from 'vue-session'
 
 
 import 'bootstrap/dist/css/bootstrap.css'
@@ -13,11 +14,14 @@ Vue.config.productionTip = false
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.use(VueRouter)
+Vue.use(VueSession)
 
 const router = new VueRouter({
   routes: Routes,
   mode: 'history',
 })
+
+router.replace({ path: '/auth' })
 
 new Vue({
   render: h => h(App),
