@@ -208,7 +208,7 @@ export default {
       }
     },
     Logout() {
-      this.$router.push("/auth");
+      this.$router.replace("/auth");
       this.$session.destroy();
     },
   },
