@@ -5,7 +5,7 @@ class User {
     return http.post("/user/loginV2", data);
   }
   register(data) {
-    return http.post("/user/register", data);
+    return http.post("/user/saveV2", data);
   }
 
   getAll() {
