@@ -3,12 +3,8 @@ package com.gpay.gaja.controller;
 import com.gpay.gaja.common.dto.NgaturLuwh;
 import com.gpay.gaja.common.dto.UserDTO;
 import com.gpay.gaja.config.SafetyConfiguration;
-import com.gpay.gaja.config.SecurityConfiguration;
 import com.gpay.gaja.service.UserService;
 
-import lombok.Data;
-
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
@@ -19,7 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("user")
+@CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService service;
@@ -56,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
-    @GetMapping("/loginV2")
+    @PostMapping("/loginV2")
     public ResponseEntity<?> loginv2(@RequestBody UserDTO userDTO) throws Exception {
         NgaturLuwh test = new NgaturLuwh();
         String gaa = service.login(userDTO);

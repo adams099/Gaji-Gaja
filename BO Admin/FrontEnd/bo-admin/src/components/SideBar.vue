@@ -12,13 +12,19 @@
         </div>
       </div>
 
-      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"><b-icon icon="arrow-right-circle"
-          class="rounded-circle p-1" variant="light" style="
+      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"
+        ><b-icon
+          icon="arrow-right-circle"
+          class="rounded-circle p-1"
+          variant="light"
+          style="
             width: 30px;
             height: 30px;
             margin-left: 0px;
             background-color: #695cfe;
-          "></b-icon></i>
+          "
+        ></b-icon
+      ></i>
     </header>
 
     <div class="menu-bar">
@@ -30,76 +36,121 @@
 
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
-          <a class="side-btn" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
+          <a
+            class="side-btn"
+            @click="NyobaEmis(1)"
+            :class="{ active: pa1 }"
+            exact
+          >
             <li class="">
               <a>
-                <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
+                <b-icon
+                  icon="house"
+                  class="rounded-circle p-1"
+                  variant="light"
+                  style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "></b-icon>
-                <span class="link-container" style="margin-left: 5px">Dashboard</span>
+                  "
+                ></b-icon>
+                <span class="link-container" style="margin-left: 5px"
+                  >Dashboard</span
+                >
               </a>
             </li>
           </a>
 
           <!--------------- ALL USER --------------->
-          <a class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
+          <a
+            class="side-btn"
+            @click="NyobaEmis(2)"
+            :class="{ active: pa2 }"
+            exact
+          >
             <li class="">
               <a>
-                <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
+                <b-icon
+                  icon="person"
+                  class="rounded-circle p-1"
+                  variant="light"
+                  style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "></b-icon>
-                <span class="link-container" style="margin-left: 5px">All User</span>
+                  "
+                ></b-icon>
+                <span class="link-container" style="margin-left: 5px"
+                  >All User</span
+                >
               </a>
             </li>
           </a>
 
           <!--------------- COMPANY --------------->
-          <a class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
+          <a
+            class="side-btn"
+            @click="NyobaEmis(3)"
+            :class="{ active: pa3 }"
+            exact
+          >
             <li class="">
               <a>
-                <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
-                  width: 30px;
-                  height: 30px;
-                  margin-left: 10px;
-                  background-color: #695cfe;
-                "></b-icon>
-                <span class="link-container" style="margin-left: 5px">Company</span>
+                <b-icon
+                  icon="building"
+                  class="rounded-circle p-1"
+                  variant="light"
+                  style="
+                    width: 30px;
+                    height: 30px;
+                    margin-left: 10px;
+                    background-color: #695cfe;
+                  "
+                ></b-icon>
+                <span class="link-container" style="margin-left: 5px"
+                  >Company</span
+                >
               </a>
             </li>
           </a>
-
         </ul>
       </div>
 
       <div class="bottom-content">
         <li class="">
-          <router-link :to="`/`">
+          <a @click="Logout">
             <a>
-              <b-icon icon="door-closed" class="rounded-circle p-1" variant="light" style="
+              <b-icon
+                icon="door-closed"
+                class="rounded-circle p-1"
+                variant="light"
+                style="
                   width: 30px;
                   height: 30px;
                   margin-left: 10px;
                   background-color: #695cfe;
-                "></b-icon>
+                "
+              ></b-icon>
               <span class="text nav-text" style="margin-left: 5px">Logout</span>
             </a>
-          </router-link>
+          </a>
         </li>
 
         <li class="mode">
           <div class="sun-moon">
-            <b-icon icon="moon" class="rounded-circle p-1 mt-2" variant="light" style="
+            <b-icon
+              icon="moon"
+              class="rounded-circle p-1 mt-2"
+              variant="light"
+              style="
                 width: 30px;
                 height: 30px;
                 margin-left: 10px;
                 background-color: #695cfe;
-              "></b-icon>
+              "
+            ></b-icon>
             <i class="bx bx-sun icon sun"></i>
           </div>
           <span class="mode-text text">{{ textMode }}</span>
@@ -122,7 +173,7 @@ export default {
       textMode: "Dark Mode",
       pa1: true,
       pa2: false,
-      pa3: false
+      pa3: false,
     };
   },
   methods: {
@@ -131,20 +182,20 @@ export default {
     },
     NyobaEmis(n) {
       if (n == 1) {
-        this.$emit('TestEmit2', 1)
-        this.pa1 = true
-        this.pa2 = false
-        this.pa3 = false
+        this.$emit("TestEmit2", 1);
+        this.pa1 = true;
+        this.pa2 = false;
+        this.pa3 = false;
       } else if (n == 2) {
-        this.$emit('TestEmit2', 2)
-        this.pa1 = false
-        this.pa2 = true
-        this.pa3 = false
+        this.$emit("TestEmit2", 2);
+        this.pa1 = false;
+        this.pa2 = true;
+        this.pa3 = false;
       } else {
-        this.$emit('TestEmit2', 3)
-        this.pa1 = false
-        this.pa2 = false
-        this.pa3 = true
+        this.$emit("TestEmit2", 3);
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = true;
       }
     },
     ModeLandD() {
@@ -155,6 +206,10 @@ export default {
       } else {
         this.textMode = "Dark Mode";
       }
+    },
+    Logout() {
+      this.$router.push("/auth");
+      this.$session.destroy();
     },
   },
 };
