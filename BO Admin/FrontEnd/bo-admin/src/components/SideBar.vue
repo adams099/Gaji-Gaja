@@ -237,11 +237,22 @@ export default {
   background-color: #695cfe;
 }
 
-a:active {
+a:link {
   text-decoration: none;
 }
 
-a:link {
+
+a:visited {
+  text-decoration: none;
+}
+
+
+a:hover {
+  text-decoration: none;
+}
+
+
+a:active {
   text-decoration: none;
 }
 
@@ -259,5 +270,4 @@ a:link {
 
 .router-link-exact-active .router-link-active {
     background-color: #695CFE;
-} */
-</style>
+} */</style>

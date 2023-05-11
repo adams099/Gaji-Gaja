@@ -7,6 +7,14 @@ class User {
   register(data) {
     return http.post("/user/register", data);
   }
+
+  getAll() {
+    return http.get("/getAll");
+  }
+
+  getUserById() {
+    return http.get("/{id}");
+  }
 }
 
 export default new User();

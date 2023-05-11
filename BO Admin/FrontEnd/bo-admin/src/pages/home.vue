@@ -1,10 +1,19 @@
 <template>
+<<<<<<< HEAD
+    <body :class="{ dark: isDark }">
+        <Sidebar @TestEmit="NyobaEmit" @TestEmit2="NyobaEmits"></Sidebar>
+        <PageOne v-if="pa1"></PageOne>
+        <CompanyComp v-if="pa2"></CompanyComp>
+        <AllUser v-if="pa3"></AllUser>
+    </body>
+=======
   <body :class="{ dark: isDark }">
     <Sidebar @TestEmit="NyobaEmit" @TestEmit2="NyobaEmits"></Sidebar>
     <PageOne v-if="pa1"></PageOne>
     <CompanyComp v-if="pa2"></CompanyComp>
     <AllUser v-if="pa3"></AllUser>
   </body>
+>>>>>>> cae4846b5ef07ac60a8f645452f08d4ce857eab2
 </template>
 
 <script>
@@ -43,6 +52,27 @@ export default {
         this.$session.destroy();
       }, future - now);
     },
+<<<<<<< HEAD
+    methods: {
+        NyobaEmit() {
+            this.isDark = !this.isDark
+        },
+        NyobaEmits(n) {
+            if (n == 1) {
+                this.pa1 = true
+                this.pa2 = false
+                this.pa3 = false
+            } else if (n == 2) {
+                this.pa1 = false
+                this.pa2 = false
+                this.pa3 = true
+            } else {
+                this.pa1 = false
+                this.pa2 = true
+                this.pa3 = false
+            }
+        }
+=======
     NyobaEmits(n) {
       if (n == 1) {
         this.pa1 = true;
@@ -71,6 +101,7 @@ export default {
     if (!this.$session.has("jwt")) {
       this.$router.push("/auth");
       // this.$session.destroy();
+>>>>>>> cae4846b5ef07ac60a8f645452f08d4ce857eab2
     }
   },
 };
@@ -399,10 +430,21 @@ body.dark .switch::before {
   padding: 12px 60px;
 }
 
+<<<<<<< HEAD
+.home .color-text {
+    color: var(--text-color);
+}
+
+.sidebar.close~.home {
+    left: 88px;
+    height: 100vh;
+    width: calc(100% - 75px);
+=======
 .sidebar.close ~ .home {
   left: 88px;
   height: 100vh;
   width: calc(100% - 75px);
+>>>>>>> cae4846b5ef07ac60a8f645452f08d4ce857eab2
 }
 
 body.dark .home .text {
