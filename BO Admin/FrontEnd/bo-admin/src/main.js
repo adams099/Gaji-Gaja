@@ -21,7 +21,7 @@ const router = new VueRouter({
   mode: 'history',
 })
 
-router.replace({ path: '/auth' })
+// router.replace({ path: '/auth' })
 
 new Vue({
   render: h => h(App),

@@ -4,54 +4,28 @@
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-      <div
-        class="card register p-5 rounded bg-light d-flex justify-content-center"
-      >
+      <div class="card register p-5 rounded bg-light d-flex justify-content-center">
         <h2 class="head">Sign In</h2>
         <form action="" @submit.prevent="loginFunc">
           <div class="form-input">
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control mb-1"
-              placeholder="Email"
-              required
-              v-model="userLogin.email"
-            />
-            <span v-if="error.email" class="validation-message"
-              >Email harus diisi!</span
-            >
+            <input type="email" id="email" name="email" class="form-control mb-1" placeholder="Email" required
+              v-model="userLogin.email" />
+            <span v-if="error.email" class="validation-message">Email harus diisi!</span>
           </div>
 
           <div class="form-input">
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="form-control mb-4"
-              placeholder="Password"
-              required
-              v-model="userLogin.pass"
-            />
-            <span v-if="error.password" class="validation-message"
-              >Password harus diisi!</span
-            >
+            <input type="password" id="password" name="password" class="form-control mb-4" placeholder="Password" required
+              v-model="userLogin.pass" />
+            <span v-if="error.password" class="validation-message">Password harus diisi!</span>
           </div>
 
           <div class="form-input">
             <span v-if="loginError" class="validation-message">
-              Email / Password is invalid!</span
-            >
+              Email / Password is invalid!</span>
           </div>
 
           <div class="d-flex flex-row justify-content-end">
-            <button
-              to="/home"
-              type="submit"
-              tag="button"
-              class="btn btn-primary mb-1"
-            >
+            <button to="/home" type="submit" tag="button" class="btn btn-primary mb-1">
               Log In
             </button>
           </div>
@@ -116,7 +90,6 @@ export default {
       }
     },
   },
-  created() {},
 };
 </script>
     
@@ -177,7 +150,7 @@ input:focus {
   margin-top: 1rem;
 }
 
-input:focus ~ label {
+input:focus~label {
   transform: translateY(-50%) scale(0.8);
   background-color: red;
   padding: 0 0.2em;
