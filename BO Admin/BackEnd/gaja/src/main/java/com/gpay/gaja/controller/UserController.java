@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping("user")
+@RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService service;
@@ -53,7 +53,7 @@ public class UserController {
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
-    @GetMapping("/loginV2")
+    @PostMapping("/loginV2")
     public ResponseEntity<?> loginv2(@RequestBody UserDTO userDTO) throws Exception {
         NgaturLuwh test = new NgaturLuwh();
         String gaa = service.login(userDTO);

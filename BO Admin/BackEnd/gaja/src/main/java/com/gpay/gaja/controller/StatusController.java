@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping("status")
+@RequestMapping("/status")
 public class StatusController {
     @Autowired
     StatusService service;
