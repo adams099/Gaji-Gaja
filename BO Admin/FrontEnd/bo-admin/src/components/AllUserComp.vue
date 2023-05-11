@@ -30,7 +30,7 @@
                       <label for="email">Email</label>
                       <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
                         placeholder="Enter email" required v-model="userData.email" />
-                      <span v-if="emailada">Email sudah ada</span>
+                      <span v-if="error.emailada">Email sudah ada</span>
                       <span v-if="error.email">Email harus diisi!</span>
                     </div>
                     <div class="form-group">
@@ -167,7 +167,7 @@ export default {
     hideModal() {
       this.$refs["add-modal"].hide();
     },
-    addUser() {
+    async addUser() {
       for (const property in this.error) {
         this.error[property] = false;
       }
@@ -179,17 +179,43 @@ export default {
       }
       if (this.error['username'] == false && this.error['name'] == false && this.error['email'] == false && this.error['pass'] == false) {
 
-        userService
-          .register(data)
+        await userService
+          .findByEmail(data)
           .then((response) => {
-            if (response.status == 201) {
-              console.log(response.data);
-              this.$refs["add-modal"].toggle("#toggle-btn");
+            if (response.status == 200) {
+              this.error['emailada'] = true
             }
           })
           .catch((e) => {
             console.log(e);
           });
+
+        await userService
+          .findByUsername(data)
+          .then((response) => {
+            if (response.status == 200) {
+              this.error['usernameada'] = true
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+
+        if (this.error['usernameada'] == false && this.error['emailada'] == false) {
+
+          userService
+            .register(data)
+            .then((response) => {
+              if (response.status == 201) {
+                console.log(response.data);
+                this.$refs["add-modal"].toggle("#toggle-btn");
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+
       }
 
     },
