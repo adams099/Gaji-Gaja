@@ -4,8 +4,6 @@
         <PageOne v-if="pa1"></PageOne>
         <CompanyComp v-if="pa2"></CompanyComp>
         <AllUser v-if="pa3"></AllUser>
-
-
     </body>
 </template>
 
@@ -43,12 +41,12 @@ export default {
                 this.pa3 = false
             } else if (n == 2) {
                 this.pa1 = false
-                this.pa2 = true
-                this.pa3 = false
-            } else {
-                this.pa1 = false
                 this.pa2 = false
                 this.pa3 = true
+            } else {
+                this.pa1 = false
+                this.pa2 = true
+                this.pa3 = false
             }
         }
     }
@@ -376,6 +374,10 @@ body.dark .switch::before {
     font-weight: 500;
     color: var(--text-color);
     padding: 12px 60px;
+}
+
+.home .color-text {
+    color: var(--text-color);
 }
 
 .sidebar.close~.home {

@@ -1,129 +1,167 @@
 <template>
   <section class="home">
-    <div class="text text-center">All User</div>
+    <div class="text text-center color-text">All User</div>
     <div class="table">
       <div class="d-flex flex-row justify-content-between mb-2">
-        <h5>Daftar User</h5>
-        <!-- <div><button class="btn add-user">Add User</button></div> -->
+        <h5 class="color-text">Daftar User</h5>
         <div>
           <div class="container mr-3">
+            <!-------------------------- START ADD USER ---------------->
             <div>
-              <div>
-                <b-button id="show-btn" @click="showModal" class="btn-primary"
-                  >Add</b-button
-                >
+              <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
 
-                <b-modal ref="my-modal" hide-footer title="Add User Admin">
-                  <div class="d-block">
-                    <div class="form">
-                      <div class="form-group">
-                        <label for="name">Name</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="name"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter Name"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="username">Username</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="username"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter username"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="email">Email</label>
-                        <input
-                          type="email"
-                          class="form-control"
-                          id="email"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter email"
-                        />
-                      </div>
-                      <div class="form-group">
-                        <label for="pass">Password</label>
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="pass"
-                          aria-describedby="emailHelp"
-                          placeholder="Enter password"
-                        />
-                      </div>
-
-                      <!-- DROPDOWN -->
-                      <!-- <label for="username">Role User</label>
-                      <select class="form-select mb-3" aria-label="Default select example">
-                        <option selected class="option"> Role</option>
-                        <option value="1">Admin</option>
-                        <option value="2">Approval</option>
-                      </select> -->
+              <b-modal ref="my-modal" hide-footer title="Add User Admin">
+                <div class="d-block">
+                  <div class="form">
+                    <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                        placeholder="Enter Name" />
+                    </div>
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+                        placeholder="Enter username" />
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        placeholder="Enter email" />
+                    </div>
+                    <div class="form-group">
+                      <label for="pass">Password</label>
+                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
+                        placeholder="Enter password" />
                     </div>
                   </div>
+                </div>
 
-                  <div class="dflex justify-content-center">
-                    <b-button variant="primary" block @click="toggleModal"
-                      >Submit</b-button
-                    >
-                    <b-button variant="danger" block @click="toggleModal"
-                      >Cancel</b-button
-                    >
-                  </div>
-                </b-modal>
-              </div>
+                <div class="dflex justify-content-center">
+                  <b-button variant="primary" block @click="toggleModal">Submit</b-button>
+                  <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
+                </div>
+              </b-modal>
             </div>
+            <!------------------------ END ADD USER ------------------------->
+
+            <!---------------------- START UPDATE -------------------------->
+            <div>
+
+              <b-modal ref="update-modal" hide-footer title="Update User Data">
+                <div class="d-block">
+                  <div class="form">
+                    <div class="form-group">
+                      <label for="name">Name</label>
+                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                        placeholder="Enter Name" />
+                    </div>
+                    <div class="form-group">
+                      <label for="username">Username</label>
+                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+                        placeholder="Enter username" />
+                    </div>
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        placeholder="Enter email" />
+                    </div>
+                    <div class="form-group">
+                      <label for="pass">Password</label>
+                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
+                        placeholder="Enter password" />
+                    </div>
+                  </div>
+                </div>
+
+                <div class="dflex justify-content-center">
+                  <b-button variant="primary" block @click="toggleModal">Update</b-button>
+                  <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
+                </div>
+              </b-modal>
+            </div>
+            <!---------------------- END UPDATE -------------------------->
           </div>
         </div>
-        <!-- MODAL BUTTON -->
       </div>
-
+      <!---------------------- START USER TABLE -------------------------->
       <table class="table">
         <thead class="text-center">
           <tr>
             <th scope="col">No</th>
             <th scope="col">Nama</th>
+            <th scope="col">Username</th>
             <th scope="col">Email</th>
-            <th scope="col">Handle</th>
+            <th scope="col ">Handle</th>
           </tr>
         </thead>
-        <tbody>
-          <tr>
-            <th scope="row" class="text-center">1</th>
-            <td>Mark</td>
-            <td>Otto</td>
-            <td>
-              <button type="button" class="btn btn-primary">Detail</button>
+        <tbody v-if="userData.length > 0">
+          <tr v-for="(item, index) in userData" :key="index" class="baris text-center">
+            <td scope="row" class="text-center">{{ index + 1 }}</td>
+            <td>{{ item.name }}</td>
+            <td>{{ item.username }}</td>
+            <td>{{ item.email }}</td>
+            <td class="text-center">
+              <button type="button" class="btn btn-success" @click="toggleModal">Update</button>
               <button type="button" class="btn btn-delete">Remove</button>
             </td>
           </tr>
         </tbody>
+
+        <tbody v-else>
+          <tr class="msg-tr text-center">
+            <td colspan="5" class="msg-null text-center">
+              <h3 class="color-text">Saat ini Tidak Ada Data User !</h3>
+            </td>
+          </tr>
+        </tbody>
+        <!---------------------- START USER TABLE -------------------------->
       </table>
     </div>
   </section>
 </template>
 
 <script>
+import userService from '@/services/userService.js';
+
 export default {
   name: "AllUserCompS",
 
+  data() {
+    return {
+      userData: []
+    }
+  },
+
+
   methods: {
+    // MODAL BOX
     showModal() {
-      this.$refs["my-modal"].show();
+      this.$refs["update-modal"].show();
     },
     hideModal() {
-      this.$refs["my-modal"].hide();
+      this.$refs["update-modal"].hide();
     },
     toggleModal() {
-      // We pass the ID of the button that we want to return focus to
-      // when the modal has hidden
-      this.$refs["my-modal"].toggle("#toggle-btn");
+
+      this.$refs["update-modal"].toggle("#toggle-btn");
     },
+
+    // GET USER
+    getUser() {
+      userService
+        .getAll()
+        .then((response) => {
+          this.userData = response.data;
+          console.log(this.userData);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    }
+  },
+
+  mounted() {
+    this.getUser();
   },
 };
 </script>
@@ -221,5 +259,9 @@ table tr:last-child td:last-child {
   margin-left: 10px;
   background-color: rgb(195, 10, 10);
   color: white;
+}
+
+.baris {
+  background-color: #e4e9f7;
 }
 </style>

@@ -2,13 +2,22 @@
     <section class="home">
         <div class="text text-center mb-5">Dashboard</div>
         <!---------------------------------- START CARD ---------------------------------->
-        <h4>Cards</h4>
+        <h4 class="color-text">Cards</h4>
         <div class="cards d-flex flex-row mb-5">
-            <div class="card-1">
-                <h5>Card 1</h5>
+            <div class="card-1 text-center">
+                <b-col>
+                    <div class="icon"></div>
+                    <label class="jmlh">Jumlah User</label>
+                    <p></p>
+                    <label class="angka">100</label>
+                </b-col>
             </div>
-            <div class="card-2">
-                <h5 class="text-center">Card 2</h5>
+            <div class="card-2 text-center">
+                <b-col>
+                    <label class="jmlh">Jumlah Company</label>
+                    <p></p>
+                    <label class="angka">100</label>
+                </b-col>
             </div>
         </div>
         <!---------------------------------- END CARD ------------------------------------>
@@ -28,8 +37,7 @@ export default {
             this.$refs['my-modal'].hide()
         },
         toggleModal() {
-            // We pass the ID of the button that we want to return focus to
-            // when the modal has hidden
+
             this.$refs['my-modal'].toggle('#toggle-btn')
         }
     }
@@ -143,8 +151,32 @@ table tr:last-child td:last-child {
 
 }
 
+.jmlh {
+    color: white;
+    font-size: 20px;
+    margin-top: 10px;
+}
+
+.angka {
+    color: white;
+    font-size: 50px;
+    /* margin-top: 2px; */
+}
+
 h4 {
     margin-left: 40px;
     color: gray;
+    margin-bottom: 20px;
+    font-size: 30px;
+    width: 200px;
+    /* background-color: #695CFE; */
+}
+
+h5 {
+    font-size: 16px;
+}
+
+p {
+    margin-bottom: 0px;
 }
 </style>
