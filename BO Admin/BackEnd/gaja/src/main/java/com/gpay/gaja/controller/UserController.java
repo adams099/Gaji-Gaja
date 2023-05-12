@@ -27,6 +27,26 @@ public class UserController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @PostMapping("/email")
+    public ResponseEntity<UserDTO> cariEmail(@RequestBody UserDTO userDTO) {
+        try {
+            service.login(userDTO);
+            return new ResponseEntity<UserDTO>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @PostMapping("/username")
+    public ResponseEntity<UserDTO> cariUsername(@RequestBody UserDTO userDTO) {
+        try {
+            service.findByUsername(userDTO.getUsername());
+            return new ResponseEntity<UserDTO>(HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/save")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
         userDTO.setCreated(LocalDateTime.now());
