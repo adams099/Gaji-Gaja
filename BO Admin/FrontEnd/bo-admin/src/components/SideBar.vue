@@ -26,7 +26,7 @@
 
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
-          <a class=" side-btn" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
+          <a class="side-btn" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
             <li class="">
               <a>
                 <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
@@ -56,7 +56,8 @@
           </a>
 
           <!--------------- COMPANY --------------->
-          <a class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
+          <a v-if="!this.$session.get('jwt').roleId == 1" class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }"
+            exact>
             <li class="">
               <a>
                 <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
@@ -118,6 +119,7 @@ export default {
       pa1: true,
       pa2: false,
       pa3: false,
+      tipeUser: null,
     };
   },
   methods: {
@@ -215,4 +217,8 @@ a:active {
 .router-link-exact-active .router-link-active {
     background-color: #695CFE;
 } */
+
+.side-btn active {
+  background-color: #695cfe;
+}
 </style>

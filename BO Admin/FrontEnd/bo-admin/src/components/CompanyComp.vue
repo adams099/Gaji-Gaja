@@ -141,7 +141,7 @@
                         <td>In Review</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-primary" @click="showModalDetail">Detail</button>
-                            <button type="button" class="btn btn-delete">Status</button>
+                            <button type="button" class="btn btn-delete text-white">Status</button>
                         </td>
                     </tr>
                 </tbody>

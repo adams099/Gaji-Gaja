@@ -10,7 +10,9 @@
                     <label class="jmlh">Jumlah User</label>
                     <p></p>
                     <label class="angka" v-if="userData.length > 0">{{ userData.length }}</label>
-                    <label class="angka" v-else>User Kosong</label>
+                    <label class="angka mt-2" v-else
+                        style="font-size: 20px; border: 1px dashed white; padding: 10px; border-radius: 10px;">User
+                        Kosong</label>
                 </b-col>
             </div>
             <div class="card-2 text-center">
@@ -18,7 +20,9 @@
                     <label class="jmlh">Jumlah Company</label>
                     <p></p>
                     <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
-                    <label class="angka" v-else>Company Kosong</label>
+                    <label class="angka mt-2" v-else
+                        style="font-size: 20px; border: 1px dashed white; padding: 10px; border-radius: 10px;">Company
+                        Kosong</label>
                 </b-col>
             </div>
         </div>
@@ -29,7 +33,7 @@
 
 <script>
 import userService from '@/services/userService'
-import companyService from '@/services/userService'
+import companyService from '@/services/companyService'
 
 export default {
     name: "PageOneS",

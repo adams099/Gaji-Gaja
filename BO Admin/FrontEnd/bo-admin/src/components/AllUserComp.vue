@@ -8,8 +8,8 @@
           <div class="container mr-3">
             <!-------------------------- START ADD USER ---------------->
             <div>
-              <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
-              <b-modal ref="my-modal" hide-footer title="Add User Admin">
+              <b-button id="show-btn" @click="showModalAdd" class="btn-primary">Add</b-button>
+              <b-modal ref="add-modal" hide-footer title="Add User Admin">
                 <div class="d-block">
                   <div class="form">
                     <div class="form-group">
@@ -41,7 +41,6 @@
 
             <!---------------------- START UPDATE -------------------------->
             <div>
-
               <b-modal ref="update-modal" hide-footer title="Update User Data">
                 <div class="d-block">
                   <div class="form">
@@ -65,7 +64,7 @@
                 </div>
 
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="toggleModal">Update</b-button>
+                  <b-button variant="primary" block @click="showModal">Update</b-button>
                   <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                 </div>
               </b-modal>
@@ -93,7 +92,7 @@
             <td>{{ item.email }}</td>
             <td class="text-center">
               <button type="button" class="btn btn-success" @click="toggleModal">Update</button>
-              <button type="button" class="btn btn-delete">Remove</button>
+              <button type="button" class="btn btn-delete text-white">Remove</button>
             </td>
           </tr>
         </tbody>
@@ -127,14 +126,14 @@ export default {
   // METHODS
   methods: {
     // MODAL BOX
-    showModal() {
+    showModalAdd() {
+      this.$refs["add-modal"].show();
+    },
+    showModalUpdate() {
       this.$refs["update-modal"].show();
     },
-    hideModal() {
-      this.$refs["update-modal"].hide();
-    },
-    toggleModal() {
 
+    toggleModal() {
       this.$refs["update-modal"].toggle("#toggle-btn");
     },
 
