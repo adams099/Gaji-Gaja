@@ -12,134 +12,75 @@
         </div>
       </div>
 
-      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"
-        ><b-icon
-          icon="arrow-right-circle"
-          class="rounded-circle p-1"
-          variant="light"
-          style="
+      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"><b-icon icon="arrow-right-circle"
+          class="rounded-circle p-1" variant="light" style="
             width: 30px;
             height: 30px;
             margin-left: 0px;
             background-color: #695cfe;
-          "
-        ></b-icon
-      ></i>
+          "></b-icon></i>
     </header>
 
     <div class="menu-bar">
       <div class="menu">
-        <!-- <li class="search-box">
-          <i class='bx bx-search icon'></i>
-          <input type="text" placeholder="Search...">
-        </li> -->
 
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
-          <a
-            class="side-btn"
-            @click="NyobaEmis(1)"
-            :class="{ active: pa1 }"
-            exact
-          >
+          <a class="side-btn" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="house"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >Dashboard</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Dashboard</span>
               </a>
             </li>
           </a>
 
           <!--------------- ALL USER --------------->
-          <a
-            class="side-btn"
-            @click="NyobaEmis(2)"
-            :class="{ active: pa2 }"
-            exact
-          >
+          <a class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="person"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >All User</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">All User</span>
               </a>
             </li>
           </a>
 
           <!--------------- COMPANY --------------->
-          <a
-            v-if="sidebarItem"
-            class="side-btn"
-            @click="NyobaEmis(3)"
-            :class="{ active: pa3 }"
-            exact
-          >
+          <a v-if="sidebarItem" class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="building"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >Company</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Company</span>
               </a>
             </li>
           </a>
 
           <!--------------- Profile --------------->
-          <a
-            class="side-btn"
-            @click="NyobaEmis(4)"
-            :class="{ active: pa4 }"
-            exact
-          >
+          <a class="side-btn" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
             <li class="">
               <a>
-                <b-icon
-                  icon="person"
-                  class="rounded-circle p-1"
-                  variant="light"
-                  style="
+                <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
-                  "
-                ></b-icon>
-                <span class="link-container" style="margin-left: 5px"
-                  >Profile</span
-                >
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Profile</span>
               </a>
             </li>
           </a>
@@ -150,17 +91,12 @@
         <li class="">
           <a @click="Logout">
             <a>
-              <b-icon
-                icon="door-closed"
-                class="rounded-circle p-1"
-                variant="light"
-                style="
+              <b-icon icon="door-closed" class="rounded-circle p-1" variant="light" style="
                   width: 30px;
                   height: 30px;
                   margin-left: 10px;
                   background-color: #695cfe;
-                "
-              ></b-icon>
+                "></b-icon>
               <span class="text nav-text" style="margin-left: 5px">Logout</span>
             </a>
           </a>
@@ -168,17 +104,12 @@
 
         <li class="mode">
           <div class="sun-moon">
-            <b-icon
-              icon="moon"
-              class="rounded-circle p-1 mt-2"
-              variant="light"
-              style="
+            <b-icon icon="moon" class="rounded-circle p-1 mt-2" variant="light" style="
                 width: 30px;
                 height: 30px;
                 margin-left: 10px;
                 background-color: #695cfe;
-              "
-            ></b-icon>
+              "></b-icon>
             <i class="bx bx-sun icon sun"></i>
           </div>
           <span class="mode-text text">{{ textMode }}</span>
@@ -320,4 +251,8 @@ a:active {
 .router-link-exact-active .router-link-active {
     background-color: #695CFE;
 } */
+
+.side-btn active {
+  background-color: #695cfe;
+}
 </style>

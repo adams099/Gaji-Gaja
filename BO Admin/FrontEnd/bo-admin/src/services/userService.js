@@ -22,7 +22,7 @@ class User {
   }
 
   getUserById() {
-    return http.get("/{id}");
+    return http.get("/user/id/{id}");
   }
 }
 

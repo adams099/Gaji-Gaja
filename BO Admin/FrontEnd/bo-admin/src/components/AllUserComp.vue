@@ -57,29 +57,25 @@
                   <div class="form">
                     <div class="form-group">
                       <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        placeholder="Enter Name" />
+                      <input type="text" class="form-control" id="name" placeholder="Enter Name" />
                     </div>
                     <div class="form-group">
                       <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                        placeholder="Enter username" />
+                      <input type="text" class="form-control" id="username" placeholder="Enter username" />
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email" />
+                      <input type="email" class="form-control" id="email" placeholder="Enter email" />
                     </div>
                     <div class="form-group">
                       <label for="pass">Password</label>
-                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
-                        placeholder="Enter password" />
+                      <input type="password" class="form-control" id="pass" placeholder="Enter password" />
                     </div>
                   </div>
                 </div>
 
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="toggleModal">Update</b-button>
+                  <b-button variant="primary" block @click="showModal">Update</b-button>
                   <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                 </div>
               </b-modal>
@@ -107,7 +103,7 @@
             <td>{{ item.email }}</td>
             <td class="text-center">
               <button type="button" class="btn btn-success" @click="toggleModal">Update</button>
-              <button type="button" class="btn btn-delete">Remove</button>
+              <button type="button" class="btn btn-delete text-white">Remove</button>
             </td>
           </tr>
         </tbody>
@@ -131,6 +127,7 @@ import userService from '@/services/userService.js';
 export default {
   name: "AllUserCompS",
 
+  // DATA
   data() {
     return {
       userData: {
@@ -154,7 +151,7 @@ export default {
     }
   },
 
-
+  // METHODS
   methods: {
     // MODAL BOX
     showModal() {
@@ -238,6 +235,7 @@ export default {
 
   },
 
+  // MOUNTED
   mounted() {
     this.getUser();
   },

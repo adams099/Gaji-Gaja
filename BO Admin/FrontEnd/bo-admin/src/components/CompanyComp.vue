@@ -1,21 +1,25 @@
 <template>
     <section class="home">
-        <div class="text text-center">All Company</div>
+        <div class="text text-center" v-if="!showDetail">All Company</div>
         <div class="table">
             <div class="d-flex flex-row justify-content-between mb-2">
-                <h5 class="color-text">Daftar Company</h5>
+                <h5 class="color-text" v-if="!showDetail">Daftar Company</h5>
+
                 <div>
                     <div class="container mr-3">
                         <div>
                             <!------------------------ MODAL BOX --------------------->
                             <div>
-                                <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
+                                <b-button id="show-btn" @click="showModal" v-if="!showDetail"
+                                    class="btn-primary ">Add</b-button>
+                                <b-button id="show-btn " v-if="showDetail" @click="showDetail = false"
+                                    class="btn-primary mt-3">Back</b-button>
                                 <b-modal ref="my-modal" hide-footer title="Add Company">
                                     <div class="d-block">
-                                        <div class="form">
+                                        <div class="form-add">
                                             <!-- Company Name -->
                                             <div class="form-group">
-                                                <label for="name_company">Name Company</label>
+                                                <label for="name_company">Company Name</label>
                                                 <input type="text" class="form-control" id="name_company"
                                                     placeholder="Enter Name Company" />
                                             </div>
@@ -40,7 +44,7 @@
                                             <!-- Code Pos -->
                                             <div class="form-group">
                                                 <label for="postal_code">Code Pos</label>
-                                                <input type="email" class="form-control" id="postal_code"
+                                                <input type="text" class="form-control" id="postal_code"
                                                     placeholder="Enter Code Pos" />
                                             </div>
                                             <!-- Nama Admin -->
@@ -61,61 +65,62 @@
                             <!--------------------- END ADD COMPANY  --------------------------->
 
                             <!---------------------- START DETAIL COMPANY ---------------------->
-                            <div>
-                                <b-modal ref="company-modal" hide-footer title="Detail Company" class="detail-modal ">
-                                    <div class="d-block">
-                                        <div class="form ">
-                                            <!-- Company Name -->
-                                            <div class="form-group">
-                                                <label for="name_company">Name Company</label>
-                                                <input type="text" class="form-control" id="name_company"
-                                                    placeholder="Enter Name Company" />
-                                            </div>
-                                            <!-- NPWP -->
-                                            <div class="form-group">
-                                                <label for="npwp">NPWP</label>
-                                                <input type="text" class="form-control" id="npwp"
-                                                    placeholder="Enter NPWP" />
-                                            </div>
-                                            <!-- Address -->
-                                            <div class="form-group">
-                                                <label for="address">Address</label>
-                                                <input type="text" class="form-control" id="address"
-                                                    placeholder="Enter Address" />
-                                            </div>
-                                            <!-- Email Company -->
-                                            <div class="form-group">
-                                                <label for="email_company">Email</label>
-                                                <input type="email" class="form-control" id="email_company"
-                                                    placeholder="Enter Email Company" />
-                                            </div>
-                                            <!-- Code Pos -->
-                                            <div class="form-group">
-                                                <label for="postal_code">Code Pos</label>
-                                                <input type="email" class="form-control" id="postal_code"
-                                                    placeholder="Enter Code Pos" />
-                                            </div>
-                                            <!-- Nama Admin -->
-                                            <div class="form-group">
-                                                <label for="admin_name">Admin Name</label>
-                                                <input type="text" class="form-control" id="admin_name"
-                                                    placeholder="Enter Email Company" />
-                                            </div>
+                            <div class="flex-column">
+                                <div class="detail">
+                                    <h5 class="color-text mt-3 mb-3 text-center" v-if="showDetail">Detail Company</h5>
+                                </div>
+                            </div>
+
+                            <div class="form justify-content-center d-flex flex-row" v-if="showDetail">
+
+                                <form class="form-detail-company flex-row">
+                                    <div class="form-group">
+                                        <label for="name_company">Company Name</label>
+                                        <input type="text" class="form-control company-detail" id="name_company"
+                                            placeholder="name_company">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="email_company">Email Company</label>
+                                            <input type="email" class="form-control" id="email_company" placeholder="Email">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="NPWP">NPWP</label>
+                                            <input type="text" class="form-control" id="NPWP" placeholder="NPWP">
                                         </div>
                                     </div>
-
-                                    <!-- Action Button -->
-                                    <div class="dflex justify-content-center">
-                                        <b-button variant="primary" block @click="toggleModalDetail"
-                                            style="border-radius: 10px;">Approve</b-button>
-                                        <b-button variant="warning" block @click="toggleModalDetail"
-                                            style="border-radius: 10px; color: white;">Reject</b-button>
-                                        <b-button variant="danger" block @click="toggleModalDetail"
-                                            style="border-radius: 10px;">Deactive</b-button>
+                                    <div class="form-group">
+                                        <label for="Address">Address</label>
+                                        <input type="text" class="form-control company-detail" id="Address"
+                                            placeholder="Address">
                                     </div>
-                                </b-modal>
+                                    <div class="form-group">
+                                        <label for="postal_code">Postal Code</label>
+                                        <input type="text" class="form-control company-detail" id="postal_code"
+                                            placeholder="postal_code">
+                                    </div>
+                                    <div class="form-row">
+                                        <div class="form-group col-md-6">
+                                            <label for="admin_name">Admin Name</label>
+                                            <input type="text" class="form-control" id="admin_name">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <label for="admin_email">Admin Email</label>
+                                            <input type="text" class="form-control" id="admin_email"
+                                                placeholder="Enter Admin Email" />
+                                        </div>
+
+                                    </div>
+
+                                    <button type="submit" class="btn btn-primary">Update</button>
+                                </form>
                             </div>
-                            <!---------------------- END DETAIL COMPANY ---------------------->
+                            <!---------------------- END DETAIL COMPANY ------------------------>
+
+                            <!---------------------- SHOW MODAL STATUS ------------------------>
+
+
+                            <!---------------------- END MODAL STATUS ------------------------>
                         </div>
                     </div>
                 </div>
@@ -123,27 +128,25 @@
             </div>
 
             <!------------------ START TABLE ------------------->
-            <table class="table">
+            <table class="table" v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">No</th>
-                        <th scope="col">Nama Company</th>
-                        <th scope="col">Email</th>
-                        <th scope="col">Address</th>
+                        <th scope="col">Company Name</th>
+                        <th scope="col">Email Admin</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="companyData.lenghth > 0">
-                    <tr class="baris text-center" v-for="(item, index) in companyData" :key="index">
+                <tbody v-if="companyData.length > 0">
+                    <tr class=" baris text-center" v-for="(item, index) in companyData" :key="index">
                         <th scope="row" class="text-center">1</th>
-                        <td>{{ item.company_name }}</td>
-                        <td>{{ item.mailing_address }}</td>
-                        <td>{{ item.address }}</td>
+                        <td>{{ item.comName }}</td>
+                        <td>{{ item.adminEmail }}</td>
                         <td>In Review</td>
                         <td class="text-center">
-                            <button type="button" class="btn btn-primary" @click="showModalDetail">Detail</button>
-                            <button type="button" class="btn btn-delete">Status</button>
+                            <button type="button" class="btn btn-primary" @click="showDetail = true">Detail</button>
+                            <button type="button" class="btn btn-delete text-white">Status</button>
                         </td>
                     </tr>
                 </tbody>
@@ -170,7 +173,8 @@ export default {
     // DATA
     data() {
         return {
-            companyData: []
+            companyData: [],
+            showDetail: false,
         }
     },
 
@@ -203,12 +207,15 @@ export default {
                 .catch((e) => {
                     console.log(e);
                 });
-        }
+        },
+
+
     },
 
     // MOUNTED
     mounted() {
         this.getCompany();
+
     }
 };
 </script>
@@ -311,4 +318,67 @@ table tr:last-child td:last-child {
 .baris {
     background-color: #e4e9f7;
 }
+
+.form-detail-company {
+    border: 1px solid #695cfe;
+    padding: 40px 20px;
+    border-radius: 20px;
+}
+
+/* SHOW MODAL STYLE */
+/* Style untuk modal box */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.4);
+}
+
+/* Style untuk konten modal box */
+.modal-dialog {
+    position: relative;
+    margin: 10% auto;
+    padding: 0;
+    width: 90%;
+    max-width: 600px;
+}
+
+.modal-content {
+    position: relative;
+    background-color: #fefefe;
+    margin: auto;
+    padding: 0;
+    border: 1px solid #888;
+    width: 100%;
+}
+
+/* Style untuk tombol close */
+.close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: 28px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    padding: 12px 16px;
+}
+
+
+
+.form {
+    width: 1000px;
+
+}
+
+.company-detail {
+    width: 700px;
+}
+
+/* SHOW MODAL STYLE */
 </style>

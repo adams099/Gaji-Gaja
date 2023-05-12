@@ -424,4 +424,6 @@ body.dark .switch::before {
 body.dark .home .text {
   color: var(--text-color);
 }
+
+
 </style>
