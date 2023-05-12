@@ -1,84 +1,48 @@
-.<template>
+<template>
   <section class="home">
     <div class="text text-center color-text">Profile</div>
     <div class="row">
       <div class="col-lg-4 ml-4 mt-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img
-              class="rounded-circle img-fluid"
-              src="../assets/profile.jpg"
-              alt=""
-              style="width: 150px"
-            />
-            <h5 class="my-3">John Smith</h5>
-            <p class="text-muted mb-2">Superadmin</p>
+            <img class="rounded-circle img-fluid" src="../assets/profile.jpg" alt="" style="width: 150px" />
+            <h5 class="my-3">{{ userData.name }}</h5>
+            <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
             <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
             <div class="d-flex justify-content-center mb-2">
               <!-- <button type="button" class="btn btn-outline-primary ms-1">
                 Edit
               </button> -->
               <div class="ml-3">
-                <button
-                  type="button"
-                  @click="showModal"
-                  id="show-btn"
-                  class="btn btn-outline-primary ms-1"
-                >
+                <button type="button" @click="showModal" id="show-btn" class="btn btn-outline-primary ms-1">
                   Change Password
                 </button>
-                <b-modal
-                  ref="changepassword"
-                  hide-footer
-                  title="Change Password"
-                >
+                <b-modal ref="changepassword" hide-footer title="Change Password">
                   <div class="d-block">
                     <div class="form">
                       <div class="form-group">
                         <label for="oldpass">Old Password</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="oldpass"
-                          aria-describedby="emailHelp"
-                          placeholder="Input Your Old Password"
-                          required
-                        />
+                        <input type="text" class="form-control" id="oldpass" aria-describedby="emailHelp"
+                          placeholder="Input Your Old Password" required v-model="oldpass" />
                       </div>
 
                       <div class="form-group">
                         <label for="newpass">New Password</label>
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="newpass"
-                          aria-describedby="emailHelp"
-                          placeholder="Input Your New Password"
-                          required
-                        />
+                        <input type="password" class="form-control" id="newpass" aria-describedby="emailHelp"
+                          placeholder="Input Your New Password" required v-model="newPass" />
                       </div>
 
                       <div class="form-group">
                         <label for="confnewpass">Confirmation</label>
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="confnewpass"
-                          aria-describedby="emailHelp"
-                          placeholder="Input Your New Password"
-                          required
-                        />
+                        <input type="password" class="form-control" id="confnewpass" aria-describedby="emailHelp"
+                          placeholder="Input Your New Password" required v-model="confPass" />
                       </div>
                     </div>
                   </div>
 
                   <div class="dflex justify-content-center">
-                    <b-button variant="primary" block @click="saveChanges"
-                      >Save</b-button
-                    >
-                    <b-button variant="danger" block @click="toggleModal"
-                      >Cancel</b-button
-                    >
+                    <b-button variant="primary" block @click="saveChanges">Save</b-button>
+                    <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                   </div>
                 </b-modal>
               </div>
@@ -91,25 +55,25 @@
         <div class="card mb-4">
           <div class="card-body">
             <table style="width: 100%">
-              <tr v-for="item in getUser" :key="item">
+              <tr>
                 <th>Name</th>
-                <td>{{ item.name }}</td>
+                <td>{{ userData.name }}</td>
               </tr>
               <hr />
-              <tr v-for="item in getUser" :key="item">
+              <tr>
                 <th>Email</th>
-                <td>{{ item.email }}</td>
+                <td>{{ userData.email }}</td>
                 <hr />
               </tr>
               <hr />
-              <tr v-for="item in getUser" :key="item">
+              <tr>
                 <th>Username</th>
-                <td>{{ item.username }}</td>
+                <td>{{ userData.username }}</td>
               </tr>
               <hr />
-              <tr v-for="item in getUser" :key="item">
-                <th>Created By</th>
-                <td>{{ item.createdby }}</td>
+              <tr>
+                <th>Created At</th>
+                <td>{{ userData.created }}</td>
               </tr>
             </table>
           </div>
@@ -127,11 +91,12 @@ export default {
   data() {
     return {
       userData: {
-        name: "",
-        email: "",
-        username: "",
-        createdby: "",
+        email: null,
+        pass: null,
       },
+      oldpass: null,
+      newPass: null,
+      confPass: null,
     };
   },
 
@@ -152,14 +117,54 @@ export default {
       this.$refs["changepassword"].toggle();
     },
 
-    saveChanges() {},
+    saveChanges() {
+      var data = this.userData
+      data.pass = this.oldpass
+      console.log(data);
+      userService
+        .login(data)
+        .then((response) => {
+          if (response.status === 200) {
+            if (this.newPass == this.confPass) {
+              data.pass = this.newPass
+              console.log(data);
+            } else {
+              this.$toast.warning('New password and confirmation password do not match!', {
+                position: 'top-right',
+                timeout: 2500,
+              });
+            }
+          }
+        })
+        .catch((e) => {
+          try {
+            e.response.status == 404
+            this.$toast.warning('Incorrect old password. Please try again!', {
+              position: 'top-right',
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error('Error', {
+              position: 'top-right',
+              timeout: 2500,
+            });
+          }
+        });
+    },
 
     getUser() {
+      let data = this.userData
+      data.email = this.$session.get("email")
+
       userService
-        .findByUsername()
+        .findEmail(data)
         .then((response) => {
-          this.userData = response.data;
-          console.log(this.getUser);
+          if (response.status === 200) {
+            console.log("success get user");
+            console.log(response.status);
+            this.userData = response.data;
+            // console.log(this.userData.id);
+          }
         })
         .catch((e) => {
           console.log(e);
@@ -172,5 +177,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
