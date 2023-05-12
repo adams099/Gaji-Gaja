@@ -40,8 +40,8 @@ public class UserController {
     @PostMapping("/username")
     public ResponseEntity<UserDTO> cariUsername(@RequestBody UserDTO userDTO) {
         try {
-            service.findByUsername(userDTO.getUsername());
-            return new ResponseEntity<UserDTO>(HttpStatus.OK);
+            UserDTO dto = service.findByUsername(userDTO.getUsername());
+            return new ResponseEntity<UserDTO>(dto, HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
         }

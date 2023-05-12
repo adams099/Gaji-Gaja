@@ -23,10 +23,6 @@
 
     <div class="menu-bar">
       <div class="menu">
-        <!-- <li class="search-box">
-          <i class='bx bx-search icon'></i>
-          <input type="text" placeholder="Search...">
-        </li> -->
 
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
@@ -45,7 +41,7 @@
           </a>
 
           <!--------------- ALL USER --------------->
-          <a class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
+          <a v-if="!sidebarItem" class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
             <li class="">
               <a>
                 <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
@@ -70,6 +66,21 @@
                     background-color: #695cfe;
                   "></b-icon>
                 <span class="link-container" style="margin-left: 5px">Company</span>
+              </a>
+            </li>
+          </a>
+
+          <!--------------- Profile --------------->
+          <a class="side-btn" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
+            <li class="">
+              <a>
+                <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
+                    width: 30px;
+                    height: 30px;
+                    margin-left: 10px;
+                    background-color: #695cfe;
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Profile</span>
               </a>
             </li>
           </a>
@@ -122,9 +133,10 @@ export default {
       pa1: true,
       pa2: false,
       pa3: false,
+      pa4: false,
       tipeUser: null,
       sidebarItem: true,
-      ntol: null
+      ntol: null,
     };
   },
   methods: {
@@ -137,16 +149,25 @@ export default {
         this.pa1 = true;
         this.pa2 = false;
         this.pa3 = false;
+        this.pa4 = false;
       } else if (n == 2) {
         this.$emit("TestEmit2", 2);
         this.pa1 = false;
         this.pa2 = true;
         this.pa3 = false;
-      } else {
+        this.pa4 = false;
+      } else if (n == 3) {
         this.$emit("TestEmit2", 3);
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = true;
+        this.pa4 = false;
+      } else {
+        this.$emit("TestEmit2", 4);
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = true;
       }
     },
     ModeLandD() {
@@ -164,14 +185,14 @@ export default {
     },
   },
   created() {
-    this.$session.start()
+    this.$session.start();
     if (!this.$session.has("jwt")) {
       this.$router.replace("/auth");
       this.$session.destroy();
     }
-    if (this.$session.get('jwt').roleId == 1) {
-      console.log(this.$session.get('jwt').roleId);
-      this.sidebarItem = false
+    if (this.$session.get("jwt").roleId == 1) {
+      console.log(this.$session.get("jwt").roleId);
+      this.sidebarItem = false;
     }
   },
 };
@@ -203,16 +224,13 @@ a:link {
   text-decoration: none;
 }
 
-
 a:visited {
   text-decoration: none;
 }
 
-
 a:hover {
   text-decoration: none;
 }
-
 
 a:active {
   text-decoration: none;
@@ -233,4 +251,8 @@ a:active {
 .router-link-exact-active .router-link-active {
     background-color: #695CFE;
 } */
+
+.side-btn active {
+  background-color: #695cfe;
+}
 </style>

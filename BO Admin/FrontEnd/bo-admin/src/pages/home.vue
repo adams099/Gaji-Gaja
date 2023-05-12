@@ -4,6 +4,7 @@
     <PageOne v-if="pa1"></PageOne>
     <CompanyComp v-if="pa2"></CompanyComp>
     <AllUser v-if="pa3"></AllUser>
+    <ProfileComp v-if="pa4"></ProfileComp>
   </body>
 </template>
 
@@ -12,6 +13,7 @@ import Sidebar from "../components/SideBar.vue";
 import PageOne from "../components/PageOne.vue";
 import CompanyComp from "../components/CompanyComp.vue";
 import AllUser from "../components/AllUserComp.vue";
+import ProfileComp from "../components/ProfileComp.vue";
 
 export default {
   name: "SidebarS",
@@ -20,6 +22,7 @@ export default {
     PageOne,
     CompanyComp,
     AllUser,
+    ProfileComp,
   },
   data() {
     return {
@@ -27,6 +30,7 @@ export default {
       pa1: true,
       pa2: false,
       pa3: false,
+      pa4: false,
     };
   },
   methods: {
@@ -48,14 +52,22 @@ export default {
         this.pa1 = true;
         this.pa2 = false;
         this.pa3 = false;
+        this.pa4 = false;
       } else if (n == 2) {
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = true;
-      } else {
+        this.pa4 = false;
+      } else if (n == 3) {
         this.pa1 = false;
         this.pa2 = true;
         this.pa3 = false;
+        this.pa4 = false;
+      } else {
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = true;
       }
     },
   },
@@ -403,7 +415,7 @@ body.dark .switch::before {
   color: var(--text-color);
 }
 
-.sidebar.close~.home {
+.sidebar.close ~ .home {
   left: 88px;
   height: 100vh;
   width: calc(100% - 75px);
@@ -412,4 +424,6 @@ body.dark .switch::before {
 body.dark .home .text {
   color: var(--text-color);
 }
+
+
 </style>
