@@ -415,7 +415,7 @@ body.dark .switch::before {
   color: var(--text-color);
 }
 
-.sidebar.close ~ .home {
+.sidebar.close~.home {
   left: 88px;
   height: 100vh;
   width: calc(100% - 75px);
@@ -424,6 +424,4 @@ body.dark .switch::before {
 body.dark .home .text {
   color: var(--text-color);
 }
-
-
 </style>

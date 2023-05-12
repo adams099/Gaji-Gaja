@@ -166,11 +166,21 @@ export default {
 
   // METHODS
   methods: {
+    showToast() {
+      this.$toast.success('Input submitted successfully!', {
+        position: 'top-right',
+        timeout: 2500,
+      });
+    },
+
     // MODAL BOX
     showModal() {
       this.$refs["add-modal"].show();
       for (const property in this.error) {
         this.error[property] = false;
+      }
+      for (const property in this.inputData) {
+        this.inputData[property] = null;
       }
     },
     hideModal() {
@@ -218,6 +228,7 @@ export default {
               if (response.status == 201) {
                 console.log(response.data);
                 this.$refs["add-modal"].toggle("#toggle-btn");
+                this.showToast();
               }
             })
             .catch((e) => {
