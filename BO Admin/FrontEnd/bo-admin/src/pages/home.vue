@@ -62,16 +62,16 @@ export default {
   created() {
     this.logAfterTenMinutes(this.$session.get("jwt").data.substr(0, 23));
     // console.log(this.$session.get("jwt").data.substr(0, 23));
-    console.log(
-      this.$session
-        .get("jwt")
-        .data.substr(23, this.$session.get("jwt").data.length)
-    );
+    // console.log(
+    //   this.$session
+    //     .get("jwt")
+    //     .data.substr(23, this.$session.get("jwt").data.length)
+    // );
     // this.$session.start();
-    if (!this.$session.has("jwt")) {
-      this.$router.push("/auth");
-      // this.$session.destroy();
-    }
+    // if (!this.$session.has("jwt")) {
+    //   this.$router.push("/auth");
+    //   // this.$session.destroy();
+    // }
   },
 };
 </script>

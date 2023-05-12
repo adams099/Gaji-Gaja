@@ -56,8 +56,7 @@
           </a>
 
           <!--------------- COMPANY --------------->
-          <a v-if="!this.$session.get('jwt').roleId == 1" class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }"
-            exact>
+          <a v-if="sidebarItem" class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
             <li class="">
               <a>
                 <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
@@ -120,6 +119,8 @@ export default {
       pa2: false,
       pa3: false,
       tipeUser: null,
+      sidebarItem: true,
+      ntol: null
     };
   },
   methods: {
@@ -157,6 +158,17 @@ export default {
       this.$router.replace("/auth");
       this.$session.destroy();
     },
+  },
+  created() {
+    this.$session.start()
+    if (!this.$session.has("jwt")) {
+      this.$router.replace("/auth");
+      this.$session.destroy();
+    }
+    if (this.$session.get('jwt').roleId == 1) {
+      console.log(this.$session.get('jwt').roleId);
+      this.sidebarItem = false
+    }
   },
 };
 </script>

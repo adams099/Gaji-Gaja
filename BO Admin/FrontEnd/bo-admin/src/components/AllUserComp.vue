@@ -8,31 +8,42 @@
           <div class="container mr-3">
             <!-------------------------- START ADD USER ---------------->
             <div>
-              <b-button id="show-btn" @click="showModalAdd" class="btn-primary">Add</b-button>
+              <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
+
               <b-modal ref="add-modal" hide-footer title="Add User Admin">
                 <div class="d-block">
                   <div class="form">
                     <div class="form-group">
                       <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Enter Name" />
+                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
+                        placeholder="Enter Name" required v-model="userData.name" />
+                      <span class="valid" v-if="error.name">Nama harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" placeholder="Enter username" />
+                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
+                        placeholder="Enter username" required v-model="userData.username" />
+                      <span class="valid" v-if="error.usernameada">Username sudah ada</span>
+                      <span class="valid" v-if="error.username">Username harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="Enter email" />
+                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
+                        placeholder="Enter email" required v-model="userData.email" />
+                      <span class="valid" v-if="error.emailada">Email sudah ada</span>
+                      <span class="valid" v-if="error.email">Email harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="pass">Password</label>
-                      <input type="password" class="form-control" id="pass" placeholder="Enter password" />
+                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
+                        placeholder="Enter password" required v-model="userData.pass" />
+                      <span class="valid" v-if="error.pass">Password harus diisi!</span>
                     </div>
                   </div>
                 </div>
 
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="toggleModal">Submit</b-button>
+                  <b-button variant="primary" block @click="addUser">Submit</b-button>
                   <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                 </div>
               </b-modal>
@@ -74,7 +85,7 @@
         </div>
       </div>
       <!---------------------- START USER TABLE -------------------------->
-      <table class="table">
+      <table class="table ">
         <thead class="text-center">
           <tr>
             <th scope="col">No</th>
@@ -119,22 +130,93 @@ export default {
   // DATA
   data() {
     return {
-      userData: [],
+      userData: {
+        "username": null,
+        "name": null,
+        "email": null,
+        "pass": null,
+        "roleId": 2,
+        "statId": 2,
+        "createdBy": 1,
+        "approved": 1,
+      },
+      error: {
+        "username": false,
+        "usernameada": false,
+        "name": false,
+        "email": false,
+        "emailada": false,
+        "pass": false,
+      }
     }
   },
 
   // METHODS
   methods: {
     // MODAL BOX
-    showModalAdd() {
+    showModal() {
       this.$refs["add-modal"].show();
+      for (const property in this.error) {
+        this.error[property] = false;
+      }
     },
-    showModalUpdate() {
-      this.$refs["update-modal"].show();
+    hideModal() {
+      this.$refs["add-modal"].hide();
     },
+    async addUser() {
+      for (const property in this.error) {
+        this.error[property] = false;
+      }
+      let data = this.userData
+      for (const property in data) {
+        if (data[property] === null || data[property] === "") {
+          this.error[property] = true;
+        }
+      }
+      if (this.error['username'] == false && this.error['name'] == false && this.error['email'] == false && this.error['pass'] == false) {
 
+        await userService
+          .findByEmail(data)
+          .then((response) => {
+            if (response.status == 200) {
+              this.error['emailada'] = true
+            }
+          })
+          .catch(() => {
+            console.log("valid-email");
+          });
+
+        await userService
+          .findByUsername(data)
+          .then((response) => {
+            if (response.status == 200) {
+              this.error['usernameada'] = true
+            }
+          })
+          .catch(() => {
+            console.log("valid-username");
+          });
+
+        if (this.error['usernameada'] == false && this.error['emailada'] == false) {
+
+          userService
+            .register(data)
+            .then((response) => {
+              if (response.status == 201) {
+                console.log(response.data);
+                this.$refs["add-modal"].toggle("#toggle-btn");
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
+
+      }
+
+    },
     toggleModal() {
-      this.$refs["update-modal"].toggle("#toggle-btn");
+      this.$refs["add-modal"].toggle("#toggle-btn");
     },
 
     // GET USER
@@ -149,6 +231,8 @@ export default {
           console.log(e);
         });
     }
+
+
   },
 
   // MOUNTED
@@ -167,6 +251,12 @@ h5 {
 thead {
   background-color: #695cfe;
   color: aliceblue;
+}
+
+.valid {
+  font-size: 12px;
+  color: rgb(255, 47, 47);
+  font-style: italic;
 }
 
 .table {
