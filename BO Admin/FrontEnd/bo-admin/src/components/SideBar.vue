@@ -41,7 +41,7 @@
           </a>
 
           <!--------------- ALL USER --------------->
-          <a class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
+          <a v-if="!sidebarItem" class="side-btn" @click="NyobaEmis(2)" :class="{ active: pa2 }" exact>
             <li class="">
               <a>
                 <b-icon icon="person" class="rounded-circle p-1" variant="light" style="

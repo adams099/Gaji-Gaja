@@ -16,27 +16,27 @@
                     <div class="form-group">
                       <label for="name">Name</label>
                       <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        placeholder="Enter Name" required v-model="userData.name" />
+                        placeholder="Enter Name" required v-model="inputData.name" />
                       <span class="valid" v-if="error.name">Nama harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="username">Username</label>
                       <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                        placeholder="Enter username" required v-model="userData.username" />
+                        placeholder="Enter username" required v-model="inputData.username" />
                       <span class="valid" v-if="error.usernameada">Username sudah ada</span>
                       <span class="valid" v-if="error.username">Username harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
                       <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email" required v-model="userData.email" />
+                        placeholder="Enter email" required v-model="inputData.email" />
                       <span class="valid" v-if="error.emailada">Email sudah ada</span>
                       <span class="valid" v-if="error.email">Email harus diisi!</span>
                     </div>
                     <div class="form-group">
                       <label for="pass">Password</label>
                       <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
-                        placeholder="Enter password" required v-model="userData.pass" />
+                        placeholder="Enter password" required v-model="inputData.pass" />
                       <span class="valid" v-if="error.pass">Password harus diisi!</span>
                     </div>
                   </div>
@@ -88,19 +88,19 @@
       <table class="table ">
         <thead class="text-center">
           <tr>
-            <th scope="col">No</th>
+            <th scope="col">ID</th>
             <th scope="col">Nama</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col ">Action</th>
           </tr>
         </thead>
-        <tbody v-if="userData.length > 0">
-          <tr v-for="(item, index) in userData" :key="index" class="baris text-center">
-            <td scope="row" class="text-center">{{ index + 1 }}</td>
-            <td>{{ item.name }}</td>
-            <td>{{ item.username }}</td>
-            <td>{{ item.email }}</td>
+        <tbody>
+          <tr v-for="(item, index) in showData" :key="index" class="baris text-center">
+            <td scope="row" class="text-center">{{ item.id }}</td>
+            <td> {{ item?.name }}</td>
+            <td> {{ item?.username }} </td>
+            <td> {{ item?.email }}</td>
             <td class="text-center">
               <button type="button" class="btn btn-success" @click="toggleModal">Update</button>
               <button type="button" class="btn btn-delete text-white">Remove</button>
@@ -108,15 +108,21 @@
           </tr>
         </tbody>
 
-        <tbody v-else>
+        <!-- <tbody v-else>
           <tr class="msg-tr text-center">
             <td colspan="5" class="msg-null text-center">
               <h3 class="color-text">Saat ini Tidak Ada Data User !</h3>
             </td>
           </tr>
-        </tbody>
+        </tbody> -->
         <!---------------------- START USER TABLE -------------------------->
       </table>
+      <div class="row d-flex justify-content-center">
+        <button v-if="this.indexing > 1" type="button" @click="LimitData(1)" class="btn btn-success">Previous</button>
+        <b class="ml-4 mr-4 font-italic mt-2">{{ indexing }}</b>
+        <button v-if="this.indexing < this.maxdata" type="button" @click="LimitData(2)"
+          class="btn btn-success">Next</button>
+      </div>
     </div>
   </section>
 </template>
@@ -131,6 +137,8 @@ export default {
   data() {
     return {
       userData: {
+      },
+      inputData: {
         "username": null,
         "name": null,
         "email": null,
@@ -140,6 +148,8 @@ export default {
         "createdBy": 1,
         "approved": 1,
       },
+      showData: {
+      },
       error: {
         "username": false,
         "usernameada": false,
@@ -147,7 +157,10 @@ export default {
         "email": false,
         "emailada": false,
         "pass": false,
-      }
+      },
+      indexing: 1,
+      maxdata: null,
+      dikurangin: null,
     }
   },
 
@@ -167,9 +180,9 @@ export default {
       for (const property in this.error) {
         this.error[property] = false;
       }
-      let data = this.userData
+      let data = this.inputData
       for (const property in data) {
-        if (data[property] === null || data[property] === "") {
+        if (data[property] == null || data[property] == "") {
           this.error[property] = true;
         }
       }
@@ -218,6 +231,33 @@ export default {
     toggleModal() {
       this.$refs["add-modal"].toggle("#toggle-btn");
     },
+    LimitData(nigga) {
+      if (nigga == 1) {
+        this.indexing--
+      } else if (nigga == 2) {
+        this.indexing++
+      }
+
+      var inw = this.indexing - 1;
+      var awal = inw * 7;
+      var akhir = this.indexing * 7;
+      if (this.indexing == this.maxdata && this.dikurangin < 7) {
+        var testos = akhir - this.dikurangin
+        this.showData = []
+        for (let ih = awal; ih < testos; ih++) {
+          console.log(this.userData[ih]);
+          this.showData.push(this.userData[ih])
+          console.log(this.showData);
+        }
+
+      } else {
+        this.showData = []
+        for (let ih = awal; ih < akhir; ih++) {
+          this.showData.push(this.userData[ih])
+        }
+      }
+      console.log(this.showData)
+    },
 
     // GET USER
     getUser() {
@@ -225,7 +265,12 @@ export default {
         .getAll()
         .then((response) => {
           this.userData = response.data;
-          console.log(this.userData);
+          var njir = this.userData.length / 7
+          this.maxdata = Math.ceil(njir)
+          var suiiii = this.userData.length % 7
+          this.dikurangin = 7 - suiiii
+          console.log(this.dikurangin);
+          this.LimitData();
         })
         .catch((e) => {
           console.log(e);
@@ -235,10 +280,9 @@ export default {
 
   },
 
-  // MOUNTED
-  mounted() {
+  created() {
     this.getUser();
-  },
+  }
 };
 </script>
 
