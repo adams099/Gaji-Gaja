@@ -55,13 +55,13 @@ export default {
         this.pa4 = false;
       } else if (n == 2) {
         this.pa1 = false;
-        this.pa2 = true;
-        this.pa3 = false;
+        this.pa2 = false;
+        this.pa3 = true;
         this.pa4 = false;
       } else if (n == 3) {
         this.pa1 = false;
-        this.pa2 = false;
-        this.pa3 = true;
+        this.pa2 = true;
+        this.pa3 = false;
         this.pa4 = false;
       } else {
         this.pa1 = false;

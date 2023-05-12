@@ -156,10 +156,10 @@ export default {
 
     getUser() {
       userService
-        .getUserById()
+        .findByUsername()
         .then((response) => {
           this.userData = response.data;
-          console.log(this.userData);
+          console.log(this.getUser);
         })
         .catch((e) => {
           console.log(e);
