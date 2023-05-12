@@ -9,7 +9,6 @@
             <!-------------------------- START ADD USER ---------------->
             <div>
               <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
-
               <b-modal ref="add-modal" hide-footer title="Add User Admin">
                 <div class="d-block">
                   <div class="form">
@@ -163,6 +162,7 @@ export default {
     hideModal() {
       this.$refs["add-modal"].hide();
     },
+
     async addUser() {
       for (const property in this.error) {
         this.error[property] = false;
@@ -215,6 +215,7 @@ export default {
       }
 
     },
+
     toggleModal() {
       this.$refs["add-modal"].toggle("#toggle-btn");
     },

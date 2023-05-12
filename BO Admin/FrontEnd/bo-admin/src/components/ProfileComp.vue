@@ -1,16 +1,11 @@
-.<template>
+<template>
   <section class="home">
     <div class="text text-center color-text">Profile</div>
     <div class="row">
       <div class="col-lg-4 ml-4 mt-4">
         <div class="card mb-4">
           <div class="card-body text-center">
-            <img
-              class="rounded-circle img-fluid"
-              src="../assets/profile.jpg"
-              alt=""
-              style="width: 150px"
-            />
+            <img class="rounded-circle img-fluid" src="../assets/profile.jpg" alt="" style="width: 150px" />
             <h5 class="my-3">John Smith</h5>
             <p class="text-muted mb-2">Superadmin</p>
             <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
@@ -19,66 +14,35 @@
                 Edit
               </button> -->
               <div class="ml-3">
-                <button
-                  type="button"
-                  @click="showModal"
-                  id="show-btn"
-                  class="btn btn-outline-primary ms-1"
-                >
+                <button type="button" @click="showModal" id="show-btn" class="btn btn-outline-primary ms-1">
                   Change Password
                 </button>
-                <b-modal
-                  ref="changepassword"
-                  hide-footer
-                  title="Change Password"
-                >
+                <b-modal ref="changepassword" hide-footer title="Change Password">
                   <div class="d-block">
                     <div class="form">
                       <div class="form-group">
                         <label for="oldpass">Old Password</label>
-                        <input
-                          type="text"
-                          class="form-control"
-                          id="oldpass"
-                          aria-describedby="emailHelp"
-                          placeholder="Input Your Old Password"
-                          required
-                        />
+                        <input type="text" class="form-control" id="oldpass" aria-describedby="emailHelp"
+                          placeholder="Input Your Old Password" required />
                       </div>
 
                       <div class="form-group">
                         <label for="newpass">New Password</label>
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="newpass"
-                          aria-describedby="emailHelp"
-                          placeholder="Input Your New Password"
-                          required
-                        />
+                        <input type="password" class="form-control" id="newpass" aria-describedby="emailHelp"
+                          placeholder="Input Your New Password" required />
                       </div>
 
                       <div class="form-group">
                         <label for="confnewpass">Confirmation</label>
-                        <input
-                          type="password"
-                          class="form-control"
-                          id="confnewpass"
-                          aria-describedby="emailHelp"
-                          placeholder="Input Your New Password"
-                          required
-                        />
+                        <input type="password" class="form-control" id="confnewpass" aria-describedby="emailHelp"
+                          placeholder="Input Your New Password" required />
                       </div>
                     </div>
                   </div>
 
                   <div class="dflex justify-content-center">
-                    <b-button variant="primary" block @click="saveChanges"
-                      >Save</b-button
-                    >
-                    <b-button variant="danger" block @click="toggleModal"
-                      >Cancel</b-button
-                    >
+                    <b-button variant="primary" block @click="saveChanges">Save</b-button>
+                    <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                   </div>
                 </b-modal>
               </div>
@@ -152,7 +116,7 @@ export default {
       this.$refs["changepassword"].toggle();
     },
 
-    saveChanges() {},
+    saveChanges() { },
 
     getUser() {
       userService
@@ -172,5 +136,8 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
+.btn-outline-primary:hover {
+  background-color: #695CFE;
+}
 </style>

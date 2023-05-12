@@ -4,6 +4,7 @@
         <!---------------------------------- START CARD ---------------------------------->
         <h4 class="color-text">Cards</h4>
         <div class="cards d-flex flex-row mb-5">
+            <!-- CARD 1 -->
             <div class="card-1 text-center">
                 <b-col>
                     <div class="icon"></div>
@@ -15,9 +16,23 @@
                         Kosong</label>
                 </b-col>
             </div>
+
+            <!-- CARD 2 -->
             <div class="card-2 text-center">
                 <b-col>
                     <label class="jmlh">Jumlah Company</label>
+                    <p></p>
+                    <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
+                    <label class="angka mt-2" v-else
+                        style="font-size: 20px; border: 1px dashed white; padding: 10px; border-radius: 10px;">Company
+                        Kosong</label>
+                </b-col>
+            </div>
+
+            <!-- CARD 3 -->
+            <div class="card-3 text-center">
+                <b-col>
+                    <label class="jmlh">User Di Approve</label>
                     <p></p>
                     <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
                     <label class="angka mt-2" v-else
@@ -198,6 +213,15 @@ table tr:last-child td:last-child {
     width: 250px;
     height: 150px;
     background-color: orange;
+    border-radius: 30px;
+    margin-left: 40px;
+
+}
+
+.card-3 {
+    width: 250px;
+    height: 150px;
+    background-color: green;
     border-radius: 30px;
     margin-left: 40px;
 

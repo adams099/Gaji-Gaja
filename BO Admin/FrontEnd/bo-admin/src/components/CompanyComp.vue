@@ -21,43 +21,46 @@
                                             <div class="form-group">
                                                 <label for="name_company">Company Name</label>
                                                 <input type="text" class="form-control" id="name_company"
-                                                    placeholder="Enter Name Company" />
+                                                    placeholder="Enter Name Company" v-model="companyData.comName" />
+                                                <span class="valid" v-if="error.emailada">Email sudah ada</span>
+                                                <span class="valid" v-if="error.email">Email harus diisi!</span>
                                             </div>
                                             <!-- NPWP -->
                                             <div class="form-group">
                                                 <label for="npwp">NPWP</label>
-                                                <input type="text" class="form-control" id="npwp"
-                                                    placeholder="Enter NPWP" />
+                                                <input type="text" class="form-control" id="npwp" placeholder="Enter NPWP"
+                                                    v-model="companyData.comTaxNum" />
                                             </div>
                                             <!-- Address -->
                                             <div class="form-group">
                                                 <label for="address">Address</label>
                                                 <input type="text" class="form-control" id="address"
-                                                    placeholder="Enter Address" />
+                                                    placeholder="Enter Address" v-model="companyData.address" />
                                             </div>
                                             <!-- Email Company -->
                                             <div class="form-group">
                                                 <label for="email_company">Email</label>
                                                 <input type="email" class="form-control" id="email_company"
-                                                    placeholder="Enter Email Company" />
+                                                    placeholder="Enter Email Company" v-model="companyData.mailAddress" />
                                             </div>
                                             <!-- Code Pos -->
                                             <div class="form-group">
                                                 <label for="postal_code">Code Pos</label>
                                                 <input type="text" class="form-control" id="postal_code"
-                                                    placeholder="Enter Code Pos" />
+                                                    placeholder="Enter Code Pos" v-model="companyData.postal" />
                                             </div>
                                             <!-- Nama Admin -->
                                             <div class="form-group">
                                                 <label for="admin_name">Admin Name</label>
                                                 <input type="text" class="form-control" id="admin_name"
-                                                    placeholder="Enter Email Company" />
+                                                    placeholder="Enter Email Company" v-model="companyData.adminName" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="dflex justify-content-center">
-                                        <b-button variant="primary" block @click="toggleModal">Submit</b-button>
+                                        <b-button variant="primary" block @click="toggleModal"
+                                            type="submit">Submit</b-button>
                                         <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                                     </div>
                                 </b-modal>
@@ -77,37 +80,40 @@
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input type="text" class="form-control company-detail" id="name_company"
-                                            placeholder="name_company">
+                                            placeholder="Company Name" v-model="companyData.comName">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="email_company">Email Company</label>
-                                            <input type="email" class="form-control" id="email_company" placeholder="Email">
+                                            <input type="email" class="form-control" id="email_company" placeholder="Email"
+                                                v-model="companyData.mailAddress">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="NPWP">NPWP</label>
-                                            <input type="text" class="form-control" id="NPWP" placeholder="NPWP">
+                                            <input type="text" class="form-control" id="NPWP"
+                                                placeholder="Enter NPWP Number" v-model="companyData.comTaxNum">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="Address">Address</label>
                                         <input type="text" class="form-control company-detail" id="Address"
-                                            placeholder="Address">
+                                            placeholder="Address" v-model="companyData.address">
                                     </div>
                                     <div class="form-group">
                                         <label for="postal_code">Postal Code</label>
                                         <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="postal_code">
+                                            placeholder="postal_code" v-model="companyData.postal">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="admin_name">Admin Name</label>
-                                            <input type="text" class="form-control" id="admin_name">
+                                            <input type="text" class="form-control" id="admin_name"
+                                                placeholder="Enter Admin Name" v-model="companyData.adminName">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="admin_email">Admin Email</label>
                                             <input type="text" class="form-control" id="admin_email"
-                                                placeholder="Enter Admin Email" />
+                                                placeholder="Enter Admin Email" v-model="companyData.adminEmail">
                                         </div>
 
                                     </div>
@@ -118,7 +124,23 @@
                             <!---------------------- END DETAIL COMPANY ------------------------>
 
                             <!---------------------- SHOW MODAL STATUS ------------------------>
+                            <div class="show-modal-status">
+                                <div v-if="showModalStatus" class="modal d-flex flex-column">
+                                    <div class="modal-content d-flex justify-content-center">
+                                        <h5 class="text-center mb-2">Status</h5>
+                                        <div class="d-flex flex-column button-action col col-md-6 ">
+                                            <button class="btn btn-success button-status">Approve</button>
+                                            <button class="btn btn-danger mt-4 mb-4 button-status">Reject</button>
+                                            <button class="btn btn-warning button-status mb-2 text-white">Deactice</button>
+                                        </div>
 
+                                        <div class="back-button">
+                                            <button @click="showModalStatus = false"
+                                                class="btn btn-secondary mt-3 ml-3">Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <!---------------------- END MODAL STATUS ------------------------>
                         </div>
@@ -146,7 +168,8 @@
                         <td>In Review</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-primary" @click="showDetail = true">Detail</button>
-                            <button type="button" class="btn btn-delete text-white">Status</button>
+                            <button type="button" class="btn btn-delete text-white"
+                                @click="showModalStatus = true">Status</button>
                         </td>
                     </tr>
                 </tbody>
@@ -173,8 +196,29 @@ export default {
     // DATA
     data() {
         return {
-            companyData: [],
             showDetail: false,
+            showModalStatus: false,
+
+            // Company Data
+            companyData: {
+                "comName": null,
+                "comTaxNum": null,
+                "address": null,
+                "mailAddress": null,
+                "postal": null,
+                "adminName": null,
+                "adminEmail": null,
+                "status": null,
+                "sender": null
+            },
+            error: {
+                "comname": false,
+                "comtax": false,
+                "address": false,
+                "email": false,
+                "emailada": false,
+                "pass": false,
+            }
         }
     },
 
@@ -208,6 +252,8 @@ export default {
                     console.log(e);
                 });
         },
+
+        // Post Data Company
 
 
     },
@@ -325,60 +371,41 @@ table tr:last-child td:last-child {
     border-radius: 20px;
 }
 
-/* SHOW MODAL STYLE */
-/* Style untuk modal box */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
-}
 
 /* Style untuk konten modal box */
-.modal-dialog {
-    position: relative;
-    margin: 10% auto;
-    padding: 0;
-    width: 90%;
-    max-width: 600px;
+/* SHOW MODAL STYLE */
+
+.modal {
+    top: 150px;
+    left: 200px;
+    position: absolute;
+    margin: 50px 50px;
+    width: 25vw;
+    height: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
 }
 
 .modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 100%;
+    border: 1px solid grey;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Style untuk tombol close */
-.close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 28px;
-    font-weight: bold;
-    color: #000;
-    cursor: pointer;
-    padding: 12px 16px;
+.modal.fade .modal-dialog {
+    transition: opacity 0.3s linear;
+    opacity: 0;
 }
 
-
-
-.form {
-    width: 1000px;
-
+.modal.fade.show .modal-dialog {
+    opacity: 1;
 }
 
-.company-detail {
-    width: 700px;
+.button-status {
+    width: 250px;
 }
-
-/* SHOW MODAL STYLE */
 </style>
