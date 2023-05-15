@@ -91,6 +91,7 @@ export default {
   data() {
     return {
       userData: {
+        id: null,
         email: null,
         pass: null,
       },
@@ -117,6 +118,11 @@ export default {
       this.$refs["changepassword"].toggle();
     },
 
+    Logout() {
+      this.$router.replace("/auth");
+      this.$session.destroy();
+    },
+
     saveChanges() {
       var data = this.userData
       data.pass = this.oldpass
@@ -127,7 +133,27 @@ export default {
           if (response.status === 200) {
             if (this.newPass == this.confPass) {
               data.pass = this.newPass
-              console.log(data);
+
+              userService
+                .register(data)
+                .then((response) => {
+                  if (response.status == 201) {
+                    console.log(response.data);
+                    this.$toast.success('Success change password!', {
+                      position: 'top-right',
+                      timeout: 2500,
+                    });
+                    this.toggleModal()
+                    this.Logout()
+                  }
+                })
+                .catch(() => {
+                  this.$toast.error('Error', {
+                    position: 'top-right',
+                    timeout: 2500,
+                  });
+                });
+
             } else {
               this.$toast.warning('New password and confirmation password do not match!', {
                 position: 'top-right',

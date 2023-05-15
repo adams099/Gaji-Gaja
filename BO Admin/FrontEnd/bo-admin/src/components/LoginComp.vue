@@ -19,10 +19,10 @@
             <span v-if="error.password" class="validation-message">Password harus diisi!</span>
           </div>
 
-          <div class="form-input">
+          <!-- <div class="form-input">
             <span v-if="loginError" class="validation-message">
               Email / Password is invalid!</span>
-          </div>
+          </div> -->
 
           <div class="d-flex flex-row justify-content-end">
             <button to="/home" type="submit" tag="button" class="btn btn-primary mb-1">
@@ -80,12 +80,24 @@ export default {
             }
           })
           .catch((e) => {
-            if (
-              e.response.data.message.includes(
-                "Incorrect result size: Expected 1, actual 0"
-              )
-            ) {
-              this.loginError = true;
+            // if (
+            //   e.response.data.message.includes(
+            //     "Incorrect result size: Expected 1, actual 0"
+            //   )
+            // ) {
+            //   this.loginError = true;
+            // }
+            try {
+              e.response.status == 404
+              this.$toast.warning('Incorrect email or password. Please try again!', {
+                position: 'top-right',
+                timeout: 2500,
+              });
+            } catch (error) {
+              this.$toast.error('Error', {
+                position: 'top-right',
+                timeout: 2500,
+              });
             }
           });
       }
