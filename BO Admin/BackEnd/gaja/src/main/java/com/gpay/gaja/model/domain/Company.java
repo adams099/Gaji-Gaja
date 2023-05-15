@@ -26,8 +26,8 @@ public class Company {
     private String adminName;
     @Column(name = "admin_email")
     private String adminEmail;
-    @Column(name = "status")
-    private String status;
+    @Column(name = "status_id")
+    private int status;
     @Column(name = "sender")
     private String sender;
 }
