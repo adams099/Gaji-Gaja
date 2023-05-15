@@ -421,6 +421,5 @@ table tr:last-child td:last-child {
   border-radius: 5px;
   font-size: 13px;
   padding: 3px;
-
 }
 </style>

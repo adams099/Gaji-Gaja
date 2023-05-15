@@ -52,7 +52,7 @@
                                             <div class="form-group">
                                                 <label for="admin_name">Admin Name</label>
                                                 <input type="text" v-model="companyDatas.adminName" class="form-control"
-                                                    id="admin_name" placeholder="Enter Email Company" />
+                                                    id="admin_name" placeholder="Enter Admin Name" />
                                             </div>
                                         </div>
                                     </div>
@@ -76,44 +76,44 @@
 
                             <div class="form justify-content-center d-flex flex-row bg-white shadow-lg" v-if="showDetail">
 
-                                <form class="form-detail-company flex-row ">
+                                <form class="form-detail-company flex-row" @submit.prevent="updateCompanyFunc">
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input type="text" class="form-control company-detail" id="name_company"
-                                            placeholder="Company Name" v-model="companyData.comName">
+                                            placeholder="Company Name" required v-model="updateCompany.comName">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="email_company">Email Company</label>
                                             <input type="email" class="form-control" id="email_company" placeholder="Email"
-                                                v-model="companyData.mailAddress">
+                                                required v-model="updateCompany.mailAddress">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="NPWP">NPWP</label>
                                             <input type="text" class="form-control" id="NPWP"
-                                                placeholder="Enter NPWP Number" v-model="companyData.comTaxNum">
+                                                placeholder="Enter NPWP Number" required v-model="updateCompany.comTaxNum">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="Address">Address</label>
                                         <input type="text" class="form-control company-detail" id="Address"
-                                            placeholder="Address" v-model="companyData.address">
+                                            placeholder="Address" required v-model="updateCompany.address">
                                     </div>
                                     <div class="form-group">
                                         <label for="postal_code">Postal Code</label>
                                         <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="Postal Code" v-model="companyData.postal">
+                                            placeholder="Postal Code" required v-model="updateCompany.postal">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="admin_name">Admin Name</label>
                                             <input type="text" class="form-control" id="admin_name"
-                                                placeholder="Enter Admin Name" v-model="companyData.adminName">
+                                                placeholder="Enter Admin Name" disabled v-model="updateCompany.adminName">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="admin_email">Admin Email</label>
                                             <input type="text" class="form-control" id="admin_email"
-                                                placeholder="Enter Admin Email" v-model="companyData.adminEmail">
+                                                placeholder="Enter Admin Email" disabled v-model="updateCompany.adminEmail">
                                         </div>
 
                                     </div>
@@ -176,9 +176,9 @@
             <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
-                        <th scope="col">No</th>
+                        <th scope="col">ID</th>
                         <th scope="col">Company Name</th>
-                        <th scope="col">Email Admin</th>
+                        <th scope="col">Mail Address</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
@@ -187,12 +187,15 @@
                     <tr class=" baris text-center" v-for="(item, index) in paginatedData" :key="index">
                         <th scope="row" class="text-center">{{ item.id }}</th>
                         <td>{{ item.comName }}</td>
-                        <td>{{ item.adminEmail }}</td>
-                        <td>In Review</td>
+                        <td>{{ item.mailAddress }}</td>
+                        <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
+                        <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
+                        <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
+                        <button type="button" class="status salmon" v-else>Deactive</button>
                         <td class="text-center">
-                            <button type="button" class="btn btn-primary" @click="showDetail = true">Detail</button>
+                            <button type="button" class="btn btn-primary" @click="showDetails(item)">Detail</button>
                             <button type="button" class="btn btn-delete text-white "
-                                @click="showModalStatus = true">Status</button>
+                                @click="showModalStatuss(item)">Status</button>
                         </td>
                     </tr>
                 </tbody>
@@ -206,7 +209,7 @@
                 </tbody>
 
             </table>
-            <div class="row d-flex justify-content-center next" v-if="!showDetail">
+            <div class="row d-flex justify-content-center next color-text" v-if="!showDetail">
                 <button type="button" class="btn btn-success" @click="previousPage"
                     :disabled="currentPage == 1">Previous</button>
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -232,6 +235,9 @@ export default {
             currentPage: 1,
 
             companyData: {
+            },
+
+            companyDatas: {
                 comName: null,
                 comTaxNum: null,
                 address: null,
@@ -242,8 +248,9 @@ export default {
                 status: null,
                 sender: null
             },
-            companyDatas: {
 
+            updateCompany: {
+                id: null,
                 comName: null,
                 comTaxNum: null,
                 address: null,
@@ -251,9 +258,10 @@ export default {
                 postal: null,
                 adminName: null,
                 adminEmail: null,
-                status: '4',
+                status: null,
                 sender: null
             },
+
             buatAkun: {
                 name: null,
                 pass: null,
@@ -279,8 +287,46 @@ export default {
     },
 
     methods: {
+        updateCompanyFunc() {
+            let data = this.updateCompany;
+            console.log(data);
+            companyService.upload(data)
+                .then((response) => {
+                    console.log(response.data);
+                    this.$toast.success('Company Data has been successfully Update!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                    console.log(response.data);
+                    this.getCompany()
+                    this.showDetail = !this.showDetail;
+                })
+                .catch(() => {
+                    this.$toast.error('Error', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                });
+
+        },
+
         previousPage() {
             this.currentPage--;
+        },
+        showDetails(test) {
+            this.showDetail = !this.showDetail
+            console.log(test);
+            for (const property in this.updateCompany) {
+                this.updateCompany[property] = test[property];
+            }
+        },
+
+        showModalStatuss(test) {
+            this.showModalStatus = !this.showModalStatus
+            console.log(test);
+            for (const property in this.updateCompany) {
+                this.updateCompany[property] = test[property];
+            }
         },
         // navigasi ke halaman berikutnya
         nextPage() {
@@ -310,15 +356,67 @@ export default {
         //test doang ya
         accept() {
             // handle accept action
+            let data = this.updateCompany;
+            data.status = 2;
+            companyService.upload(data)
+                .then((response) => {
+                    this.$toast.success('Company status has been successfully Update!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                    console.log(response.data);
+                    this.showModalStatus = false;
+                    this.getCompany()
+                })
+                .catch(() => {
+                    this.$toast.error('Error', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                });
             this.showModalStatus = false
         },
         reject() {
             // handle reject action
-            this.showModalStatus = false
+            let data = this.updateCompany;
+            data.status = 3;
+            companyService.upload(data)
+                .then((response) => {
+                    this.$toast.success('Company status has been successfully Update!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                    console.log(response.data);
+                    this.showModalStatus = false;
+                    this.getCompany()
+                })
+                .catch(() => {
+                    this.$toast.error('Error', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                });
         },
         deadactive() {
             // handle review action
-            this.showModalStatus = false
+            let data = this.updateCompany;
+            data.status = 4;
+            companyService.upload(data)
+                .then((response) => {
+                    this.$toast.success('Company status has been successfully Update!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                    console.log(response.data);
+                    this.showModalStatus = false;
+                    this.getCompany()
+                })
+                .catch(() => {
+                    this.$toast.error('Error', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                });
         },
 
         // GET COMPANY
@@ -341,6 +439,7 @@ export default {
             datas.createdBy = this.$session.get('email')
             datas.name = data.adminName
             datas.username = data.adminName + 123
+            data.status = 1;
             data.adminEmail = this.$session.get('email')
             data.sender = this.$session.get("jwt").data.substr(23, this.$session.get("jwt").data.length)
             console.log(data);
@@ -356,14 +455,20 @@ export default {
                                 timeout: 2500,
                             });
                             this.toggleModal()
-
+                            this.getCompany()
                         })
-                        .catch((e) => {
-                            console.log(e);
+                        .catch(() => {
+                            this.$toast.error('Error!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
                         });
                 })
-                .catch((e) => {
-                    console.log(e);
+                .catch(() => {
+                    this.$toast.error('Error!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
                 });
         },
 
@@ -587,5 +692,34 @@ form {
     bottom: 0;
     left: 700px;
     margin-bottom: 10px;
+}
+
+.status {
+    margin-top: 17px;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 3px;
+
+}
+
+.blue {
+    border: 2px solid blue;
+    color: blue;
+}
+
+.salmon {
+    border: 2px solid salmon;
+    color: salmon;
+}
+
+.red {
+    border: 2px solid red;
+    color: red;
+}
+
+.green {
+    border: 2px solid green;
+    color: green;
 }
 </style>
