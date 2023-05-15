@@ -5,6 +5,10 @@ class Company {
     return http.get("/company/getAll");
   }
 
+  upload(data) {
+    return http.post("/company/save",data);
+  }
+
   getCompanyById() {
     return http.get("/company/id/{id}");
   }

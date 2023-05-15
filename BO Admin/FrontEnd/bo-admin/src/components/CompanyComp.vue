@@ -20,44 +20,44 @@
                                             <!-- Company Name -->
                                             <div class="form-group">
                                                 <label for="name_company">Company Name</label>
-                                                <input type="text" class="form-control" id="name_company"
-                                                    placeholder="Enter Name Company" />
+                                                <input type="text" v-model="companyDatas.comName" class="form-control"
+                                                    id="name_company" placeholder="Enter Name Company" />
                                             </div>
                                             <!-- NPWP -->
                                             <div class="form-group">
                                                 <label for="npwp">NPWP</label>
-                                                <input type="text" class="form-control" id="npwp"
-                                                    placeholder="Enter NPWP" />
+                                                <input type="text" v-model="companyDatas.comTaxNum" class="form-control"
+                                                    id="npwp" placeholder="Enter NPWP" />
                                             </div>
                                             <!-- Address -->
                                             <div class="form-group">
                                                 <label for="address">Address</label>
-                                                <input type="text" class="form-control" id="address"
-                                                    placeholder="Enter Address" />
+                                                <input type="text" v-model="companyDatas.address" class="form-control"
+                                                    id="address" placeholder="Enter Address" />
                                             </div>
                                             <!-- Email Company -->
                                             <div class="form-group">
                                                 <label for="email_company">Email</label>
-                                                <input type="email" class="form-control" id="email_company"
-                                                    placeholder="Enter Email Company" />
+                                                <input type="email" v-model="companyDatas.mailAddress" class="form-control"
+                                                    id="email_company" placeholder="Enter Email Company" />
                                             </div>
                                             <!-- Code Pos -->
                                             <div class="form-group">
                                                 <label for="postal_code">Code Pos</label>
-                                                <input type="text" class="form-control" id="postal_code"
-                                                    placeholder="Enter Code Pos" />
+                                                <input type="text" class="form-control" v-model="companyDatas.postal"
+                                                    id="postal_code" placeholder="Enter Code Pos" />
                                             </div>
                                             <!-- Nama Admin -->
                                             <div class="form-group">
                                                 <label for="admin_name">Admin Name</label>
-                                                <input type="text" class="form-control" id="admin_name"
-                                                    placeholder="Enter Email Company" />
+                                                <input type="text" v-model="companyDatas.adminName" class="form-control"
+                                                    id="admin_name" placeholder="Enter Email Company" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div class="dflex justify-content-center">
-                                        <b-button variant="primary" block @click="toggleModal">Submit</b-button>
+                                        <b-button variant="primary" block @click="SubmitCompany">Submit</b-button>
                                         <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                                     </div>
                                 </b-modal>
@@ -139,8 +139,8 @@
                     </tr>
                 </thead>
                 <tbody v-if="companyData.length > 0">
-                    <tr class=" baris text-center" v-for="(item, index) in companyData" :key="index">
-                        <th scope="row" class="text-center">1</th>
+                    <tr class=" baris text-center" v-for="(item, index) in paginatedData" :key="index">
+                        <th scope="row" class="text-center">{{ item.id }}</th>
                         <td>{{ item.comName }}</td>
                         <td>{{ item.adminEmail }}</td>
                         <td>In Review</td>
@@ -158,7 +158,15 @@
                         </td>
                     </tr>
                 </tbody>
+
             </table>
+            <div class="row d-flex justify-content-center">
+                <button type="button" class="btn btn-success" @click="previousPage"
+                    :disabled="currentPage == 1">Previous</button>
+                <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
+                <button type="button" class="btn btn-success" @click="nextPage"
+                    :disabled="currentPage == pageCount">Next</button>
+            </div>
             <!------------------ END TABLE ------------------>
         </div>
     </section>
@@ -166,6 +174,7 @@
   
 <script>
 import companyService from '@/services/companyService.js';
+import adds from '@/services/userService.js';
 
 export default {
     name: "CompanyS",
@@ -173,12 +182,55 @@ export default {
     // DATA
     data() {
         return {
-            companyData: [],
+            itemsPerPage: 7,
+            currentPage: 1,
+
+            companyData: {
+                comName: null,
+                comTaxNum: null,
+                address: null,
+                mailAddress: null,
+                postal: null,
+                adminName: null,
+                adminEmail: null,
+                status: null,
+                sender: null
+            },
+            companyDatas: {
+
+                comName: null,
+                comTaxNum: null,
+                address: null,
+                mailAddress: null,
+                postal: null,
+                adminName: null,
+                adminEmail: null,
+                status: '4',
+                sender: null
+            },
+            buatAkun: {
+                name: null,
+                pass: null,
+                email: null,
+                roleId: 3,
+                statId: 1,
+                username: null,
+                createdBy: null,
+                approved: null
+            },
             showDetail: false,
         }
     },
 
     methods: {
+        previousPage() {
+            this.currentPage--;
+        },
+        // navigasi ke halaman berikutnya
+        nextPage() {
+            this.currentPage++;
+        },
+
         // SHOW MODAL BOX
         showModal() {
             this.$refs["my-modal"].show();
@@ -190,6 +242,9 @@ export default {
             this.$refs["my-modal"].hide();
         },
         toggleModal() {
+            for (const property in this.companyDatas) {
+                this.companyDatas[property] = null
+            }
             this.$refs["my-modal"].toggle("#toggle-btn");
         },
         toggleModalDetail() {
@@ -208,6 +263,39 @@ export default {
                     console.log(e);
                 });
         },
+        SubmitCompany() {
+            let datas = this.buatAkun
+            let data = this.companyDatas
+            datas.email = data.mailAddress
+            datas.pass = "testing"
+            datas.createdBy = this.$session.get('email')
+            datas.name = data.adminName
+            datas.username = data.adminName + 123
+            data.adminEmail = this.$session.get('email')
+            data.sender = this.$session.get("jwt").data.substr(23, this.$session.get("jwt").data.length)
+            console.log(data);
+            companyService.upload(data)
+                .then((response) => {
+                    console.log(response.data);
+                    adds.register(datas)
+                        .then((response) => {
+                            // this.companyData = response.data;
+                            console.log(response.data);
+                            this.$toast.success('Company Data has been successfully added!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                            this.toggleModal()
+
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                        });
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
 
 
     },
@@ -216,7 +304,22 @@ export default {
     mounted() {
         this.getCompany();
 
-    }
+    },
+
+    computed: {
+        // hitung jumlah halaman
+        pageCount() {
+            const itemCount = this.companyData.length;
+            const pageCount = Math.ceil(itemCount / this.itemsPerPage);
+            return pageCount;
+        },
+        // ambil data sesuai halaman saat ini
+        paginatedData() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            return this.companyData.slice(startIndex, endIndex);
+        },
+    },
 };
 </script>
   
