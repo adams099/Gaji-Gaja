@@ -3,9 +3,11 @@
     <div class="text text-center color-text">Profile</div>
     <div class="row">
       <div class="col-lg-4 ml-4 mt-4">
-        <div class="card mb-4">
-          <div class="card-body text-center">
-            <img class="rounded-circle img-fluid" src="../assets/profile.jpg" alt="" style="width: 150px" />
+        <!-- CARD 1 -->
+        <div class="card mb-1 shadow-lg">
+          <div class=" text-center">
+            <img class="rounded-circle img-fluid" src="../assets/profile.jpg" alt=""
+              style="width: 150px; height: 150px;" />
             <h5 class="my-3">{{ userData.name }}</h5>
             <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
             <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
@@ -14,7 +16,7 @@
                 Edit
               </button> -->
               <div class="ml-3">
-                <button type="button" @click="showModal" id="show-btn" class="btn btn-outline-primary ms-1">
+                <button type="button" @click="showModal" id="show-btn" class="btn btn-outline-primary ms-1 mt-2">
                   Change Password
                 </button>
                 <b-modal ref="changepassword" hide-footer title="Change Password">
@@ -51,31 +53,33 @@
         </div>
       </div>
 
-      <div class="col-lg-6 mt-4">
-        <div class="card mb-4">
-          <div class="card-body">
+      <!-- CARD 2 -->
+      <div class="col-lg-6 mt-4 card-dua shadow-lg ml-4">
+        <div class="mb-4">
+          <div class="table">
             <table style="width: 100%">
               <tr>
                 <th>Name</th>
                 <td>{{ userData.name }}</td>
               </tr>
-              <hr />
+              <!-- <hr /> -->
               <tr>
                 <th>Email</th>
                 <td>{{ userData.email }}</td>
                 <hr />
               </tr>
-              <hr />
+              <!-- <hr /> -->
               <tr>
                 <th>Username</th>
                 <td>{{ userData.username }}</td>
               </tr>
-              <hr />
+              <!-- <hr /> -->
               <tr>
                 <th>Created At</th>
                 <td>{{ userData.created }}</td>
               </tr>
             </table>
+            <hr />
           </div>
         </div>
       </div>
@@ -203,4 +207,29 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.card {
+  border-radius: 20px;
+  background-color: white;
+  padding: 20px;
+}
+
+.card-dua {
+  background-color: white;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+}
+
+.btn-outline-primary:hover {
+  background-color: #695cfe;
+}
+
+.table {
+  margin-top: 40px;
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+</style>

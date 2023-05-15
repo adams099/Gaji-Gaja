@@ -1,11 +1,11 @@
 <template>
-  <div class="bg-primary h-100 d-flex align-items-center">
+  <div class="body h-100 d-flex align-items-center">
     <div>
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-8 mx-auto">
-      <div class="card register p-5 rounded bg-light d-flex justify-content-center">
-        <h2 class="head">Sign In</h2>
+    <div class="col-lg-4 col-md-6 col-sm-8 mx-auto login">
+      <div class="card register shadow-lg p-5  d-flex justify-content-center">
+        <h2 class="head" style="color: rgb(88, 84, 84);">SIGN IN</h2>
         <form action="" @submit.prevent="loginFunc">
           <div class="form-input">
             <input type="email" id="email" name="email" class="form-control mb-1" placeholder="Email" required
@@ -109,6 +109,7 @@ export default {
 <style scoped>
 .input-group {
   position: relative;
+  background-color: #060000;
 }
 
 .head {
@@ -117,13 +118,13 @@ export default {
 }
 
 input {
-  border: solid 1.5px rgb(119, 7, 224);
-  border-radius: 1rem;
+  /* border: solid 1.5px #695cfe; */
+  border-radius: 10px;
   background: none;
   padding: 1rem;
   font-size: 1rem;
-  color: #060000;
   transition: 150ms cubic-bezier(0.5, 0, 0.2, 0);
+  height: 50px;
 }
 
 label {
@@ -153,6 +154,7 @@ button:hover {
 input:focus {
   outline: none;
   border: 1.5px solid #695cfe;
+  border-radius: 5px;
 }
 
 .form-input {
@@ -180,5 +182,13 @@ input:focus~label {
   color: green;
   opacity: 0.7;
   font-size: 0.8rem;
+}
+
+.register {
+  border-radius: 30px;
+}
+
+.body {
+  background-color: white;
 }
 </style>

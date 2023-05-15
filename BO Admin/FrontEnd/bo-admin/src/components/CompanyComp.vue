@@ -6,12 +6,13 @@
                 <h5 class="color-text" v-if="!showDetail">Daftar Company</h5>
 
                 <div>
-                    <div class="container mr-3">
+                    <div class="container mr-3 d-flex">
                         <div>
                             <!------------------------ MODAL BOX --------------------->
                             <div>
-                                <b-button id="show-btn" @click="showModal" v-if="!showDetail"
-                                    class="btn-primary ">Add</b-button>
+                                <b-button id="show-btn" @click="showModal" v-if="!showDetail" class="btn-primary shadow"
+                                    style="margin-left: 272px;">Add
+                                    Company</b-button>
                                 <b-button id="show-btn " v-if="showDetail" @click="showDetail = false"
                                     class="btn-primary mt-3">Back</b-button>
                                 <b-modal ref="my-modal" hide-footer title="Add Company">
@@ -66,59 +67,103 @@
 
                             <!---------------------- START DETAIL COMPANY ---------------------->
                             <div class="flex-column">
-                                <div class="detail">
-                                    <h5 class="color-text mt-3 mb-3 text-center" v-if="showDetail">Detail Company</h5>
+                                <div class="detail shadow">
+                                    <h5 class="color-text mt-3 mb-3 text-center text-color text-white " v-if="showDetail"
+                                        style="font-size: 20px; ">
+                                        Detail Company</h5>
                                 </div>
                             </div>
 
-                            <div class="form justify-content-center d-flex flex-row" v-if="showDetail">
+                            <div class="form justify-content-center d-flex flex-row bg-white shadow-lg" v-if="showDetail">
 
-                                <form class="form-detail-company flex-row">
+                                <form class="form-detail-company flex-row ">
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input type="text" class="form-control company-detail" id="name_company"
-                                            placeholder="name_company">
+                                            placeholder="Company Name" v-model="companyData.comName">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="email_company">Email Company</label>
-                                            <input type="email" class="form-control" id="email_company" placeholder="Email">
+                                            <input type="email" class="form-control" id="email_company" placeholder="Email"
+                                                v-model="companyData.mailAddress">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="NPWP">NPWP</label>
-                                            <input type="text" class="form-control" id="NPWP" placeholder="NPWP">
+                                            <input type="text" class="form-control" id="NPWP"
+                                                placeholder="Enter NPWP Number" v-model="companyData.comTaxNum">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="Address">Address</label>
                                         <input type="text" class="form-control company-detail" id="Address"
-                                            placeholder="Address">
+                                            placeholder="Address" v-model="companyData.address">
                                     </div>
                                     <div class="form-group">
                                         <label for="postal_code">Postal Code</label>
                                         <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="postal_code">
+                                            placeholder="Postal Code" v-model="companyData.postal">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="admin_name">Admin Name</label>
-                                            <input type="text" class="form-control" id="admin_name">
+                                            <input type="text" class="form-control" id="admin_name"
+                                                placeholder="Enter Admin Name" v-model="companyData.adminName">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="admin_email">Admin Email</label>
                                             <input type="text" class="form-control" id="admin_email"
-                                                placeholder="Enter Admin Email" />
+                                                placeholder="Enter Admin Email" v-model="companyData.adminEmail">
                                         </div>
 
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-primary mt-2">Update</button>
                                 </form>
                             </div>
                             <!---------------------- END DETAIL COMPANY ------------------------>
 
                             <!---------------------- SHOW MODAL STATUS ------------------------>
+                            <!-- <div class="show-modal-status">
+                                <div v-if="showModalStatus" class="modal d-flex flex-column">
+                                    <div class="modal-content d-flex justify-content-center">
+                                        <h5 class="text-center mb-2">Status</h5>
+                                        <div class="d-flex flex-column button-action col col-md-6 ">
+                                            <button class="btn btn-success button-status">Approve</button>
+                                            <button class="btn btn-danger mt-4 mb-4 button-status">Reject</button>
+                                            <button class="btn btn-warning button-status mb-2 text-white">Deactice</button>
+                                        </div>
 
+                                        <div class="back-button ">
+                                            <button @click="showModalStatus = false"
+                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div> -->
+
+                            <div>
+                                <b-modal v-model="showModalStatus">
+                                    <b-modal v-model="showModalStatus" hide-footer>
+                                        <div>
+                                            <h6> Status Confirmation</h6>
+                                            <!-- <p>Are you sure you want to perform this action?</p> -->
+                                            <b-col>
+                                                <div class="initombol">
+                                                    <button @click="accept" class="btn btn-success mr-3">Accept</button>
+                                                    <button @click="reject" class="btn btn-danger mr-3">Reject</button>
+                                                    <button @click="deadactive"
+                                                        class="btn btn-primary mr-3">Deadactive</button>
+                                                </div>
+                                            </b-col>
+                                            <!-- <div class="back-button ">
+                                            <button @click="showModalStatus = false"
+                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
+                                        </div> -->
+                                        </div>
+                                    </b-modal>
+                                </b-modal>
+                            </div>
 
                             <!---------------------- END MODAL STATUS ------------------------>
                         </div>
@@ -128,7 +173,7 @@
             </div>
 
             <!------------------ START TABLE ------------------->
-            <table class="table" v-show="!showDetail">
+            <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">No</th>
@@ -146,7 +191,8 @@
                         <td>In Review</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-primary" @click="showDetail = true">Detail</button>
-                            <button type="button" class="btn btn-delete text-white">Status</button>
+                            <button type="button" class="btn btn-delete text-white "
+                                @click="showModalStatus = true">Status</button>
                         </td>
                     </tr>
                 </tbody>
@@ -160,7 +206,7 @@
                 </tbody>
 
             </table>
-            <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center next" v-if="!showDetail">
                 <button type="button" class="btn btn-success" @click="previousPage"
                     :disabled="currentPage == 1">Previous</button>
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -219,6 +265,16 @@ export default {
                 approved: null
             },
             showDetail: false,
+            showModalStatus: false,
+
+            error: {
+                "comname": false,
+                "comtax": false,
+                "address": false,
+                "email": false,
+                "emailada": false,
+                "pass": false,
+            }
         }
     },
 
@@ -249,6 +305,20 @@ export default {
         },
         toggleModalDetail() {
             this.$refs["company-modal"].toggle("#toggle-btn");
+        },
+
+        //test doang ya
+        accept() {
+            // handle accept action
+            this.showModalStatus = false
+        },
+        reject() {
+            // handle reject action
+            this.showModalStatus = false
+        },
+        deadactive() {
+            // handle review action
+            this.showModalStatus = false
         },
 
         // GET COMPANY
@@ -297,6 +367,8 @@ export default {
                 });
         },
 
+        // Post Data Company
+
 
     },
 
@@ -327,6 +399,15 @@ export default {
 h5 {
     margin-left: 20px;
     color: gray;
+}
+
+h6 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.initombol {
+    text-align: center;
 }
 
 thead {
@@ -422,66 +503,89 @@ table tr:last-child td:last-child {
     background-color: #e4e9f7;
 }
 
-.form-detail-company {
-    border: 1px solid #695cfe;
-    padding: 40px 20px;
+form {
+    width: 60vw;
+    padding: 40px 40px;
     border-radius: 20px;
 }
 
-/* SHOW MODAL STYLE */
-/* Style untuk modal box */
-.modal {
-    display: none;
-    position: fixed;
-    z-index: 1;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.4);
+.form {
+    /* left: 200px; */
+    margin-left: 150px;
+    border-radius: 20px;
+    margin-bottom: 5px;
 }
 
+.form-detail-company {
+    border: 1px solid #695cfe;
+
+}
+
+
 /* Style untuk konten modal box */
-.modal-dialog {
-    position: relative;
-    margin: 10% auto;
-    padding: 0;
-    width: 90%;
-    max-width: 600px;
+/* SHOW MODAL STYLE */
+
+.modal {
+    top: 150px;
+    left: 200px;
+    position: absolute;
+    margin: 50px 50px;
+    width: 25vw;
+    height: 300px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 15px;
+    background-color: transparent;
+
 }
 
 .modal-content {
-    position: relative;
-    background-color: #fefefe;
-    margin: auto;
-    padding: 0;
-    border: 1px solid #888;
-    width: 100%;
+    border: 1px solid grey;
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
-/* Style untuk tombol close */
-.close {
-    position: absolute;
-    top: 0;
-    right: 0;
-    font-size: 28px;
-    font-weight: bold;
-    color: #000;
-    cursor: pointer;
-    padding: 12px 16px;
+.modal.fade .modal-dialog {
+    transition: opacity 0.3s linear;
+    opacity: 0;
 }
 
+.modal.fade.show .modal-dialog {
+    opacity: 1;
+}
 
+.button-status {
+    width: 250px;
+}
 
-.form {
-    width: 1000px;
+.detail {
+    margin-left: 200px;
+    background-color: #695cfe;
+    width: 200px;
+    border-radius: 20px;
+    font-size: 5px;
 
 }
 
-.company-detail {
-    width: 700px;
-}
+/* .status {
+  margin-top: 17px;
+  background-color: transparent;
+  border: 2px solid blue;
+  color: blue;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 3px;
 
-/* SHOW MODAL STYLE */
+} */
+
+.next {
+    /* background-color: #695cfe; */
+    position: fixed;
+    bottom: 0;
+    left: 700px;
+    margin-bottom: 10px;
+}
 </style>

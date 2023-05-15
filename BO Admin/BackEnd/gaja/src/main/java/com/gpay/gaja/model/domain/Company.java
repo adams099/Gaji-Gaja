@@ -24,7 +24,7 @@ public class Company {
     private String postal;
     @Column(name = "admin_name")
     private String adminName;
-    @Column(name = "admin_email", unique = true)
+    @Column(name = "admin_email")
     private String adminEmail;
     @Column(name = "status")
     private String status;

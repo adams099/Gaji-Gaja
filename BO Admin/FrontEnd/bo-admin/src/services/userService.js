@@ -8,15 +8,15 @@ class User {
   register(data) {
     return http.post("/user/saveV2", data);
   }
-  
+
   findByEmail(data) {
     return http.post("/user/email", data);
   }
-  
+
   findEmail(data) {
     return http.post("/user/findEmail", data);
   }
-  
+
   findByUsername(data) {
     return http.post("/user/username", data);
   }
