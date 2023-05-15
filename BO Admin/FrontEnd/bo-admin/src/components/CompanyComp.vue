@@ -73,13 +73,13 @@
                                 <div class="detail shadow">
                                     <h5 class="color-text mt-3 mb-3 text-center text-color text-white " v-if="showDetail"
                                         style="font-size: 20px; ">
-                                        DetailCompany</h5>
+                                        Detail Company</h5>
                                 </div>
                             </div>
 
                             <div class="form justify-content-center d-flex flex-row bg-white shadow-lg" v-if="showDetail">
 
-                                <form class="form-detail-company flex-row">
+                                <form class="form-detail-company flex-row ">
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input type="text" class="form-control company-detail" id="name_company"
@@ -121,13 +121,13 @@
 
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary">Update</button>
+                                    <button type="submit" class="btn btn-primary mt-2">Update</button>
                                 </form>
                             </div>
                             <!---------------------- END DETAIL COMPANY ------------------------>
 
                             <!---------------------- SHOW MODAL STATUS ------------------------>
-                            <div class="show-modal-status">
+                            <!-- <div class="show-modal-status">
                                 <div v-if="showModalStatus" class="modal d-flex flex-column">
                                     <div class="modal-content d-flex justify-content-center">
                                         <h5 class="text-center mb-2">Status</h5>
@@ -143,6 +143,29 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div> -->
+
+                            <div>
+                                <b-modal v-model="showModalStatus">
+                                    <b-modal v-model="showModalStatus" hide-footer>
+                                        <div>
+                                            <h6> Status Confirmation</h6>
+                                            <!-- <p>Are you sure you want to perform this action?</p> -->
+                                            <b-col>
+                                                <div class="initombol">
+                                                    <button @click="accept" class="btn btn-success mr-3">Accept</button>
+                                                    <button @click="reject" class="btn btn-danger mr-3">Reject</button>
+                                                    <button @click="deadactive"
+                                                        class="btn btn-primary mr-3">Deadactive</button>
+                                                </div>
+                                            </b-col>
+                                            <!-- <div class="back-button ">
+                                            <button @click="showModalStatus = false"
+                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
+                                        </div> -->
+                                        </div>
+                                    </b-modal>
+                                </b-modal>
                             </div>
 
                             <!---------------------- END MODAL STATUS ------------------------>
@@ -171,7 +194,7 @@
                         <td>In Review</td>
                         <td class="text-center">
                             <button type="button" class="btn btn-primary" @click="showDetail = true">Detail</button>
-                            <button type="button" class="btn btn-delete text-white"
+                            <button type="button" class="btn btn-delete text-white "
                                 @click="showModalStatus = true">Status</button>
                         </td>
                     </tr>
@@ -243,6 +266,20 @@ export default {
             this.$refs["company-modal"].toggle("#toggle-btn");
         },
 
+        //test doang ya
+        accept() {
+            // handle accept action
+            this.showModalStatus = false
+        },
+        reject() {
+            // handle reject action
+            this.showModalStatus = false
+        },
+        deadactive() {
+            // handle review action
+            this.showModalStatus = false
+        },
+
         // GET COMPANY
         getCompany() {
             companyService
@@ -273,6 +310,15 @@ export default {
 h5 {
     margin-left: 20px;
     color: gray;
+}
+
+h6 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.initombol {
+    text-align: center;
 }
 
 thead {
@@ -369,15 +415,16 @@ table tr:last-child td:last-child {
 }
 
 form {
-    width: 50vw;
+    width: 60vw;
     padding: 40px 40px;
     border-radius: 20px;
 }
 
 .form {
-    left: 200px;
-    margin-left: 200px;
+    /* left: 200px; */
+    margin-left: 150px;
     border-radius: 20px;
+    margin-bottom: 5px;
 }
 
 .form-detail-company {
@@ -433,4 +480,15 @@ form {
     font-size: 5px;
 
 }
+
+/* .status {
+  margin-top: 17px;
+  background-color: transparent;
+  border: 2px solid blue;
+  color: blue;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 3px;
+
+} */
 </style>

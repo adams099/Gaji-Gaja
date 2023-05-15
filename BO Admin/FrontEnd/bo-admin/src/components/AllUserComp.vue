@@ -42,7 +42,7 @@
                 </div>
 
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="addUser">Submit</b-button>
+                  <b-button variant="primary" block @click="addUser">Update</b-button>
                   <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                 </div>
               </b-modal>
@@ -247,6 +247,7 @@ export default {
     toggleModal() {
       this.$refs["add-modal"].toggle("#toggle-btn");
     },
+
     LimitData(nigga) {
       if (nigga == 1) {
         this.indexing--
