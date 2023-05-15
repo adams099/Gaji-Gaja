@@ -20,4 +20,5 @@ public class UserDTO {
     private LocalDateTime created;
     private String createdBy;
     private String approved;
+    private String phone;
 }

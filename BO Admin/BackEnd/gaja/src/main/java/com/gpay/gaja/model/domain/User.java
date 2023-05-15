@@ -33,5 +33,7 @@ public class User {
     private String createdBy;
     @Column(name = "approved_by")
     private String approved;
+    @Column(name = "phone_number")
+    private String phone;
 
 }

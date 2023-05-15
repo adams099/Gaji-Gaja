@@ -6,12 +6,13 @@
                 <h5 class="color-text" v-if="!showDetail">Daftar Company</h5>
 
                 <div>
-                    <div class="container mr-3">
+                    <div class="container mr-3 d-flex">
                         <div>
                             <!------------------------ MODAL BOX --------------------->
                             <div>
-                                <b-button id="show-btn" @click="showModal" v-if="!showDetail"
-                                    class="btn-primary ">Add</b-button>
+                                <b-button id="show-btn" @click="showModal" v-if="!showDetail" class="btn-primary shadow"
+                                    style="margin-left: 272px;">Add
+                                    Company</b-button>
                                 <b-button id="show-btn " v-if="showDetail" @click="showDetail = false"
                                     class="btn-primary mt-3">Back</b-button>
                                 <b-modal ref="my-modal" hide-footer title="Add Company">
@@ -69,12 +70,14 @@
 
                             <!---------------------- START DETAIL COMPANY ---------------------->
                             <div class="flex-column">
-                                <div class="detail">
-                                    <h5 class="color-text mt-3 mb-3 text-center" v-if="showDetail">Detail Company</h5>
+                                <div class="detail shadow">
+                                    <h5 class="color-text mt-3 mb-3 text-center text-color text-white " v-if="showDetail"
+                                        style="font-size: 20px; ">
+                                        DetailCompany</h5>
                                 </div>
                             </div>
 
-                            <div class="form justify-content-center d-flex flex-row" v-if="showDetail">
+                            <div class="form justify-content-center d-flex flex-row bg-white shadow-lg" v-if="showDetail">
 
                                 <form class="form-detail-company flex-row">
                                     <div class="form-group">
@@ -102,7 +105,7 @@
                                     <div class="form-group">
                                         <label for="postal_code">Postal Code</label>
                                         <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="postal_code" v-model="companyData.postal">
+                                            placeholder="Postal Code" v-model="companyData.postal">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
@@ -134,9 +137,9 @@
                                             <button class="btn btn-warning button-status mb-2 text-white">Deactice</button>
                                         </div>
 
-                                        <div class="back-button">
+                                        <div class="back-button ">
                                             <button @click="showModalStatus = false"
-                                                class="btn btn-secondary mt-3 ml-3">Back</button>
+                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
                                         </div>
                                     </div>
                                 </div>
@@ -150,7 +153,7 @@
             </div>
 
             <!------------------ START TABLE ------------------->
-            <table class="table" v-show="!showDetail">
+            <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">No</th>
@@ -160,7 +163,7 @@
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="companyData.length > 0">
+                <tbody v-if="companyData.length > 0" class="shadow-lg">
                     <tr class=" baris text-center" v-for="(item, index) in companyData" :key="index">
                         <th scope="row" class="text-center">1</th>
                         <td>{{ item.comName }}</td>
@@ -365,10 +368,21 @@ table tr:last-child td:last-child {
     background-color: #e4e9f7;
 }
 
+form {
+    width: 50vw;
+    padding: 40px 40px;
+    border-radius: 20px;
+}
+
+.form {
+    left: 200px;
+    margin-left: 200px;
+    border-radius: 20px;
+}
+
 .form-detail-company {
     border: 1px solid #695cfe;
-    padding: 40px 20px;
-    border-radius: 20px;
+
 }
 
 
@@ -386,6 +400,8 @@ table tr:last-child td:last-child {
     justify-content: space-between;
     align-items: center;
     border-radius: 15px;
+    background-color: transparent;
+
 }
 
 .modal-content {
@@ -407,5 +423,14 @@ table tr:last-child td:last-child {
 
 .button-status {
     width: 250px;
+}
+
+.detail {
+    margin-left: 200px;
+    background-color: #695cfe;
+    width: 200px;
+    border-radius: 20px;
+    font-size: 5px;
+
 }
 </style>

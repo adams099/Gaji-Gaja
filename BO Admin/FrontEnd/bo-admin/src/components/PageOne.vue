@@ -5,7 +5,7 @@
         <h4 class="color-text">Cards</h4>
         <div class="cards d-flex flex-row mb-5">
             <!-- CARD 1 -->
-            <div class="card-1 text-center">
+            <div class="card-1 text-center shadow">
                 <b-col>
                     <div class="icon"></div>
                     <label class="jmlh">Jumlah User</label>
@@ -18,7 +18,7 @@
             </div>
 
             <!-- CARD 2 -->
-            <div class="card-2 text-center">
+            <div class="card-2 text-center shadow">
                 <b-col>
                     <label class="jmlh">Jumlah Company</label>
                     <p></p>
@@ -30,7 +30,7 @@
             </div>
 
             <!-- CARD 3 -->
-            <div class="card-3 text-center">
+            <div class="card-3 text-center shadow">
                 <b-col>
                     <label class="jmlh">User Di Approve</label>
                     <p></p>

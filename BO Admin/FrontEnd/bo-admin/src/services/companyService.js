@@ -8,6 +8,10 @@ class Company {
   getCompanyById() {
     return http.get("/company/id/{id}");
   }
+
+  addCompany() {
+    return http.post("/company/save");
+  }
 }
 
 export default new Company();

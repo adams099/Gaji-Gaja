@@ -91,6 +91,7 @@
             <th scope="col">Nama</th>
             <th scope="col">Username</th>
             <th scope="col">Email</th>
+            <th scope="col ">Status</th>
             <th scope="col ">Action</th>
           </tr>
         </thead>
@@ -100,6 +101,8 @@
             <td> {{ item?.name }}</td>
             <td> {{ item?.username }} </td>
             <td> {{ item?.email }}</td>
+            <!-- <td class="pp color-text" :style="{ color: 'green' }"> In Review</td> -->
+            <button type="button" class="status ">In Review</button>
             <td class="text-center">
               <button type="button" class="btn btn-success" @click="toggleModal">Update</button>
               <button type="button" class="btn btn-delete text-white">Remove</button>
@@ -116,9 +119,10 @@
         </tbody> -->
         <!---------------------- START USER TABLE -------------------------->
       </table>
-      <div class="row d-flex justify-content-center">
-        <button v-if="this.indexing > 1" type="button" @click="LimitData(1)" class="btn btn-success">Previous</button>
-        <b class="ml-4 mr-4 font-italic mt-2">{{ indexing }}</b>
+      <div class="row d-flex justify-content-center next">
+        <button v-if="this.indexing > 1" type="button" @click="LimitData(1)" class="btn btn-success"
+          style="margin-left: 5px;">Previous</button>
+        <button class="ml-4 mr-4 font-italic mt-2 btn">{{ indexing }}</button>
         <button v-if="this.indexing < this.maxdata" type="button" @click="LimitData(2)"
           class="btn btn-success">Next</button>
       </div>
@@ -309,9 +313,6 @@ thead {
   padding-right: 20px;
 }
 
-.btn-danger {
-  /* margin-left: 10px; */
-}
 
 table {
   border-collapse: separate !important;
@@ -390,5 +391,24 @@ table tr:last-child td:last-child {
 
 .baris {
   background-color: #e4e9f7;
+}
+
+.next {
+  /* background-color: #695cfe; */
+  position: fixed;
+  bottom: 0;
+  left: 700px;
+  margin-bottom: 10px;
+}
+
+.status {
+  margin-top: 17px;
+  background-color: transparent;
+  border: 2px solid blue;
+  color: blue;
+  border-radius: 5px;
+  font-size: 13px;
+  padding: 3px;
+
 }
 </style>

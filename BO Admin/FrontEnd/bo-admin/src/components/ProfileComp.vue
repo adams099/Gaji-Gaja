@@ -6,7 +6,7 @@
         <div class="card mb-4">
           <div class="card-body text-center">
             <img class="rounded-circle img-fluid" src="../assets/profile.jpg" alt="" style="width: 150px" />
-            <h5 class="my-3">John Smith</h5>
+            <h5 class="my-3">{{ }}</h5>
             <p class="text-muted mb-2">Superadmin</p>
             <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
             <div class="d-flex justify-content-center mb-2">
@@ -120,10 +120,10 @@ export default {
 
     getUser() {
       userService
-        .findByUsername()
+        .findByEmail()
         .then((response) => {
           this.userData = response.data;
-          console.log(this.getUser);
+          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);

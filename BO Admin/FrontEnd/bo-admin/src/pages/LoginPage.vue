@@ -1,10 +1,10 @@
-.<template>
+<template>
   <div class="content">
     <LoginComp></LoginComp>
   </div>
 </template>
     
-    <script>
+<script>
 import LoginComp from "../components/LoginComp.vue";
 export default {
   name: "LoginPage",
@@ -14,7 +14,7 @@ export default {
 };
 </script>
     
-    <style scoped>
+<style scoped>
 .content {
   height: 100vh;
 }
