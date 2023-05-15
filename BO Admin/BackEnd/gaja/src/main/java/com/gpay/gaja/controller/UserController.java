@@ -37,6 +37,16 @@ public class UserController {
         }
     }
 
+    @PostMapping("/findEmail")
+    public ResponseEntity<UserDTO> findEmail(@RequestBody UserDTO userDTO) {
+        try {
+            UserDTO dto = service.findByEmail(userDTO.getEmail());
+            return new ResponseEntity<UserDTO>(dto, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/username")
     public ResponseEntity<UserDTO> cariUsername(@RequestBody UserDTO userDTO) {
         try {

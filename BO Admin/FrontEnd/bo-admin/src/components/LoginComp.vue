@@ -75,6 +75,7 @@ export default {
               this.$session.start();
 
               this.$session.set("jwt", response.data);
+              this.$session.set("email", data.email);
               this.$router.push("/");
             }
           })
