@@ -529,9 +529,7 @@ thead {
     padding-right: 20px;
 }
 
-.btn-danger {
-    /* margin-left: 10px; */
-}
+
 
 table {
     border-collapse: separate !important;
@@ -620,7 +618,7 @@ form {
 
 .form {
     /* left: 200px; */
-    margin-left: 150px;
+    margin-left: 100px;
     border-radius: 20px;
     margin-bottom: 5px;
 }
@@ -671,7 +669,7 @@ form {
 }
 
 .detail {
-    margin-left: 200px;
+    margin-left: 100px;
     background-color: #695cfe;
     width: 200px;
     border-radius: 20px;

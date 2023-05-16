@@ -6,9 +6,10 @@
         <!-- CARD 1 -->
         <div class="card mb-1 shadow-lg">
           <div class=" text-center">
-            <img class="rounded-circle img-fluid" src="../assets/profile.jpg" alt=""
+            <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt=""
               style="width: 150px; height: 150px;" />
-            <h5 class="my-3">{{ userData.name }}</h5>
+
+            <h5 class="my-3">{{ userData.name | toUpperCase }}</h5>
             <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
             <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
             <div class="d-flex justify-content-center mb-2">
@@ -43,7 +44,7 @@
                   </div>
 
                   <div class="dflex justify-content-center">
-                    <b-button variant="primary" block @click="saveChanges">Save</b-button>
+                    <b-button class="primary" block @click="saveChanges">Save</b-button>
                     <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                   </div>
                 </b-modal>
@@ -60,7 +61,7 @@
             <table style="width: 100%">
               <tr>
                 <th>Name</th>
-                <td>{{ userData.name }}</td>
+                <td>{{ userData.name | toUpperCase }}</td>
               </tr>
               <!-- <hr /> -->
               <tr>
@@ -103,6 +104,13 @@ export default {
       newPass: null,
       confPass: null,
     };
+  },
+
+  filters: {
+    toUpperCase: function (value) {
+      if (!value) return '';
+      return value.toString().toUpperCase();
+    }
   },
 
   methods: {
@@ -162,6 +170,7 @@ export default {
               this.$toast.warning('New password and confirmation password do not match!', {
                 position: 'top-right',
                 timeout: 2500,
+
               });
             }
           }
@@ -231,5 +240,23 @@ export default {
   margin-top: 40px;
   margin-bottom: 0;
   margin-left: 10px;
+}
+
+img:hover {
+  cursor: pointer;
+  transform: scale(1.2);
+  transition: transform 400ms;
+  border-radius: 1px;
+}
+
+.primary {
+  background-color: #695cfe;
+  border: none;
+
+}
+
+.primary:hover {
+  background-color: #5549da;
+
 }
 </style>

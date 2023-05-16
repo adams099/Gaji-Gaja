@@ -117,8 +117,8 @@
             <th scope="col ">Action</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(item, index) in showData" :key="index" class="baris text-center">
+        <tbody class="shadow">
+          <tr v-for="(item, index) in showData" :key="index" class="baris text-center bg-white ">
             <td scope="row" class="text-center">{{ item.id }}</td>
             <td> {{ item?.name }}</td>
             <td> {{ item?.username }} </td>
@@ -413,6 +413,7 @@ export default {
 
 
   },
+
 
   created() {
     this.getUser();
