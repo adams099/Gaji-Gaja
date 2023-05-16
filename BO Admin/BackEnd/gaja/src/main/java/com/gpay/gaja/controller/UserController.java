@@ -146,7 +146,8 @@ public class UserController {
         rp.setOtp(randomString);
         rp.setDate(LocalDateTime.now());
         rse.save(rp);
-        return new ResponseEntity<>(rp, HttpStatus.OK);
+        services.sendEmail(rp.getEmail(), "OTP Ganti Password", randomString);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/cekotp")
@@ -154,6 +155,7 @@ public class UserController {
         List<ResetPassDTO> test = rse.findByEmail(rp);
         LocalDateTime latestDate = null;
         int latestIndex = -1;
+        String res = "";
 
         for (int i = 0; i < test.size(); i++) {
             ResetPassDTO dto = test.get(i);
@@ -165,7 +167,18 @@ public class UserController {
             }
         }
 
-        return new ResponseEntity<>(test.get(latestIndex), HttpStatus.OK);
+        if (latestDate.plusMinutes(5).isBefore(LocalDateTime.now())) {
+            res = "Terlambat";
+        } else {
+            res = "Tidak Sama";
+            ResetPassDTO kkk = test.get(latestIndex);
+            if (rp.getOtp().equals(kkk.getOtp())) {
+                res = "Sama";
+                return new ResponseEntity<>(res, HttpStatus.OK);
+            }
+        }
+
+        return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
 
     }
 }
