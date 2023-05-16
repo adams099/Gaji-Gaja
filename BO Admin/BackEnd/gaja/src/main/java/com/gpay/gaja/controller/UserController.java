@@ -1,8 +1,13 @@
 package com.gpay.gaja.controller;
 
+import com.gpay.gaja.common.dto.EmailAjaDTO;
 import com.gpay.gaja.common.dto.NgaturLuwh;
+import com.gpay.gaja.common.dto.ResetPassDTO;
 import com.gpay.gaja.common.dto.UserDTO;
 import com.gpay.gaja.config.SafetyConfiguration;
+import com.gpay.gaja.model.domain.ResetPass;
+import com.gpay.gaja.service.EmailService;
+import com.gpay.gaja.service.ResetPassService;
 import com.gpay.gaja.service.UserService;
 
 import java.time.LocalDateTime;
@@ -14,12 +19,20 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/user")
 public class UserController {
     @Autowired
     UserService service;
+
+    @Autowired
+    EmailService services;
+
+    @Autowired
+    ResetPassService rse;
 
     @GetMapping("/id/{id}")
     public ResponseEntity<UserDTO> findById(@PathVariable Long id) {
@@ -85,6 +98,17 @@ public class UserController {
         return new ResponseEntity<>(test, HttpStatus.OK);
     }
 
+    @GetMapping("/testing")
+    public ResponseEntity<?> kirimemail(@RequestBody EmailAjaDTO e) {
+        try {
+            services.sendEmail(e.getEmail(), e.getSubject(), e.getBody());
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (Exception es) {
+            // TODO: handle exception
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
     @PostMapping("/loginV2")
     public ResponseEntity<?> loginv2(@RequestBody UserDTO userDTO) throws Exception {
         NgaturLuwh test = new NgaturLuwh();
@@ -114,5 +138,34 @@ public class UserController {
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @PostMapping("/otp")
+    public ResponseEntity<?> createotp(@RequestBody ResetPassDTO rp) {
+        String randomString = RandomStringUtils.randomAlphanumeric(6);
+        rp.setOtp(randomString);
+        rp.setDate(LocalDateTime.now());
+        rse.save(rp);
+        return new ResponseEntity<>(rp, HttpStatus.OK);
+    }
+
+    @PostMapping("/cekotp")
+    public ResponseEntity<?> checkotp(@RequestBody ResetPassDTO rp) {
+        List<ResetPassDTO> test = rse.findByEmail(rp);
+        LocalDateTime latestDate = null;
+        int latestIndex = -1;
+
+        for (int i = 0; i < test.size(); i++) {
+            ResetPassDTO dto = test.get(i);
+            LocalDateTime currentDate = dto.getDate();
+
+            if (latestDate == null || currentDate.isAfter(latestDate)) {
+                latestDate = currentDate;
+                latestIndex = i;
+            }
+        }
+
+        return new ResponseEntity<>(test.get(latestIndex), HttpStatus.OK);
+
     }
 }

@@ -35,5 +35,7 @@ public class User {
     private String approved;
     @Column(name = "phone_number")
     private String phone;
+    @Column(name = "update_time")
+    private LocalDateTime update;
 
 }
