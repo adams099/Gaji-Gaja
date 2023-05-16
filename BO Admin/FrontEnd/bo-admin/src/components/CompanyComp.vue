@@ -289,15 +289,15 @@ export default {
     methods: {
         updateCompanyFunc() {
             let data = this.updateCompany;
-            console.log(data);
+            // console.log(data);
             companyService.upload(data)
                 .then((response) => {
-                    console.log(response.data);
+                    // console.log(response.data);
+                    console.log(response.status);
                     this.$toast.success('Company Data has been successfully Update!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                    console.log(response.data);
                     this.getCompany()
                     this.showDetail = !this.showDetail;
                 })
@@ -315,7 +315,7 @@ export default {
         },
         showDetails(test) {
             this.showDetail = !this.showDetail
-            console.log(test);
+            // console.log(test);
             for (const property in this.updateCompany) {
                 this.updateCompany[property] = test[property];
             }
@@ -323,7 +323,7 @@ export default {
 
         showModalStatuss(test) {
             this.showModalStatus = !this.showModalStatus
-            console.log(test);
+            // console.log(test);
             for (const property in this.updateCompany) {
                 this.updateCompany[property] = test[property];
             }
@@ -364,7 +364,8 @@ export default {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                    console.log(response.data);
+                    // console.log(response.data);
+                    console.log(response.status);
                     this.showModalStatus = false;
                     this.getCompany()
                 })
@@ -386,7 +387,7 @@ export default {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                    console.log(response.data);
+                    console.log(response.status);
                     this.showModalStatus = false;
                     this.getCompany()
                 })
@@ -407,7 +408,7 @@ export default {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                    console.log(response.data);
+                    console.log(response.status);
                     this.showModalStatus = false;
                     this.getCompany()
                 })
@@ -425,7 +426,8 @@ export default {
                 .getAll()
                 .then((response) => {
                     this.companyData = response.data;
-                    console.log(this.companyData);
+                    // console.log(this.companyData);
+                    console.log("get Company");
                 })
                 .catch((e) => {
                     console.log(e);
@@ -442,14 +444,16 @@ export default {
             data.status = 1;
             data.adminEmail = this.$session.get('email')
             data.sender = this.$session.get("jwt").data.substr(23, this.$session.get("jwt").data.length)
-            console.log(data);
+            // console.log(data);
             companyService.upload(data)
                 .then((response) => {
-                    console.log(response.data);
+                    console.log("add Company");
+                    console.log(response.status);
                     adds.register(datas)
                         .then((response) => {
                             // this.companyData = response.data;
-                            console.log(response.data);
+                            console.log("add User");
+                            console.log(response.status);
                             this.$toast.success('Company Data has been successfully added!', {
                                 position: 'top-right',
                                 timeout: 2500,

@@ -79,7 +79,7 @@ export default {
                 .getAll()
                 .then((response) => {
                     this.userData = response.data;
-                    console.log(this.userData);
+                    console.log("get User");
                 })
                 .catch((e) => {
                     console.log(e);
@@ -91,7 +91,7 @@ export default {
                 .getAll()
                 .then((response) => {
                     this.companyData = response.data;
-                    console.log(this.companyData);
+                    console.log("get Company");
                 })
                 .catch((e) => {
                     console.log(e);
