@@ -382,7 +382,7 @@ export default {
             data.status = 3;
             companyService.upload(data)
                 .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
+                    this.$toast.warning('Company status has been successfully Reject!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
@@ -403,7 +403,7 @@ export default {
             data.status = 4;
             companyService.upload(data)
                 .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
+                    this.$toast.warning('Company status has been successfully Deactive!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
@@ -525,9 +525,7 @@ thead {
     padding-right: 20px;
 }
 
-.btn-danger {
-    /* margin-left: 10px; */
-}
+
 
 table {
     border-collapse: separate !important;
@@ -616,7 +614,7 @@ form {
 
 .form {
     /* left: 200px; */
-    margin-left: 150px;
+    margin-left: 100px;
     border-radius: 20px;
     margin-bottom: 5px;
 }
@@ -667,7 +665,7 @@ form {
 }
 
 .detail {
-    margin-left: 200px;
+    margin-left: 100px;
     background-color: #695cfe;
     width: 200px;
     border-radius: 20px;

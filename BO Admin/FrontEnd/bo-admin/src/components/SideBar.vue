@@ -104,7 +104,13 @@
 
         <li class="mode">
           <div class="sun-moon">
-            <b-icon icon="moon" class="rounded-circle p-1 mt-2" variant="light" style="
+            <b-icon v-if="textMode == 'Dark Mode'" icon="sun" class="rounded-circle p-1 mt-2" variant="light" style="
+                width: 30px;
+                height: 30px;
+                margin-left: 10px;
+                background-color: #695cfe;
+              "></b-icon>
+            <b-icon v-else icon="moon" class="rounded-circle p-1 mt-2" variant="light" style="
                 width: 30px;
                 height: 30px;
                 margin-left: 10px;
@@ -252,7 +258,7 @@ a:active {
     background-color: #695CFE;
 } */
 
-.side-btn active {
+/* .side-btn active {
   background-color: #695cfe;
-}
+} */
 </style>

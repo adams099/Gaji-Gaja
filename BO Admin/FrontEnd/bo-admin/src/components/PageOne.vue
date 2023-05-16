@@ -201,12 +201,28 @@ table tr:last-child td:last-child {
     background-color: #695CFE;
 }
 
+/* CARD */
+
+.cards:hover {
+    cursor: pointer;
+}
+
+.card-1:hover {
+    transform: scale(1.2);
+    transition: transform 400ms;
+}
+
 .card-1 {
     width: 250px;
     height: 150px;
     background-color: #695CFE;
     border-radius: 30px;
     margin-left: 40px;
+}
+
+.card-2:hover {
+    transform: scale(1.2);
+    transition: transform 400ms;
 }
 
 .card-2 {
@@ -216,6 +232,12 @@ table tr:last-child td:last-child {
     border-radius: 30px;
     margin-left: 40px;
 
+}
+
+
+.card-3:hover {
+    transform: scale(1.2);
+    transition: transform 400ms;
 }
 
 .card-3 {
