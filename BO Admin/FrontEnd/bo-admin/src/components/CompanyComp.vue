@@ -382,7 +382,7 @@ export default {
             data.status = 3;
             companyService.upload(data)
                 .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
+                    this.$toast.success('Company status has been successfully Rejected!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
@@ -403,7 +403,7 @@ export default {
             data.status = 4;
             companyService.upload(data)
                 .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
+                    this.$toast.success('Company status has been successfully Deactive!', {
                         position: 'top-right',
                         timeout: 2500,
                     });

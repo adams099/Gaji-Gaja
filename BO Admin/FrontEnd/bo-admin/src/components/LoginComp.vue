@@ -189,6 +189,6 @@ input:focus~label {
 }
 
 .body {
-  background-color: white;
+  background-color: #343a40;
 }
 </style>
