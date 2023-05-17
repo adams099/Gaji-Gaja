@@ -74,7 +74,7 @@
           <a class="side-btn" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
             <li class="">
               <a>
-                <b-icon icon="box" class="rounded-circle p-1" variant="light" style="
+                <b-icon icon="check2-circle" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
@@ -158,6 +158,7 @@ export default {
       pa2: false,
       pa3: false,
       pa4: false,
+      pa5: false,
       tipeUser: null,
       sidebarItem: true,
       ntol: null,

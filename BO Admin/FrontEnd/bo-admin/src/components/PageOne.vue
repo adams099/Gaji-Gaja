@@ -32,7 +32,7 @@
             <!-- CARD 3 -->
             <div class="card-3 text-center shadow">
                 <b-col>
-                    <label class="jmlh">User Di Approve</label>
+                    <label class="jmlh">Company Di Approve</label>
                     <p></p>
                     <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
                     <label class="angka mt-2" v-else
@@ -58,6 +58,8 @@ export default {
         return {
             userData: [],
             companyData: [],
+
+
         };
     },
 
@@ -87,6 +89,7 @@ export default {
         },
 
         getCompany() {
+
             companyService
                 .getAll()
                 .then((response) => {

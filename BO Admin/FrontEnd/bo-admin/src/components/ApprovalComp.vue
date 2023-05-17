@@ -159,7 +159,7 @@
                     </tr>
                 </thead>
                 <tbody v-if="companyData.length > 0">
-                    <tr class=" baris text-center" v-for="(item, index) in paginatedData" :key="index">
+                    <tr class=" baris text-center shadow-lg " v-for="(item, index) in paginatedData" :key="index">
                         <th scope="row" class="text-center">{{ item.id }}</th>
                         <td>{{ item.comName }}</td>
                         <td>{{ item.mailAddress }}</td>
@@ -193,11 +193,6 @@
             </div>
             <!------------------ END TABLE ------------------>
 
-            <!-- iseng  -->
-
-            <!-- 
-                            <div class=" form justify-content-center d-flex flex-row bg-white shadow-lg"
-                    v-if="showDetail"> -->
         </div>
 
     </section>
@@ -592,7 +587,7 @@ table tr:last-child td:last-child {
 }
 
 .baris {
-    background-color: #e4e9f7;
+    background-color: white;
 }
 
 form {
