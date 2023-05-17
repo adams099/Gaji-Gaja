@@ -24,6 +24,14 @@ class User {
   getUserById() {
     return http.get("/user/id/{id}");
   }
+
+  potp(data){
+    return http.post("/user/otp",data)
+  }
+
+  cotp(data){
+    return http.post("/user/cekotp",data)
+  }
 }
 
 export default new User();
