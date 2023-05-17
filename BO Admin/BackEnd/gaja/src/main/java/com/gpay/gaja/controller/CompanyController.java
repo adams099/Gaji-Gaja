@@ -3,6 +3,7 @@ package com.gpay.gaja.controller;
 import com.gpay.gaja.common.dto.CompanyDTO;
 import com.gpay.gaja.service.CompanyService;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,11 @@ public class CompanyController {
 
     @PostMapping("/save")
     public ResponseEntity<CompanyDTO> save(@RequestBody CompanyDTO companyDTO) {
+        if (companyDTO.getId() == null || companyDTO.getId() == 0) {
+            companyDTO.setCreatedTime(LocalDateTime.now());
+        } else {
+            companyDTO.setUpdateTime(LocalDateTime.now());
+        }
         CompanyDTO dto = service.save(companyDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }

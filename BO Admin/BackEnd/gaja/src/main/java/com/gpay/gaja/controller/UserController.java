@@ -68,7 +68,11 @@ public class UserController {
 
     @PostMapping("/saveV2")
     public ResponseEntity<UserDTO> savev2(@RequestBody UserDTO userDTO) throws Exception {
-        userDTO.setCreated(LocalDateTime.now());
+        if (userDTO.getId() == null || userDTO.getId() == 0) {
+            userDTO.setCreated(LocalDateTime.now());
+        } else {
+            userDTO.setUpdate(LocalDateTime.now());
+        }
         userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
         UserDTO dto = service.save(userDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
