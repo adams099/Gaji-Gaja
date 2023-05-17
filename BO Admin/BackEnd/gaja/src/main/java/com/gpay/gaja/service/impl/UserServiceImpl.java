@@ -46,10 +46,4 @@ public class UserServiceImpl implements UserService {
         Optional<User> UserOptional = repository.findByEmail(id);
         return mapper.convertToDto(UserOptional.get());
     }
-
-    @Override
-    public UserDTO findByUsername(String username) {
-        Optional<User> UserOptional = repository.findByUsername(username);
-        return mapper.convertToDto(UserOptional.get());
-    }
 }

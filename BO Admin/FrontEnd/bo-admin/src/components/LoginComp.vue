@@ -45,7 +45,7 @@
         </form>
 
         <!-- FORM OTP -->
-        <di class="form-2">
+        <div class="form-2">
           <div v-if="sfp" @click="hidenForgotPassword">
             <div class="form-input flex-row">
               <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email"
@@ -81,7 +81,7 @@
               </button>
             </div>
           </div>
-        </di>
+        </div>
 
         <!-- OTP -->
         <div class="container" v-show="showOtp" v-if="showOtp">

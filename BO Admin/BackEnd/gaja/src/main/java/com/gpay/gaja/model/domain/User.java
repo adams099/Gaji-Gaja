@@ -15,8 +15,6 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "username", unique = true)
-    private String username;
     @Column(name = "name")
     private String name;
     @Column(name = "email", unique = true)
@@ -27,14 +25,16 @@ public class User {
     private int roleId;
     @Column(name = "status_id")
     private int statId;
+    @Column(name = "company_id")
+    private Long companyId;
     @Column(name = "created_time")
     private LocalDateTime created;
     @Column(name = "created_by")
     private String createdBy;
-    @Column(name = "approved_by")
-    private String approved;
-    @Column(name = "phone_number")
+    @Column(name = "phone_number", unique = true)
     private String phone;
+    @Column(name = "approved_by")
+    private String apprBy;
     @Column(name = "update_time")
     private LocalDateTime update;
 

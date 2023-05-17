@@ -5,7 +5,6 @@ import com.gpay.gaja.common.dto.NgaturLuwh;
 import com.gpay.gaja.common.dto.ResetPassDTO;
 import com.gpay.gaja.common.dto.UserDTO;
 import com.gpay.gaja.config.SafetyConfiguration;
-import com.gpay.gaja.model.domain.ResetPass;
 import com.gpay.gaja.service.EmailService;
 import com.gpay.gaja.service.ResetPassService;
 import com.gpay.gaja.service.UserService;
@@ -60,16 +59,6 @@ public class UserController {
         }
     }
 
-    @PostMapping("/username")
-    public ResponseEntity<UserDTO> cariUsername(@RequestBody UserDTO userDTO) {
-        try {
-            service.findByUsername(userDTO.getUsername());
-            return new ResponseEntity<UserDTO>(HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<UserDTO>(HttpStatus.NOT_FOUND);
-        }
-    }
-
     @PostMapping("/save")
     public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
         userDTO.setCreated(LocalDateTime.now());
@@ -117,7 +106,7 @@ public class UserController {
         String asw = userDTO.getPass();
         if (testis.equals(asw)) {
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
-            String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getUsername();
+            String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
             test.setData(ancrit);
             test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
@@ -133,7 +122,7 @@ public class UserController {
         if (val1.equals(val2)) {
             NgaturLuwh test = new NgaturLuwh();
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
-            test.setData(LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getUsername());
+            test.setData(LocalDateTime.now().plus(10, ChronoUnit.MINUTES).toString() + gimm.getEmail());
             test.setRoleId(gimm.getRoleId());
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
@@ -177,8 +166,6 @@ public class UserController {
                 return new ResponseEntity<>(res, HttpStatus.OK);
             }
         }
-
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
-
     }
 }
