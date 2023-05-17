@@ -13,7 +13,7 @@ export default {
     name: "AllUserComp",
     components: {
         Sidebar,
-        AllUser
+        AllUser,
     },
 }
 

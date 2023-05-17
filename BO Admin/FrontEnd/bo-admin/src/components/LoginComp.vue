@@ -5,12 +5,12 @@
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto login">
       <div class="card register shadow-lg p-5  d-flex justify-content-center">
-        <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword && !showOtp && showPass">SIGN IN</h2>
-        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else-if="showForgotPassword && !showOtp">FORGOT
+        <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword">SIGN IN</h2>
+        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else>FORGOT
           PASSWORD</h2>
-        <!-- <h2 class="head forgot-label">Enter the email address
+        <!-- <h2 class="head forgot-label" v-if="showForgotPassword">Enter the email address
           associated</h2>
-        <h2 class="head forgot-label">with your account</h2> -->
+        <h2 class="head forgot-label" v-if="showForgotPassword">with your account</h2> -->
 
         <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword">
           <!-- Email -->
@@ -408,7 +408,16 @@ input:focus~label {
 
 .sent {
   width: 130px;
+  background-color: #695cfe;
+  color: white;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
 
+.sent:hover {
+  color: white;
+  background-color: #584be0;
 }
 
 .forgot-text {
