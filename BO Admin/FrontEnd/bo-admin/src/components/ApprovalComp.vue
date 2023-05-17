@@ -9,7 +9,7 @@
                     <div class="container mr-3 d-flex">
                         <div>
                             <!------------------------ MODAL BOX --------------------->
-                            <!-- <div>
+                            <div>
                                 <b-button id="show-btn" @click="showModal" v-if="!showDetail" class="btn-primary shadow"
                                     style="margin-left: 272px;">Add
                                     Company</b-button>
@@ -18,7 +18,7 @@
                                 <b-modal ref="my-modal" hide-footer title="Add Company">
                                     <div class="d-block">
                                         <div class="form-add">
-                                           
+
                                             <div class="form-group">
                                                 <label for="name_company">Company Name</label>
                                                 <input type="text" v-model="companyDatas.comName" class="form-control"
@@ -57,7 +57,7 @@
                                         <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                                     </div>
                                 </b-modal>
-                            </div> -->
+                            </div>
                             <!--------------------- END ADD COMPANY  --------------------------->
 
                             <!---------------------- START DETAIL COMPANY ---------------------->
@@ -120,30 +120,12 @@
                             <!---------------------- END DETAIL COMPANY ------------------------>
 
                             <!---------------------- SHOW MODAL STATUS ------------------------>
-                            <!-- <div class="show-modal-status">
-                                <div v-if="showModalStatus" class="modal d-flex flex-column">
-                                    <div class="modal-content d-flex justify-content-center">
-                                        <h5 class="text-center mb-2">Status</h5>
-                                        <div class="d-flex flex-column button-action col col-md-6 ">
-                                            <button class="btn btn-success button-status">Approve</button>
-                                            <button class="btn btn-danger mt-4 mb-4 button-status">Reject</button>
-                                            <button class="btn btn-warning button-status mb-2 text-white">Deactice</button>
-                                        </div>
-
-                                        <div class="back-button ">
-                                            <button @click="showModalStatus = false"
-                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> -->
 
                             <div>
                                 <b-modal v-model="showModalStatus">
                                     <b-modal v-model="showModalStatus" hide-footer>
                                         <div>
                                             <h6> Status Confirmation</h6>
-                                            <!-- <p>Are you sure you want to perform this action?</p> -->
                                             <b-col>
                                                 <div class="initombol">
                                                     <button @click="accept" class="btn btn-success mr-3">Accept</button>
@@ -152,10 +134,7 @@
                                                         class="btn btn-primary mr-3">Deadactive</button>
                                                 </div>
                                             </b-col>
-                                            <!-- <div class="back-button ">
-                                            <button @click="showModalStatus = false"
-                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
-                                        </div> -->
+
                                         </div>
                                     </b-modal>
                                 </b-modal>
@@ -169,7 +148,7 @@
             </div>
 
             <!------------------ START TABLE ------------------->
-            <!-- <table class="table " v-show="!showDetail">
+            <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">ID</th>
@@ -211,77 +190,14 @@
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
                 <button type="button" class="btn btn-success" @click="nextPage"
                     :disabled="currentPage == pageCount">Next</button>
-            </div> -->
+            </div>
             <!------------------ END TABLE ------------------>
 
             <!-- iseng  -->
-            <div class="flex-column">
-                <!-- <div class="detail shadow">
-                    <h5 class="color-text mt-3 mb-3 text-center text-color text-white " style=" font-size: 20px; ">
-                        Detail Company</h5>
-                </div> -->
-            </div>
+
             <!-- 
                             <div class=" form justify-content-center d-flex flex-row bg-white shadow-lg"
                     v-if="showDetail"> -->
-
-            <!--------------------- START ADD COMPANY -------------------------->
-            <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
-                <div class="form-group">
-                    <label for="name_company">Company Name</label>
-                    <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
-                        required v-model="companyDatas.comName">
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="email_company">Email Company</label>
-                        <input type="email" class="form-control" id="email_company" placeholder="Email" required
-                            v-model="companyDatas.mailAddress">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="NPWP">NPWP</label>
-                        <input type="text" class="form-control" id="NPWP" placeholder="Enter NPWP Number" required
-                            v-model="companyDatas.comTaxNum">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label for="Address">Address</label>
-                    <input type="text" class="form-control company-detail" id="Address" placeholder="Address" required
-                        v-model="companyDatas.address">
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="postal_code">Postal Code</label>
-                        <input type="text" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
-                            v-model="companyDatas.postal" required>
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="siup">SIUP</label>
-                        <input type="text" class="form-control" id="siup" placeholder="Enter SIUP number"
-                            v-model="companyDatas.siup" required>
-                    </div>
-
-                </div>
-
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="admin_name">Admin Name</label>
-                        <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name"
-                            v-model="companyDatas.adminName">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label for="admin_email">Admin Email</label>
-                        <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email"
-                            v-model="companyDatas.adminEmail">
-                    </div>
-
-                </div>
-
-                <button class="btn add-company" @click="SubmitCompany">Add Company</button>
-                <!-- <b-button variant="primary" class="mt-3" block @click="SubmitCompany">Add Company</b-button> -->
-            </form>
-            <!--------------------- END ADD COMPANY -------------------------->
         </div>
 
     </section>

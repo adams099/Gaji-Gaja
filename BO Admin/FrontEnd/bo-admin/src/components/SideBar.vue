@@ -70,8 +70,23 @@
             </li>
           </a>
 
-          <!--------------- Profile --------------->
+          <!--------------- APPROVAL --------------->
           <a class="side-btn" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
+            <li class="">
+              <a>
+                <b-icon icon="box" class="rounded-circle p-1" variant="light" style="
+                    width: 30px;
+                    height: 30px;
+                    margin-left: 10px;
+                    background-color: #695cfe;
+                  "></b-icon>
+                <span class="link-container" style="margin-left: 5px">Approval</span>
+              </a>
+            </li>
+          </a>
+
+          <!--------------- Profile --------------->
+          <a class="side-btn" @click="NyobaEmis(5)" :class="{ active: pa5 }" exact>
             <li class="">
               <a>
                 <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
@@ -84,6 +99,9 @@
               </a>
             </li>
           </a>
+
+
+
         </ul>
       </div>
 
@@ -156,24 +174,35 @@ export default {
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = false;
+        this.pa5 = false;
       } else if (n == 2) {
         this.$emit("TestEmit2", 2);
         this.pa1 = false;
         this.pa2 = true;
         this.pa3 = false;
         this.pa4 = false;
+        this.pa5 = false;
       } else if (n == 3) {
         this.$emit("TestEmit2", 3);
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = true;
         this.pa4 = false;
-      } else {
+        this.pa5 = false;
+      } else if (n == 4) {
         this.$emit("TestEmit2", 4);
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = true;
+        this.pa5 = false;
+      } else {
+        this.$emit("TestEmit2", 5);
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = false;
+        this.pa5 = true;
       }
     },
     ModeLandD() {
