@@ -19,13 +19,6 @@
                       <span class="valid" v-if="error.name">Nama harus diisi!</span>
                     </div>
                     <div class="form-group">
-                      <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" aria-describedby="emailHelp"
-                        placeholder="Enter username" required v-model="inputData.username" />
-                      <span class="valid" v-if="error.usernameada">Username sudah ada</span>
-                      <span class="valid" v-if="error.username">Username harus diisi!</span>
-                    </div>
-                    <div class="form-group">
                       <label for="email">Email</label>
                       <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
                         placeholder="Enter email" required v-model="inputData.email" />
@@ -42,7 +35,7 @@
                 </div>
 
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="addUser">Update</b-button>
+                  <b-button variant="primary" block @click="addUser">Submit</b-button>
                   <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                 </div>
               </b-modal>
@@ -57,10 +50,6 @@
                     <div class="form-group">
                       <label for="name">Name</label>
                       <input type="text" class="form-control" id="name" placeholder="Enter Name" />
-                    </div>
-                    <div class="form-group">
-                      <label for="username">Username</label>
-                      <input type="text" class="form-control" id="username" placeholder="Enter username" />
                     </div>
                     <div class="form-group">
                       <label for="email">Email</label>
@@ -110,7 +99,6 @@
           <tr>
             <th scope="col">ID</th>
             <th scope="col">Nama</th>
-            <th scope="col">Username</th>
             <th scope="col">Email</th>
             <th scope="col ">Status</th>
             <th scope="col ">Action</th>
@@ -120,7 +108,6 @@
           <tr v-for="(item, index) in showData" :key="index" class="baris text-center bg-white ">
             <td scope="row" class="text-center">{{ item.id }}</td>
             <td> {{ item?.name }}</td>
-            <td> {{ item?.username }} </td>
             <td> {{ item?.email }}</td>
             <!-- <td class="pp color-text" :style="{ color: 'green' }"> In Review</td> -->
             <button type="button" class="status blue" v-if="item.statId == 1">In Review</button>
@@ -167,7 +154,6 @@ export default {
       userData: {
       },
       inputData: {
-        username: null,
         name: null,
         email: null,
         pass: null,
@@ -178,7 +164,6 @@ export default {
       },
       updateData: {
         id: null,
-        username: null,
         name: null,
         email: null,
         pass: null,
@@ -190,8 +175,6 @@ export default {
       showData: {
       },
       error: {
-        "username": false,
-        "usernameada": false,
         "name": false,
         "email": false,
         "emailada": false,
@@ -313,7 +296,7 @@ export default {
           this.error[property] = true;
         }
       }
-      if (this.error['username'] == false && this.error['name'] == false && this.error['email'] == false && this.error['pass'] == false) {
+      if (this.error['name'] == false && this.error['email'] == false && this.error['pass'] == false) {
 
         await userService
           .findByEmail(data)
@@ -326,18 +309,7 @@ export default {
             console.log("valid-email");
           });
 
-        await userService
-          .findByUsername(data)
-          .then((response) => {
-            if (response.status == 200) {
-              this.error['usernameada'] = true
-            }
-          })
-          .catch(() => {
-            console.log("valid-username");
-          });
-
-        if (this.error['usernameada'] == false && this.error['emailada'] == false) {
+        if (this.error['emailada'] == false) {
 
           userService
             .register(data)
