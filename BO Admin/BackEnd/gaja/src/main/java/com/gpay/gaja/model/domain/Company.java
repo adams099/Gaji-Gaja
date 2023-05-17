@@ -16,6 +16,8 @@ public class Company {
 
     @Column(name = "company_name")
     private String comName;
+    @Column(name = "siup")
+    private String siup;
     @Column(name = "company_tax_number")
     private String comTaxNum;
     @Column(name = "address")

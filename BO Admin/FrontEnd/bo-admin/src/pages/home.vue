@@ -4,7 +4,8 @@
     <PageOne v-if="pa1"></PageOne>
     <CompanyComp v-if="pa2"></CompanyComp>
     <AllUser v-if="pa3"></AllUser>
-    <ProfileComp v-if="pa4"></ProfileComp>
+    <Approval v-if="pa4"></Approval>
+    <ProfileComp v-if="pa5"></ProfileComp>
   </body>
 </template>
 
@@ -14,6 +15,7 @@ import PageOne from "../components/PageOne.vue";
 import CompanyComp from "../components/CompanyComp.vue";
 import AllUser from "../components/AllUserComp.vue";
 import ProfileComp from "../components/ProfileComp.vue";
+import Approval from "../components/ApprovalComp.vue"
 
 export default {
   name: "SidebarS",
@@ -23,6 +25,7 @@ export default {
     CompanyComp,
     AllUser,
     ProfileComp,
+    Approval,
   },
   data() {
     return {
@@ -31,6 +34,7 @@ export default {
       pa2: false,
       pa3: false,
       pa4: false,
+      pa5: false,
     };
   },
   methods: {
@@ -53,21 +57,32 @@ export default {
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = false;
+        this.pa4 = false;
+        this.pa5 = false;
       } else if (n == 2) {
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = true;
         this.pa4 = false;
+        this.pa5 = false;
       } else if (n == 3) {
         this.pa1 = false;
         this.pa2 = true;
         this.pa3 = false;
         this.pa4 = false;
-      } else {
+        this.pa5 = false;
+      } else if (n == 4) {
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = true;
+        this.pa5 = false;
+      } else {
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = false;
+        this.pa5 = true;
       }
     },
   },
