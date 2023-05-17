@@ -10,8 +10,6 @@ public interface UserService {
 
     UserDTO findByEmail(String id);
 
-    UserDTO findByUsername(String username);
-
     UserDTO save(UserDTO userDTO);
 
     List<UserDTO> getAll();
