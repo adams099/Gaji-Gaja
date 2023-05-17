@@ -8,9 +8,6 @@
         <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword">SIGN IN</h2>
         <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else>FORGOT
           PASSWORD</h2>
-        <!-- <h2 class="head forgot-label" v-if="showForgotPassword">Enter the email address
-          associated</h2>
-        <h2 class="head forgot-label" v-if="showForgotPassword">with your account</h2> -->
 
         <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword">
           <!-- Email -->
@@ -57,11 +54,15 @@
                 class="form-control mb-1 otp-email mb-4" placeholder="Enter OTP" style="flex-grow: 1" v-if="!showOtp" />
             </div>
             <div>
-              <button type="submit" tag="button" class="btn btn-primary mb-1">
+              <button type="submit" tag="button" class="btn btn-primary mb-4">
                 Verify OTP
               </button>
             </div>
-            <p style="cursor: pointer;" v-on:click="BackButton(1)">Back</p>
+            <div class="back-button">
+              <div class="btn-back" v-on:click="BackButton(1)">
+                <i class="fas fa-arrow-left "></i> Back
+              </div>
+            </div>
           </form>
 
           <!-- CHANGE PASSWORD -->
@@ -81,7 +82,11 @@
                 Change Password
               </button>
             </div>
-            <p style="cursor: pointer;" v-on:click="BackButton(2)">Back</p>
+            <div class="back-button">
+              <div class="btn-back" style="cursor: pointer;" v-on:click="BackButton(2)">
+                <i class="fas fa-arrow-left "></i> Back
+              </div>
+            </div>
           </form>
         </div>
       </div>
@@ -431,6 +436,32 @@ input:focus~label {
 
 .passx {
   width: 300px;
+}
+
+.back-button {
+  color: rgba(0, 0, 0, 0.477);
+  width: 80px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.fa-arrow-left {
+  color: white;
+  background-color: #584be0;
+  border-radius: 100%;
+  padding: 5px 6px;
+
+}
+
+.btn-back {
+  cursor: pointer;
+  background-color: #99999935;
+  padding-left: 5px;
+  padding-right: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  border-radius: 10px;
 }
 
 
