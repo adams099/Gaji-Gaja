@@ -9,6 +9,11 @@ export default [
     path: "/auth",
     component: Login,
   },
+  {
+    name: "back",
+    path: "/auth",
+    component: Login,
+  },
 
   {
     name: "home",
