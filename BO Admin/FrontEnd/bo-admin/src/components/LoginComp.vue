@@ -6,16 +6,14 @@
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto login">
       <div class="card register shadow-lg p-5  d-flex justify-content-center">
         <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword && !showOtp && showPass">SIGN IN</h2>
-        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);"
-          v-else-if="showForgotPassword && showPass && !showOtp">FORGOT
+        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else-if="showForgotPassword && !showOtp">FORGOT
           PASSWORD</h2>
-
-        <h2 class="head forgot-label" v-if="showForgotPassword && showPass && !showOtp">Enter the email address
+        <!-- <h2 class="head forgot-label">Enter the email address
           associated</h2>
-        <!-- <h2 class="head forgot-label" v-if="showForgotPassword">with your account</h2> -->
-        <form action="" @submit.prevent="loginFunc">
+        <h2 class="head forgot-label">with your account</h2> -->
 
-          <!-- EMAIL -->
+        <form action="" @submit.prevent="loginFunc">
+          <!-- Email -->
           <div>
             <div class="form-input" v-if="!showForgotPassword">
               <input type="email" id="email" name="email" class="form-control mb-1" placeholder="Email" required
@@ -24,22 +22,13 @@
               <i class="fas fa-envelope input-icon"></i>
             </div>
 
+            <!-- Password -->
             <div class="form-input" v-if="!showForgotPassword">
               <input type="password" id="password" name="password" class="form-control mb-4" placeholder="Password"
                 required v-model="userLogin.pass" />
               <span v-if="error.password" class="validation-message">Password harus diisi!</span>
               <i class="fas fa-lock input-icon"></i>
             </div>
-
-            <div v-if="showForgotPassword" @click="hidenForgotPassword">
-              <div class="form-input flex-row">
-                <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email"
-                  placeholder="Enter Email" style="flex-grow: 1" v-if="!showOtp" />
-                <div class="sent btn btn-primary ml-3 mb-2 p-2 pr-4" @click="togleOtp" v-if="!showOtp">Sent</div>
-                <i class="fas fa-paper-plane input-icon" style="color: white; padding-left: 7px;"></i>
-              </div>
-            </div>
-
 
             <div class="forgot-password mb-3" @click="toggleForgotPassword" v-if="!showForgotPassword">Forgot Password
             </div>
@@ -55,7 +44,46 @@
           <!-- <p>Add User<a href="/Register"> Here!</a></p> -->
         </form>
 
-        <!-- otp -->
+        <!-- FORM OTP -->
+        <di class="form-2">
+          <div v-if="sfp" @click="hidenForgotPassword">
+            <div class="form-input flex-row">
+              <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email"
+                placeholder="Enter Email" style="flex-grow: 1" v-if="!showOtp" />
+              <div class="sent btn btn-primary ml-3 mb-2 p-2 pr-4">Sent</div>
+              <i class="fas fa-paper-plane input-icon" style="color: white; padding-left: 7px;"></i>
+            </div>
+            <div>
+              <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email mb-4"
+                placeholder="Enter OTP" style="flex-grow: 1" v-if="!showOtp" />
+            </div>
+            <div>
+              <button type="submit" tag="button" class="btn btn-primary mb-1" @click="togleShowPass">
+                Verify OTP
+              </button>
+            </div>
+          </div>
+
+          <!-- CHANGE PASSWORD -->
+          <div v-if="scpass" @click="hidenForgotPassword">
+            <div class="form-input flex-row">
+              <input type="password" id="new-password" name="new-password" class="form-control mb-1 new-password"
+                placeholder="Enter New Password" style="flex-grow: 1" v-if="!showOtp" />
+            </div>
+            <div>
+              <input type="password" id="confirm-password" name="confirm-password"
+                class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" style="flex-grow: 1"
+                v-if="!showOtp" />
+            </div>
+            <div>
+              <button type="submit" tag="button" class="btn btn-primary mb-1" v-if="scpass">
+                Change Password
+              </button>
+            </div>
+          </div>
+        </di>
+
+        <!-- OTP -->
         <div class="container" v-show="showOtp" v-if="showOtp">
           <header>
             <i class="bx bxs-check-shield"></i>
@@ -69,17 +97,20 @@
               <div class="col">
                 <input type="text" class="form-control" placeholder="Input OTP" v-if="!showPass">
               </div>
-              <div v-if="showPass">
+
+              <!-- CHANGE PASSWORD -->
+              <!-- <div v-if="showPass">
                 <div class="passx col mb-4 ">
                   <input type="password" class="form-control" placeholder="New Password" style="width: 100%;">
                 </div>
                 <div class="col">
                   <input type="password" class="form-control" placeholder="Confirm Password">
                 </div>
-              </div>
+              </div> -->
+
             </div>
-            <button class="button-otp" @click="togleShowPass" v-if="!showPass">Verify OTP</button>
-            <button class="button-otp" @click="togleShowPass" v-if="showPass">Change password</button>
+            <button class="button-otp" @click="togleShowPass" v-if="scpass">Verify OTP</button>
+            <!-- <button class="button-otp" @click="togleShowPass" v-if="showPass">Change password</button> -->
           </form>
         </div>
 
@@ -110,12 +141,15 @@ export default {
       showForgotPassword: false,
       showOtp: false,
       showPass: false,
+      scpass: false,
+      sfp: false,
     };
   },
 
   methods: {
     toggleForgotPassword() {
       this.showForgotPassword = true;
+      this.sfp = true
     },
     togleOtp() {
       this.showOtp = true;
@@ -125,10 +159,12 @@ export default {
       this.showForgotPassword = true;
     },
     togleShowPass() {
-      this.showPass = true;
+      this.scpass = true;
+      this.sfp = !this.sfp
     },
 
 
+    // LOGIN FUNCTION
     loginFunc() {
       this.loginError = false;
       this.error = {};
