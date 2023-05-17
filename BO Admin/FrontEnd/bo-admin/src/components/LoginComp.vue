@@ -78,7 +78,7 @@
                 v-if="!showOtp" />
             </div>
             <div>
-              <button type="submit" tag="button" class="btn btn-primary mb-1" v-if="scpass">
+              <button type="submit" tag="button" class="btn btn-primary mb-4" v-if="scpass">
                 Change Password
               </button>
             </div>
@@ -198,7 +198,7 @@ export default {
           .register(data2)
           .then((response) => {
             if (response.status === 201) {
-              this.$toast.success('Ganti Password Berhasil', {
+              this.$toast.success('Success change password', {
                 position: 'top-right',
                 timeout: 2500,
               });
