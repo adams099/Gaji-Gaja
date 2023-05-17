@@ -12,10 +12,10 @@
           associated</h2>
         <h2 class="head forgot-label">with your account</h2> -->
 
-        <form action="" @submit.prevent="loginFunc">
+        <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword">
           <!-- Email -->
           <div>
-            <div class="form-input" v-if="!showForgotPassword">
+            <div class="form-input">
               <input type="email" id="email" name="email" class="form-control mb-1" placeholder="Email" required
                 v-model="userLogin.email" />
               <span v-if="error.email" class="validation-message">Email harus diisi!</span>
@@ -23,55 +23,56 @@
             </div>
 
             <!-- Password -->
-            <div class="form-input" v-if="!showForgotPassword">
+            <div class="form-input">
               <input type="password" id="password" name="password" class="form-control mb-4" placeholder="Password"
                 required v-model="userLogin.pass" />
               <span v-if="error.password" class="validation-message">Password harus diisi!</span>
               <i class="fas fa-lock input-icon"></i>
             </div>
 
-            <div class="forgot-password mb-3" @click="toggleForgotPassword" v-if="!showForgotPassword">Forgot Password
+            <div class="forgot-password mb-3" @click="toggleForgotPassword">Forgot Password
             </div>
-            <!-- <div class="forgot-password mb-3" @click="togleOtp">OTP</div> -->
           </div>
 
 
           <div class="d-flex flex-row justify-content-end">
-            <button type="submit" tag="button" class="btn btn-primary mb-1" v-if="!showForgotPassword">
+            <button type="submit" tag="button" class="btn btn-primary mb-1">
               Log In
             </button>
           </div>
-          <!-- <p>Add User<a href="/Register"> Here!</a></p> -->
         </form>
 
         <!-- FORM OTP -->
-        <di class="form-2">
-          <div v-if="sfp" @click="hidenForgotPassword">
-            <div class="form-input flex-row">
-              <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email"
-                placeholder="Enter Email" style="flex-grow: 1" v-if="!showOtp" />
-              <div class="sent btn btn-primary ml-3 mb-2 p-2 pr-4">Sent</div>
-              <i class="fas fa-paper-plane input-icon" style="color: white; padding-left: 7px;"></i>
+        <div class="form-2">
+          <form @submit.prevent="checkOtp" v-if="sfp" @click="hidenForgotPassword">
+            <form @submit.prevent="sendOtp" class="form-input flex-row">
+              <input type="email" id="otp-email" name="password" v-model="otp.email" class="form-control mb-1 otp-email"
+                placeholder="Enter Email" required style="flex-grow: 1" v-if="!showOtp" />
+              <button v-if="loading" class="sent btn btn-primary ml-3 p-2 pr-4" disabled
+                style="margin-bottom: 0.35rem;">{{ remainingTime }}</button>
+              <button v-else class="sent btn btn-primary ml-3 p-2" style="margin-bottom: 0.35rem;">Sent</button>
+            </form>
+            <div>
+              <input type="text" id="otp-email" v-model="otp.otp" name="password" required
+                class="form-control mb-1 otp-email mb-4" placeholder="Enter OTP" style="flex-grow: 1" v-if="!showOtp" />
             </div>
             <div>
-              <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email mb-4"
-                placeholder="Enter OTP" style="flex-grow: 1" v-if="!showOtp" />
-            </div>
-            <div>
-              <button type="submit" tag="button" class="btn btn-primary mb-1" @click="togleShowPass">
+              <button type="submit" tag="button" class="btn btn-primary mb-1">
                 Verify OTP
               </button>
             </div>
-          </div>
+            <p style="cursor: pointer;" v-on:click="BackButton(1)">Back</p>
+          </form>
 
           <!-- CHANGE PASSWORD -->
-          <div v-if="scpass" @click="hidenForgotPassword">
+          <form @submit.prevent="changePass" v-if="scpass" @click="hidenForgotPassword">
             <div class="form-input flex-row">
-              <input type="password" id="new-password" name="new-password" class="form-control mb-1 new-password"
-                placeholder="Enter New Password" style="flex-grow: 1" v-if="!showOtp" />
+              <input type="password" id="new-password" v-model="gantipw.pw1" name="new-password"
+                class="form-control mb-1 new-password" placeholder="Enter New Password" style="flex-grow: 1"
+                v-if="!showOtp" />
             </div>
             <div>
-              <input type="password" id="confirm-password" name="confirm-password"
+              <input type="password" id="confirm-password" name="confirm-password" v-model="gantipw.pw2"
                 class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" style="flex-grow: 1"
                 v-if="!showOtp" />
             </div>
@@ -80,40 +81,9 @@
                 Change Password
               </button>
             </div>
-          </div>
-        </di>
-
-        <!-- OTP -->
-        <div class="container" v-show="showOtp" v-if="showOtp">
-          <header>
-            <i class="bx bxs-check-shield"></i>
-          </header>
-          <!-- <h4 class="text-center mb-3">Enter Your Email</h4> -->
-          <h4 v-if="showOtp && !showPass" class="text-center mb-3">Enter OTP Code</h4>
-          <h4 v-else-if="showPass" class="text-center mb-3">Change Password</h4>
-          <h4 v-else>Enter Password</h4>
-          <form action="#">
-            <div class="row mb-5">
-              <div class="col">
-                <input type="text" class="form-control" placeholder="Input OTP" v-if="!showPass">
-              </div>
-
-              <!-- CHANGE PASSWORD -->
-              <!-- <div v-if="showPass">
-                <div class="passx col mb-4 ">
-                  <input type="password" class="form-control" placeholder="New Password" style="width: 100%;">
-                </div>
-                <div class="col">
-                  <input type="password" class="form-control" placeholder="Confirm Password">
-                </div>
-              </div> -->
-
-            </div>
-            <button class="button-otp" @click="togleShowPass" v-if="scpass">Verify OTP</button>
-            <!-- <button class="button-otp" @click="togleShowPass" v-if="showPass">Change password</button> -->
+            <p style="cursor: pointer;" v-on:click="BackButton(2)">Back</p>
           </form>
         </div>
-
       </div>
     </div>
   </div>
@@ -133,6 +103,14 @@ export default {
         email: "",
         pass: "",
       },
+      otp: {
+        email: "",
+        otp: "",
+      },
+      gantipw: {
+        pw1: "",
+        pw2: "",
+      },
       error: {
         email: false,
         password: false,
@@ -143,6 +121,9 @@ export default {
       showPass: false,
       scpass: false,
       sfp: false,
+      loading: false,
+      remainingTime: 60,
+      dataemail: {}
     };
   },
 
@@ -154,9 +135,104 @@ export default {
     togleOtp() {
       this.showOtp = true;
     },
+    sendOtp() {
+      this.startLoading()
+      let data = this.otp
+      data.otp = null
+      userService
+        .potp(data)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("succes");
+            this.$toast.success('Check Your Email', {
+              position: 'top-right',
+              timeout: 2500,
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    checkOtp() {
+      let data = this.otp
+      userService
+        .cotp(data)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            this.togleShowPass()
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+    async changePass() {
+      if (this.gantipw.pw1 != this.gantipw.pw2) {
+        this.$toast.error('Password Not Same', {
+          position: 'top-right',
+          timeout: 2500,
+        });
+      } else {
+        let data = this.otp
+        data.otp = null
+        await userService
+          .findEmail(data)
+          .then((response) => {
+            if (response.status === 200) {
+              this.dataemail = response.data
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        this.dataemail.pass = this.gantipw.pw1
+        let data2 = this.dataemail
+        userService
+          .register(data2)
+          .then((response) => {
+            if (response.status === 201) {
+              this.$toast.success('Ganti Password Berhasil', {
+                position: 'top-right',
+                timeout: 2500,
+              });
+              setTimeout(() => {
+                window.location.reload();
+              }, 2000);
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+    },
+    startLoading() {
+      this.loading = true;
+      this.remainingTime = 60;
 
+      const timer = setInterval(() => {
+        this.remainingTime--;
+        if (this.remainingTime <= 0) {
+          this.stopLoading(timer);
+        }
+      }, 1000);
+    },
+    stopLoading(timer) {
+      this.loading = false;
+      clearInterval(timer);
+    },
     hidenForgotPassword() {
       this.showForgotPassword = true;
+    },
+    BackButton(he) {
+      if (he == 1) {
+        this.showForgotPassword = false
+        this.sfp = false
+      } else {
+        this.scpass = !this.scpass;
+        this.sfp = !this.sfp
+      }
     },
     togleShowPass() {
       this.scpass = true;
@@ -188,13 +264,6 @@ export default {
             }
           })
           .catch((e) => {
-            // if (
-            //   e.response.data.message.includes(
-            //     "Incorrect result size: Expected 1, actual 0"
-            //   )
-            // ) {
-            //   this.loginError = true;
-            // }
             try {
               e.response.status == 404
               this.$toast.warning('Incorrect email or password. Please try again!', {
@@ -233,6 +302,10 @@ input {
   font-size: 1rem;
   transition: 150ms cubic-bezier(0.5, 0, 0.2, 0);
   height: 50px;
+}
+
+button.sent.btn.btn-primary.ml-3.p-2 {
+  height: 47px;
 }
 
 label {
