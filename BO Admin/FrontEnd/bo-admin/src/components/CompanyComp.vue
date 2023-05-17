@@ -9,7 +9,7 @@
                     <div class="container mr-3 d-flex">
                         <div>
                             <!------------------------ MODAL BOX --------------------->
-                            <div>
+                            <!-- <div>
                                 <b-button id="show-btn" @click="showModal" v-if="!showDetail" class="btn-primary shadow"
                                     style="margin-left: 272px;">Add
                                     Company</b-button>
@@ -18,37 +18,32 @@
                                 <b-modal ref="my-modal" hide-footer title="Add Company">
                                     <div class="d-block">
                                         <div class="form-add">
-                                            <!-- Company Name -->
+                                           
                                             <div class="form-group">
                                                 <label for="name_company">Company Name</label>
                                                 <input type="text" v-model="companyDatas.comName" class="form-control"
                                                     id="name_company" placeholder="Enter Name Company" />
                                             </div>
-                                            <!-- NPWP -->
                                             <div class="form-group">
                                                 <label for="npwp">NPWP</label>
                                                 <input type="text" v-model="companyDatas.comTaxNum" class="form-control"
                                                     id="npwp" placeholder="Enter NPWP" />
                                             </div>
-                                            <!-- Address -->
                                             <div class="form-group">
                                                 <label for="address">Address</label>
                                                 <input type="text" v-model="companyDatas.address" class="form-control"
                                                     id="address" placeholder="Enter Address" />
                                             </div>
-                                            <!-- Email Company -->
                                             <div class="form-group">
                                                 <label for="email_company">Email</label>
                                                 <input type="email" v-model="companyDatas.mailAddress" class="form-control"
                                                     id="email_company" placeholder="Enter Email Company" />
                                             </div>
-                                            <!-- Code Pos -->
                                             <div class="form-group">
                                                 <label for="postal_code">Code Pos</label>
                                                 <input type="text" class="form-control" v-model="companyDatas.postal"
                                                     id="postal_code" placeholder="Enter Code Pos" />
                                             </div>
-                                            <!-- Nama Admin -->
                                             <div class="form-group">
                                                 <label for="admin_name">Admin Name</label>
                                                 <input type="text" v-model="companyDatas.adminName" class="form-control"
@@ -62,7 +57,7 @@
                                         <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                                     </div>
                                 </b-modal>
-                            </div>
+                            </div> -->
                             <!--------------------- END ADD COMPANY  --------------------------->
 
                             <!---------------------- START DETAIL COMPANY ---------------------->
@@ -173,7 +168,7 @@
             </div>
 
             <!------------------ START TABLE ------------------->
-            <table class="table " v-show="!showDetail">
+            <!-- <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">ID</th>
@@ -215,9 +210,67 @@
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
                 <button type="button" class="btn btn-success" @click="nextPage"
                     :disabled="currentPage == pageCount">Next</button>
-            </div>
+            </div> -->
             <!------------------ END TABLE ------------------>
+
+            <!-- iseng  -->
+            <div class="flex-column">
+                <!-- <div class="detail shadow">
+                    <h5 class="color-text mt-3 mb-3 text-center text-color text-white " style=" font-size: 20px; ">
+                        Detail Company</h5>
+                </div> -->
+            </div>
+            <!-- 
+                            <div class=" form justify-content-center d-flex flex-row bg-white shadow-lg"
+                    v-if="showDetail"> -->
+
+            <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
+                <div class="form-group">
+                    <label for="name_company">Company Name</label>
+                    <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
+                        required v-model="companyDatas.comName">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="email_company">Email Company</label>
+                        <input type="email" class="form-control" id="email_company" placeholder="Email" required
+                            v-model="companyDatas.mailAddress">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="NPWP">NPWP</label>
+                        <input type="text" class="form-control" id="NPWP" placeholder="Enter NPWP Number" required
+                            v-model="companyDatas.comTaxNum">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="Address">Address</label>
+                    <input type="text" class="form-control company-detail" id="Address" placeholder="Address" required
+                        v-model="companyDatas.address">
+                </div>
+                <div class="form-group">
+                    <label for="postal_code">Postal Code</label>
+                    <input type="text" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
+                        required v-model="companyDatas.postal">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="admin_name">Admin Name</label>
+                        <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name"
+                            v-model="companyDatas.adminName">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="admin_email">Admin Email</label>
+                        <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email"
+                            v-model="companyDatas.adminEmail">
+                    </div>
+
+                </div>
+
+                <button class="btn add-company" @click="SubmitCompany">Add Company</button>
+                <!-- <b-button variant="primary" class="mt-3" block @click="SubmitCompany">Add Company</b-button> -->
+            </form>
         </div>
+
     </section>
 </template>
   
@@ -623,12 +676,6 @@ form {
     margin-bottom: 5px;
 }
 
-.form-detail-company {
-    border: 1px solid #695cfe;
-
-}
-
-
 /* Style untuk konten modal box */
 /* SHOW MODAL STYLE */
 
@@ -723,5 +770,17 @@ form {
 .green {
     border: 2px solid green;
     color: green;
+}
+
+.iseng {
+    margin-left: 100px;
+}
+
+.add-company {
+    background-color: #695cfe;
+    color: white;
+    width: 100%;
+    border-radius: 10px;
+    margin-top: 15px;
 }
 </style>

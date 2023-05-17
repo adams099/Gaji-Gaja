@@ -5,12 +5,12 @@
     </div>
     <div class="col-lg-4 col-md-6 col-sm-8 mx-auto login">
       <div class="card register shadow-lg p-5  d-flex justify-content-center">
-        <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword && !showOtp && showPass">SIGN IN</h2>
-        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else-if="showForgotPassword && !showOtp">FORGOT
+        <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword">SIGN IN</h2>
+        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else>FORGOT
           PASSWORD</h2>
-        <!-- <h2 class="head forgot-label">Enter the email address
+        <!-- <h2 class="head forgot-label" v-if="showForgotPassword">Enter the email address
           associated</h2>
-        <h2 class="head forgot-label">with your account</h2> -->
+        <h2 class="head forgot-label" v-if="showForgotPassword">with your account</h2> -->
 
         <form action="" @submit.prevent="loginFunc">
           <!-- Email -->
@@ -50,8 +50,8 @@
             <div class="form-input flex-row">
               <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email"
                 placeholder="Enter Email" style="flex-grow: 1" v-if="!showOtp" />
-              <div class="sent btn btn-primary ml-3 mb-2 p-2 pr-4">Sent</div>
-              <i class="fas fa-paper-plane input-icon" style="color: white; padding-left: 7px;"></i>
+              <button class="sent pr-4">Sent</button>
+              <i class="fas fa-paper-plane input-icon sent-ico text-white"></i>
             </div>
             <div>
               <input type="email" id="otp-email" name="password" class="form-control mb-1 otp-email mb-4"
@@ -335,7 +335,16 @@ input:focus~label {
 
 .sent {
   width: 130px;
+  background-color: #695cfe;
+  color: white;
+  border-radius: 10px;
+  margin-left: 10px;
+  margin-bottom: 5px;
+}
 
+.sent:hover {
+  color: white;
+  background-color: #584be0;
 }
 
 .forgot-text {

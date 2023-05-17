@@ -81,27 +81,26 @@
             </div>
             <!---------------------- END UPDATE -------------------------->
             <div>
-                                <b-modal v-model="showModalStatus">
-                                    <b-modal v-model="showModalStatus" hide-footer>
-                                        <div>
-                                            <h6> Status Confirmation</h6>
-                                            <!-- <p>Are you sure you want to perform this action?</p> -->
-                                            <b-col>
-                                                <div class="initombol">
-                                                    <button @click="accept" class="btn btn-success mr-3">Accept</button>
-                                                    <button @click="reject" class="btn btn-danger mr-3">Reject</button>
-                                                    <button @click="deadactive"
-                                                        class="btn btn-primary mr-3">Deadactive</button>
-                                                </div>
-                                            </b-col>
-                                            <!-- <div class="back-button ">
+              <b-modal v-model="showModalStatus">
+                <b-modal v-model="showModalStatus" hide-footer>
+                  <div>
+                    <h6 class="text-center pb-2"> Status Confirmation</h6>
+                    <!-- <p>Are you sure you want to perform this action?</p> -->
+                    <b-col>
+                      <div class="initombol">
+                        <button @click="accept" class="btn btn-success mr-3">Accept</button>
+                        <button @click="reject" class="btn btn-danger mr-3">Reject</button>
+                        <button @click="deadactive" class="btn btn-primary mr-3">Deadactive</button>
+                      </div>
+                    </b-col>
+                    <!-- <div class="back-button ">
                                             <button @click="showModalStatus = false"
                                                 class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
                                         </div> -->
-                                        </div>
-                                    </b-modal>
-                                </b-modal>
-                            </div>
+                  </div>
+                </b-modal>
+              </b-modal>
+            </div>
           </div>
         </div>
       </div>
@@ -125,13 +124,12 @@
             <td> {{ item?.email }}</td>
             <!-- <td class="pp color-text" :style="{ color: 'green' }"> In Review</td> -->
             <button type="button" class="status blue" v-if="item.statId == 1">In Review</button>
-                        <button type="button" class="status green" v-else-if="item.statId == 2">Active</button>
-                        <button type="button" class="status red" v-else-if="item.statId == 3">Rejected</button>
-                        <button type="button" class="status salmon" v-else>Deactive</button>
+            <button type="button" class="status green" v-else-if="item.statId == 2">Active</button>
+            <button type="button" class="status red" v-else-if="item.statId == 3">Rejected</button>
+            <button type="button" class="status salmon" v-else>Deactive</button>
             <td class="text-center">
               <button type="button" class="btn btn-primary" @click="toggleModal">Update</button>
-              <button type="button" class="btn btn-delete text-white "
-                                @click="showModalStatuss(item)">Status</button>
+              <button type="button" class="btn btn-delete text-white " @click="showModalStatuss(item)">Status</button>
             </td>
           </tr>
         </tbody>
@@ -208,77 +206,77 @@ export default {
   // METHODS
   methods: {
     accept() {
-            // handle accept action
-            let data = this.updateData;
-            data.statId = 2;
-           userService.register(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getUser()
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                });
-        },
-        reject() {
-            // handle reject action
-            let data = this.updateData;
-            data.statId = 3;
-           userService.register(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Rejected!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    console.log(response.data);
-                    this.showModalStatus = false;
-                    this.getUser()
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                });
-        },
-        deadactive() {
-            // handle review action
-            let data = this.updateData;
-            data.statId = 4;
-           userService.register(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Deactive!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getUser()
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                });
-        },
+      // handle accept action
+      let data = this.updateData;
+      data.statId = 2;
+      userService.register(data)
+        .then((response) => {
+          this.$toast.success('Company status has been successfully Update!', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+          console.log(response.status);
+          this.showModalStatus = false;
+          this.getUser()
+        })
+        .catch(() => {
+          this.$toast.error('Error', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+        });
+    },
+    reject() {
+      // handle reject action
+      let data = this.updateData;
+      data.statId = 3;
+      userService.register(data)
+        .then((response) => {
+          this.$toast.success('Company status has been successfully Rejected!', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+          console.log(response.data);
+          this.showModalStatus = false;
+          this.getUser()
+        })
+        .catch(() => {
+          this.$toast.error('Error', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+        });
+    },
+    deadactive() {
+      // handle review action
+      let data = this.updateData;
+      data.statId = 4;
+      userService.register(data)
+        .then((response) => {
+          this.$toast.success('Company status has been successfully Deactive!', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+          console.log(response.status);
+          this.showModalStatus = false;
+          this.getUser()
+        })
+        .catch(() => {
+          this.$toast.error('Error', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+        });
+    },
 
     showModalStatuss(test) {
-            this.showModalStatus = !this.showModalStatus
-            // console.log(test);
-            console.log("set data");
-            for (const property in this.updateData) {
-                this.updateData[property] = test[property];
-            }
-        },
+      this.showModalStatus = !this.showModalStatus
+      // console.log(test);
+      console.log("set data");
+      for (const property in this.updateData) {
+        this.updateData[property] = test[property];
+      }
+    },
 
     showToast() {
       this.$toast.success('Input submitted successfully!', {
@@ -305,7 +303,7 @@ export default {
       for (const property in this.error) {
         this.error[property] = false;
       }
-      
+
       let data = this.inputData;
       data.roleId = 2;
       data.statId = 2;
@@ -423,7 +421,7 @@ export default {
 
 <style scoped>
 .initombol {
-    text-align: center;
+  text-align: center;
 }
 
 h5 {
@@ -544,26 +542,26 @@ table tr:last-child td:last-child {
 }
 
 .blue {
-    border: 2px solid blue;
-    color: blue;
+  border: 2px solid blue;
+  color: blue;
 }
 
 .salmon {
-    border: 2px solid salmon;
-    color: salmon;
+  border: 2px solid salmon;
+  color: salmon;
 }
 
 .red {
-    border: 2px solid red;
-    color: red;
+  border: 2px solid red;
+  color: red;
 }
 
 .green {
-    border: 2px solid green;
-    color: green;
+  border: 2px solid green;
+  color: green;
 }
 
 .btn-primary {
-    background-color: #695cfe;
+  background-color: #695cfe;
 }
 </style>
