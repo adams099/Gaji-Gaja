@@ -82,10 +82,6 @@
                         <button @click="deadactive" class="btn btn-primary mr-3">Deadactive</button>
                       </div>
                     </b-col>
-                    <!-- <div class="back-button ">
-                                            <button @click="showModalStatus = false"
-                                                class="btn btn-secondary mt-3 ml-3 shadow">Back</button>
-                                        </div> -->
                   </div>
                 </b-modal>
               </b-modal>

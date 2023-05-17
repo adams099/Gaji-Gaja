@@ -2,7 +2,7 @@
   <section class="home">
     <div class="text text-center color-text">Profile</div>
     <div class="row">
-      <div class="col-lg-4 ml-4 mt-4">
+      <div class="col-lg-4 ml-5 mt-4">
         <!-- CARD 1 -->
         <div class="card mb-1 shadow-lg">
           <div class=" text-center">
