@@ -4,6 +4,7 @@ import App from "./App.vue";
 import VueRouter from "vue-router";
 import Routes from "./routes.js";
 import VueSession from "vue-session";
+import VueBootstrapModal from "vue-bootstrap-modal";
 
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
@@ -21,6 +22,7 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 Vue.use(VueRouter);
 Vue.use(VueSession);
+Vue.use(VueBootstrapModal);
 
 Vue.use(Toast, {
   // registration props here

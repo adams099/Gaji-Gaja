@@ -2,39 +2,59 @@
     <section class="home">
 
         <div class="btn-add mt-3 d-flex flex-row text-white">
-            <button class="btn back" v-if="showForm">
-                <i class="fas fa-arrow-left"></i> Back
+            <button class="btn back text-white" v-if="showForm" v-on:click="BackButton(1)">
+                <i class="fas fa-arrow-left text-white"></i> Back
             </button>
             <button class="btn btn-add-com" @click="showForm = true" v-else>Add
                 Company</button>
+
+
         </div>
 
-        <!-- TABLE COMPANY -->
-        <table class="table table-bordered" v-show="!showForm">
-            <thead>
+        <!------------------ START TABLE ------------------->
+        <table class="table " v-show="!showForm">
+            <thead class="text-center">
                 <tr>
-                    <th scope="col" style="width: 70px;">ID</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">ID</th>
+                    <th scope="col">Company Name</th>
+                    <th scope="col">Mail Address</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Action</th>
                 </tr>
             </thead>
-            <tbody>
-                <tr class="text-center">
-                    <th scope="row">1</th>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    <td style="width: 100px;">
-                        <div class="button-action d-flex flex-row">
-                            <button class="btn btn-primary">Detail</button>
-                            <button class="btn btn-primary ml-2 mr-2">Detail</button>
-                            <button class="btn btn-primary">Detail</button>
-                        </div>
+            <tbody v-if="companyData.length > 0">
+                <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
+                    <th scope="row" class="text-center">{{ item.id }}</th>
+                    <td>{{ item.comName }}</td>
+                    <td>{{ item.mailAddress }}</td>
+                    <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
+                    <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
+                    <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
+                    <button type="button" class="status salmon" v-else>Deactive</button>
+                    <td class="text-center">
+                        <button type="button" class="btn btn-primary" @click="showForm = true">Detail</button>
                     </td>
                 </tr>
+            </tbody>
 
+            <tbody v-else>
+                <tr class="msg-tr text-center">
+                    <td colspan="6" class="msg-null text-center">
+                        <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
+                    </td>
+                </tr>
             </tbody>
         </table>
+
+        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && companyData.length < 10">
+            <button type="button" class="btn btn-success" @click="previousPage"
+                :disabled="currentPage == 1">Previous</button>
+            <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
+            <button type="button" class="btn btn-success" @click="nextPage"
+                :disabled="currentPage == pageCount">Next</button>
+        </div>
+
+        <!------------------ END TABLE ------------------>
 
         <!--------------------- START ADD COMPANY -------------------------->
         <div class="form" v-show="showForm">
@@ -94,12 +114,14 @@
                 <button type="submit" class="btn add-company">Add Company</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
+
         </div>
     </section>
 </template>
   
 <script>
-
+import companyService from '@/services/companyService.js';
+import adds from '@/services/userService.js';
 export default {
     name: "CompanyS",
 
@@ -108,10 +130,10 @@ export default {
         return {
             companyDatas: {
                 comName: null,
-                mailAddress: null,
                 comTaxNum: null,
-                address: null,
                 siup: null,
+                address: null,
+                mailAddress: null,
                 postal: null,
                 adminName: null,
                 adminEmail: null,
@@ -119,7 +141,12 @@ export default {
                 createdBy: null,
                 createdTime: null,
                 apprBy: null,
-                updateTime: null
+                updateTime: null,
+            },
+            itemsPerPage: 7,
+            currentPage: 1,
+
+            companyData: {
             },
 
             buatAkun: {
@@ -136,8 +163,159 @@ export default {
                 update: null
             },
 
+            updateCompany: {
+                id: null,
+                comName: null,
+                comTaxNum: null,
+                siup: null,
+                address: null,
+                mailAddress: null,
+                postal: null,
+                adminName: null,
+                adminEmail: null,
+                status: null,
+                createdBy: null,
+                createdTime: null,
+                apprBy: null,
+                updateTime: null
+            },
+
             showForm: false,
+            showModal: false,
         }
+    },
+    methods: {
+        SubmitCompany() {
+            let akun = this.buatAkun
+            let data = this.companyDatas
+
+            akun.email = data.adminEmail;
+            akun.name = data.adminName;
+            akun.status = 4;
+            akun.pass = "testing";
+            akun.roleId = 2;
+            akun.statId = 4;
+            akun.createdBy = this.$session.get('email');
+
+            data.status = 1;
+            data.createdBy = this.$session.get('email');
+            // console.log(data);
+            companyService.upload(data)
+                .then((response) => {
+                    console.log("add Company");
+                    console.log(response.status);
+
+                    // add table approved
+
+                    adds.register(akun)
+                        .then((response) => {
+                            // this.companyData = response.data;
+                            console.log("add User");
+                            console.log(response.status);
+                            this.$toast.success('Company Data has been successfully added!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                            for (const property in this.companyDatas) {
+                                this.companyDatas[property] = null
+                            }
+                        })
+                        .catch(() => {
+                            this.$toast.error('Errorzzzzz!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                        });
+                })
+                .catch(() => {
+
+                    this.$toast.error('Errorjjjjjj!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                });
+        },
+
+        // GET COMPANY
+        getCompany() {
+            companyService
+                .getAll()
+                .then((response) => {
+                    this.companyData = response.data;
+                    // console.log(this.companyData)
+                    console.log("get Company");
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
+        updateCompanyFunc() {
+            let data = this.updateCompany;
+
+            // console.log(data);
+            companyService.upload(data)
+                .then((response) => {
+                    // console.log(response.data);
+                    console.log(response.status);
+                    this.$toast.success('Company Data has been successfully Update!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                    this.getCompany();
+                    this.showDetail = !this.showDetail;
+                })
+                .catch(() => {
+                    this.$toast.error('Error', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                });
+
+        },
+
+        previousPage() {
+            this.currentPage--;
+        },
+
+        showDetails(test) {
+            this.showDetail = !this.showDetail
+            // console.log(test);
+            for (const property in this.updateCompany) {
+                this.updateCompany[property] = test[property];
+            }
+        },
+
+
+        nextPage() {
+            this.currentPage++;
+        },
+
+        BackButton(back) {
+            if (back == 1) {
+                this.showForm = false
+            }
+        },
+
+    },
+
+    computed: {
+        // hitung jumlah halaman
+        pageCount() {
+            const itemCount = this.companyData.length;
+            const pageCount = Math.ceil(itemCount / this.itemsPerPage);
+            return pageCount;
+        },
+        // ambil data sesuai halaman saat ini
+        paginatedData() {
+            const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+            const endIndex = startIndex + this.itemsPerPage;
+            return this.companyData.slice(startIndex, endIndex);
+        },
+    },
+
+    mounted() {
+        this.getCompany();
     },
 
 
@@ -151,9 +329,6 @@ table {
     margin-top: 20px;
 }
 
-tbody {
-    background-color: white;
-}
 
 
 thead {
@@ -215,5 +390,42 @@ form {
 
 h6 {
     font-size: 25px;
+}
+
+.next {
+    /* background-color: #695cfe; */
+    position: fixed;
+    bottom: 0;
+    left: 700px;
+    margin-bottom: 10px;
+}
+
+.status {
+    margin-top: 17px;
+    background-color: transparent;
+    border-radius: 5px;
+    font-size: 13px;
+    padding: 3px;
+
+}
+
+.blue {
+    border: 2px solid blue;
+    color: blue;
+}
+
+.salmon {
+    border: 2px solid salmon;
+    color: salmon;
+}
+
+.red {
+    border: 2px solid red;
+    color: red;
+}
+
+.green {
+    border: 2px solid green;
+    color: green;
 }
 </style>
