@@ -35,4 +35,9 @@ public class CompanyServiceImpl implements CompanyService {
         return mapper.convertToDto(repository.findAll());
     }
 
+    @Override
+    public Long getStatusCount(int status) {
+        return repository.countByStatus(status);
+    }
+
 }
