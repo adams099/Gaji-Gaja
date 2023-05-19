@@ -1,6 +1,7 @@
 package com.gpay.gaja.controller;
 
 import com.gpay.gaja.common.dto.CompanyDTO;
+import com.gpay.gaja.model.repository.CompanyRepository;
 import com.gpay.gaja.service.CompanyService;
 
 import java.time.LocalDateTime;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 public class CompanyController {
     @Autowired
     CompanyService service;
+    CompanyRepository repo;
 
     @GetMapping("/id/{id}")
     public ResponseEntity<CompanyDTO> findById(@PathVariable Long id) {
@@ -36,8 +38,13 @@ public class CompanyController {
     }
 
     @GetMapping("/getAll")
-    public List<CompanyDTO> getAll() {
+    public ResponseEntity<?> getAll() {
         List<CompanyDTO> dto = service.getAll();
-        return dto;
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+    
+    @GetMapping("/count/{status}")
+    public long getStatusCount(@PathVariable int status) {
+        return service.getStatusCount(status);
     }
 }
