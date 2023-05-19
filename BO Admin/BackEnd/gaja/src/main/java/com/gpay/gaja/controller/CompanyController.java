@@ -42,9 +42,14 @@ public class CompanyController {
         List<CompanyDTO> dto = service.getAll();
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
-    
+
     @GetMapping("/count/{status}")
     public long getStatusCount(@PathVariable int status) {
         return service.getStatusCount(status);
+    }
+
+    @GetMapping("/length")
+    public Long getTableLength() {
+        return service.getTableLength();
     }
 }

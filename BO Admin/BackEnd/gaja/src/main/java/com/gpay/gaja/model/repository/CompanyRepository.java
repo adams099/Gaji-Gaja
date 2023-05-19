@@ -13,4 +13,6 @@ public interface CompanyRepository extends CrudRepository<Company, Long> {
     Optional<Company> findById(Long id);
 
     Long countByStatus(int status);
+
+    long count();
 }
