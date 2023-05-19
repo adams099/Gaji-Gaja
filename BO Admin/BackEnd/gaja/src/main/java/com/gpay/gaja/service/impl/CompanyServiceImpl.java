@@ -40,4 +40,8 @@ public class CompanyServiceImpl implements CompanyService {
         return repository.countByStatus(status);
     }
 
+    @Override
+    public Long getTableLength() {
+        return repository.count();
+    }
 }
