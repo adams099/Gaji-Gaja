@@ -114,8 +114,8 @@ export default {
             akun.pass = "testing";
             akun.roleId = 2;
             akun.statId = 4;
-
             akun.createdBy = this.$session.get('email');
+
             data.status = 1;
             data.createdBy = this.$session.get('email');
             // console.log(data);
