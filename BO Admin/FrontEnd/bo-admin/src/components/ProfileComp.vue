@@ -71,8 +71,8 @@
               </tr>
               <!-- <hr /> -->
               <tr>
-                <th>Username</th>
-                <td>{{ userData.username }}</td>
+                <th>Phone Number</th>
+                <td>{{ userData.phone }}</td>
               </tr>
               <!-- <hr /> -->
               <tr>
@@ -98,6 +98,7 @@ export default {
       userData: {
         id: null,
         email: null,
+        phone: null,
         pass: null,
       },
       oldpass: null,
