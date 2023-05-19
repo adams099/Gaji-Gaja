@@ -482,4 +482,9 @@ form {
     border: 2px solid green;
     color: green;
 }
+
+.row {
+    position: fixed;
+
+}
 </style>
