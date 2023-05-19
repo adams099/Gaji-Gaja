@@ -28,8 +28,6 @@
               <i class="fas fa-lock input-icon"></i>
             </div>
 
-            //
-
             <div class="forgot-password" @click="toggleForgotPassword">Forgot Password
             </div>
           </div>

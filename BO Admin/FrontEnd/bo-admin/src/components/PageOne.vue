@@ -10,7 +10,7 @@
                     <div class="icon"></div>
                     <label class="jmlh">Jumlah Company</label>
                     <p></p>
-                    <label class="angka" v-if="userData.length > 0">{{ userData.length }}</label>
+                    <label class="angka" v-if="leng > 0">{{ leng }}</label>
                     <label class="angka mt-2" v-else
                         style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">User
                         Kosong</label>
@@ -70,7 +70,7 @@ export default {
             inReview: null,
             approved: null,
             rejected: null,
-
+            leng: null,
 
         };
     },
@@ -139,6 +139,17 @@ export default {
                 });
         },
 
+        countLeng() {
+            companyService
+                .getLength()
+                .then((response) => {
+                    this.leng = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
 
     },
 
@@ -148,6 +159,7 @@ export default {
         this.countInReview();
         this.countApproved();
         this.countRejected();
+        this.countLeng();
         this.getCompany();
     }
 }

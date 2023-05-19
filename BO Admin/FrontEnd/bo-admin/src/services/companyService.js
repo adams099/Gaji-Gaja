@@ -20,6 +20,10 @@ class Company {
   getStatusCount(status) {
     return http.get(`/company/count/${status}`);
   }
+
+  getLength() {
+    return http.get(`/company/length`);
+  }
 }
 
 export default new Company();
