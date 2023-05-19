@@ -6,19 +6,19 @@ class Company {
   }
 
   upload(data) {
-    return http.post("/company/save",data);
+    return http.post("/company/save", data);
   }
 
   getCompanyById() {
     return http.get("/company/id/{id}");
   }
-  
+
   addCompany() {
     return http.post("/company/save");
   }
 
-  getStatusCount() {
-    return http.get("/company/count/{status}");
+  getStatusCount(status) {
+    return http.get(`/company/count/${status}`);
   }
 }
 

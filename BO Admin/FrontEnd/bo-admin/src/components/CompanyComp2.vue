@@ -1,7 +1,10 @@
 <template>
     <section class="home">
 
-        <button class="btn btn-success mr-auto">Add Company</button>
+        <div class="btn-add mt-5">
+            <button class="btn btn-success">Add
+                Company</button>
+        </div>
 
         <table class="table table-bordered">
             <thead>
@@ -80,9 +83,9 @@ export default {
   
 <style scoped>
 table {
-    width: 80vw;
+    width: 70vw;
     margin-left: 50px;
-    margin-top: 50px;
+    margin-top: 20px;
 }
 
 tbody {
@@ -112,5 +115,16 @@ form {
     width: 100%;
     border-radius: 10px;
     margin-top: 15px;
+}
+
+.btn-add {
+    display: flex;
+    justify-content: flex-end;
+    margin-right: 80px;
+
+}
+
+.btn-success {
+    background-color: #695cfe;
 }
 </style>

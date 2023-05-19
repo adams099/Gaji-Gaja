@@ -20,9 +20,9 @@
             <!-- CARD 2 -->
             <div class="card-2 text-center shadow-lg">
                 <b-col>
-                    <label class="jmlh">Company Harus Di Approve</label>
+                    <label class="jmlh">Need Approve</label>
                     <p></p>
-                    <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
+                    <label class="angka" v-if="inReview > 0">{{ inReview }}</label>
                     <label class="angka mt-2" v-else
                         style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
                         Kosong</label>
@@ -32,9 +32,9 @@
             <!-- CARD 3 -->
             <div class="card-3 text-center shadow">
                 <b-col>
-                    <label class="jmlh">Company Di Approve</label>
+                    <label class="jmlh">Approved</label>
                     <p></p>
-                    <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
+                    <label class="angka" v-if="approved > 0">{{ approved }}</label>
                     <label class="angka mt-2" v-else
                         style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
                         Kosong</label>
@@ -42,9 +42,9 @@
             </div>
             <div class="card-4 text-center shadow">
                 <b-col>
-                    <label class="jmlh">Company Di Reject</label>
+                    <label class="jmlh">Rejected</label>
                     <p></p>
-                    <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
+                    <label class="angka" v-if="rejected > 0">{{ rejected }}</label>
                     <label class="angka mt-2" v-else
                         style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
                         Kosong</label>
@@ -57,7 +57,6 @@
 </template>
 
 <script>
-import userService from '@/services/userService'
 import companyService from '@/services/companyService'
 
 export default {
@@ -68,6 +67,9 @@ export default {
         return {
             userData: [],
             companyData: [],
+            inReview: null,
+            approved: null,
+            rejected: null,
 
 
         };
@@ -86,20 +88,7 @@ export default {
             this.$refs['my-modal'].toggle('#toggle-btn')
         },
 
-        getUser() {
-            userService
-                .getAll()
-                .then((response) => {
-                    this.userData = response.data;
-                    console.log("get User");
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-        },
-
         getCompany() {
-
             companyService
                 .getAll()
                 .then((response) => {
@@ -111,6 +100,44 @@ export default {
                 });
         },
 
+        // COUNT COMPANY REVIEW
+        countInReview() {
+            let status = 1
+            companyService
+                .getStatusCount(status)
+                .then((response) => {
+                    this.inReview = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
+        // COUNT COMPANY APPROVED
+        countApproved() {
+            let status = 2
+            companyService
+                .getStatusCount(status)
+                .then((response) => {
+                    this.approved = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
+        // COUNT COMPANY REJECT
+        countRejected() {
+            let status = 3
+            companyService
+                .getStatusCount(status)
+                .then((response) => {
+                    this.rejected = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
 
 
     },
@@ -118,7 +145,9 @@ export default {
     // MOUNTED
 
     mounted() {
-        this.getUser();
+        this.countInReview();
+        this.countApproved();
+        this.countRejected();
         this.getCompany();
     }
 }
@@ -274,7 +303,7 @@ table tr:last-child td:last-child {
     background-color: rgba(0, 9, 128, 0.758);
     border-radius: 30px;
     margin-left: 40px;
-    margin-right: 20px;
+    margin-right: 30px;
 
 }
 

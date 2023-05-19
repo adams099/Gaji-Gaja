@@ -28,6 +28,8 @@
               <i class="fas fa-lock input-icon"></i>
             </div>
 
+            //
+
             <div class="forgot-password" @click="toggleForgotPassword">Forgot Password
             </div>
           </div>
@@ -97,6 +99,7 @@
     
 <script>
 import userService from "@/services/userService";
+
 export default {
   name: "LoginComp",
   components: {
