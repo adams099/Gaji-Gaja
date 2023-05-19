@@ -28,6 +28,8 @@
               <i class="fas fa-lock input-icon"></i>
             </div>
 
+            <vue-recaptcha v-if="attempts == 0" sitekey="6LcCOh8mAAAAAFa-Vv0emVYbkzEYYQOiBT9-YTfV"
+              @verify="onVerify"></vue-recaptcha>
             <div class="forgot-password" @click="toggleForgotPassword">Forgot Password
             </div>
           </div>
@@ -97,11 +99,11 @@
     
 <script>
 import userService from "@/services/userService";
-
+import { VueRecaptcha } from 'vue-recaptcha'
 export default {
   name: "LoginComp",
   components: {
-
+    VueRecaptcha
   },
 
   data() {
@@ -130,7 +132,8 @@ export default {
       sfp: false,
       loading: false,
       remainingTime: 60,
-      dataemail: {}
+      dataemail: {},
+      attempts: 3,
     };
   },
 
@@ -138,6 +141,10 @@ export default {
     toggleForgotPassword() {
       this.showForgotPassword = true;
       this.sfp = true
+    },
+    onVerify(response) {
+      console.log('Verify: ' + response)
+      this.attempts++
     },
     togleOtp() {
       this.showOtp = true;
@@ -249,41 +256,49 @@ export default {
 
     // LOGIN FUNCTION
     loginFunc() {
-      this.loginError = false;
-      this.error = {};
-      let data = this.userLogin;
-      for (const property in data) {
-        if (data[property] === null || data[property] === "") {
-          this.error[property] = true;
+      if (this.attempts > 0) {
+        this.attempts--
+        this.loginError = false;
+        this.error = {};
+        let data = this.userLogin;
+        for (const property in data) {
+          if (data[property] === null || data[property] === "") {
+            this.error[property] = true;
+          }
         }
-      }
 
-      if (Object.keys(this.error).length === 0) {
-        userService
-          .login(data)
-          .then((response) => {
-            if (response.status === 200) {
-              this.$session.start();
+        if (Object.keys(this.error).length === 0) {
+          userService
+            .login(data)
+            .then((response) => {
+              if (response.status === 200) {
+                this.$session.start();
 
-              this.$session.set("jwt", response.data);
-              this.$session.set("email", data.email);
-              this.$router.push("/");
-            }
-          })
-          .catch((e) => {
-            try {
-              e.response.status == 404
-              this.$toast.warning('Incorrect email or password. Please try again!', {
-                position: 'top-right',
-                timeout: 2500,
-              });
-            } catch (error) {
-              this.$toast.error('Error', {
-                position: 'top-right',
-                timeout: 2500,
-              });
-            }
-          });
+                this.$session.set("jwt", response.data);
+                this.$session.set("email", data.email);
+                this.$router.push("/");
+              }
+            })
+            .catch((e) => {
+              try {
+                e.response.status == 404
+                this.$toast.warning('Incorrect email or password. Please try again!', {
+                  position: 'top-right',
+                  timeout: 2500,
+                });
+              } catch (error) {
+                this.$toast.error('Error', {
+                  position: 'top-right',
+                  timeout: 2500,
+                });
+              }
+            });
+        }
+      } else {
+        this.$toast.error('Verif Dulu Cuy', {
+          position: 'top-right',
+          timeout: 2500,
+        });
       }
     },
   },
