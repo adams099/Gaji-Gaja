@@ -8,11 +8,11 @@
             <div class="card-1 text-center shadow-lg">
                 <b-col>
                     <div class="icon"></div>
-                    <label class="jmlh">Jumlah User</label>
+                    <label class="jmlh">Jumlah Company</label>
                     <p></p>
                     <label class="angka" v-if="userData.length > 0">{{ userData.length }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 20px; border: 1px dashed white; padding: 10px; border-radius: 10px;">User
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">User
                         Kosong</label>
                 </b-col>
             </div>
@@ -20,11 +20,11 @@
             <!-- CARD 2 -->
             <div class="card-2 text-center shadow-lg">
                 <b-col>
-                    <label class="jmlh">Jumlah Company</label>
+                    <label class="jmlh">Company Harus Di Approve</label>
                     <p></p>
                     <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 20px; border: 1px dashed white; padding: 10px; border-radius: 10px;">Company
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
                         Kosong</label>
                 </b-col>
             </div>
@@ -36,7 +36,17 @@
                     <p></p>
                     <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 20px; border: 1px dashed white; padding: 10px; border-radius: 10px;">Company
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
+                        Kosong</label>
+                </b-col>
+            </div>
+            <div class="card-4 text-center shadow">
+                <b-col>
+                    <label class="jmlh">Company Di Reject</label>
+                    <p></p>
+                    <label class="angka" v-if="companyData.length > 0">{{ companyData.length }}</label>
+                    <label class="angka mt-2" v-else
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
                         Kosong</label>
                 </b-col>
             </div>
@@ -249,6 +259,22 @@ table tr:last-child td:last-child {
     background-color: green;
     border-radius: 30px;
     margin-left: 40px;
+
+
+}
+
+.card-4:hover {
+    transform: scale(1.2);
+    transition: transform 400ms;
+}
+
+.card-4 {
+    width: 250px;
+    height: 150px;
+    background-color: rgba(0, 9, 128, 0.758);
+    border-radius: 30px;
+    margin-left: 40px;
+    margin-right: 20px;
 
 }
 

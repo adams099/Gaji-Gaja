@@ -178,7 +178,7 @@
                 <tbody v-else>
                     <tr class="msg-tr text-center">
                         <td colspan="6" class="msg-null text-center">
-                            <h3 class="color-text">Saat ini Tidak Ada Data Company !</h3>
+                            <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
                         </td>
                     </tr>
                 </tbody>

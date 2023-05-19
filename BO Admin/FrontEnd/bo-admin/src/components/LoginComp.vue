@@ -1,39 +1,40 @@
 <template>
   <div class="body h-100 d-flex align-items-center">
+    <img src="../assets/background.png" alt="">
     <div>
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
-    <div class="col-lg-4 col-md-6 col-sm-8 mx-auto login">
-      <div class="card register shadow-lg p-5  d-flex justify-content-center">
+    <div class="col-lg-4 ml-auto login mr-5">
+      <div class="card register shadow-lg p-5  d-flex justify-content-end">
         <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword">SIGN IN</h2>
         <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else>FORGOT
           PASSWORD</h2>
 
-        <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword">
+        <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword" class="login">
           <!-- Email -->
           <div>
             <div class="form-input">
-              <input type="email" id="email" name="email" class="form-control mb-1" placeholder="Email" required
+              <input type="email" id="email" name="email" class="form-control mb-3 mt-4" placeholder="Email" required
                 v-model="userLogin.email" />
               <span v-if="error.email" class="validation-message">Email harus diisi!</span>
-              <i class="fas fa-envelope input-icon"></i>
+              <i class="fas fa-envelope input-icon mt-3"></i>
             </div>
 
             <!-- Password -->
             <div class="form-input">
-              <input type="password" id="password" name="password" class="form-control mb-4" placeholder="Password"
-                required v-model="userLogin.pass" />
+              <input type="password" id="password" name="password" class="form-control mb-5 password-input"
+                placeholder="Password" required v-model="userLogin.pass" />
               <span v-if="error.password" class="validation-message">Password harus diisi!</span>
               <i class="fas fa-lock input-icon"></i>
             </div>
 
-            <div class="forgot-password mb-3" @click="toggleForgotPassword">Forgot Password
+            <div class="forgot-password" @click="toggleForgotPassword">Forgot Password
             </div>
           </div>
 
 
           <div class="d-flex flex-row justify-content-end">
-            <button type="submit" tag="button" class="btn btn-primary mb-1">
+            <button type="submit" tag="button" class="btn btn-primary mt-3">
               Log In
             </button>
           </div>
@@ -464,6 +465,17 @@ input:focus~label {
   border-radius: 10px;
 }
 
+img {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+}
+
+.login {
+  height: 350px;
+  /* position: relative; */
+  bottom: 50px;
+}
 
 /* otp */
 </style>
