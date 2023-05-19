@@ -2,7 +2,7 @@
   <body :class="{ dark: isDark }">
     <Sidebar @TestEmit="NyobaEmit" @TestEmit2="NyobaEmits"></Sidebar>
     <PageOne v-if="pa1"></PageOne>
-    <CompanyComp v-if="pa2"></CompanyComp>
+    <CompanyComp2 v-if="pa2"></CompanyComp2>
     <AllUser v-if="pa3"></AllUser>
     <Approval v-if="pa4"></Approval>
     <ProfileComp v-if="pa5"></ProfileComp>
@@ -12,7 +12,7 @@
 <script>
 import Sidebar from "../components/SideBar.vue";
 import PageOne from "../components/PageOne.vue";
-import CompanyComp from "../components/CompanyComp.vue";
+import CompanyComp2 from "../components/CompanyComp2.vue";
 import AllUser from "../components/AllUserComp.vue";
 import ProfileComp from "../components/ProfileComp.vue";
 import Approval from "../components/ApprovalComp.vue"
@@ -22,7 +22,7 @@ export default {
   components: {
     Sidebar,
     PageOne,
-    CompanyComp,
+    CompanyComp2,
     AllUser,
     ProfileComp,
     Approval,
