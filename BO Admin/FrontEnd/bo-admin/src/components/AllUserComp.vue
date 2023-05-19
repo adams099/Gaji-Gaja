@@ -12,25 +12,38 @@
               <b-modal ref="add-modal" hide-footer title="Add User Admin">
                 <div class="d-block">
                   <div class="form">
+
                     <div class="form-group">
                       <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" aria-describedby="emailHelp"
-                        placeholder="Enter Name" required v-model="inputData.name" />
+                      <input type="text" class="form-control" id="name" placeholder="Enter Name" required
+                        v-model="inputData.name" />
                       <span class="valid" v-if="error.name">Nama harus diisi!</span>
                     </div>
+
+                    <div class="form-group">
+                      <label for="phone_number">Phone Number</label>
+                      <input type="text" class="form-control" id="phone_number" placeholder="Enter Phone Number" required
+                        v-model="inputData.phone_number" />
+                      <span class="valid" v-if="error.phoneAda">Phone Number sudah ada</span>
+                      <span class="valid" v-if="error.phone">Phone Number diisi!</span>
+                    </div>
+
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" aria-describedby="emailHelp"
-                        placeholder="Enter email" required v-model="inputData.email" />
+                      <input type="email" class="form-control" id="email" placeholder="Enter email" required
+                        v-model="inputData.email" />
                       <span class="valid" v-if="error.emailada">Email sudah ada</span>
                       <span class="valid" v-if="error.email">Email harus diisi!</span>
                     </div>
+
+
                     <div class="form-group">
                       <label for="pass">Password</label>
-                      <input type="password" class="form-control" id="pass" aria-describedby="emailHelp"
-                        placeholder="Enter password" required v-model="inputData.pass" />
+                      <input type="password" class="form-control" id="pass" placeholder="Enter password" required
+                        v-model="inputData.pass" />
                       <span class="valid" v-if="error.pass">Password harus diisi!</span>
                     </div>
+
                   </div>
                 </div>
 
@@ -157,6 +170,7 @@ export default {
         statId: null,
         createdBy: null,
         approved: null,
+        phone: null,
       },
       updateData: {
         id: null,
@@ -174,6 +188,8 @@ export default {
         "name": false,
         "email": false,
         "emailada": false,
+        "phoneAda": false,
+        "phone": false,
         "pass": false,
       },
       indexing: 1,

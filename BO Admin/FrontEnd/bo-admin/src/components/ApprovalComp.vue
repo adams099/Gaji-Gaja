@@ -8,58 +8,6 @@
                 <div>
                     <div class="container mr-3 d-flex">
                         <div>
-                            <!------------------------ MODAL BOX --------------------->
-                            <div>
-                                <b-button id="show-btn" @click="showModal" v-if="!showDetail" class="btn-primary shadow"
-                                    style="margin-left: 272px;">Add
-                                    Company</b-button>
-                                <b-button id="show-btn " v-if="showDetail" @click="showDetail = false"
-                                    class="btn-primary mt-3">Back</b-button>
-                                <b-modal ref="my-modal" hide-footer title="Add Company">
-                                    <div class="d-block">
-                                        <div class="form-add">
-
-                                            <div class="form-group">
-                                                <label for="name_company">Company Name</label>
-                                                <input type="text" v-model="companyDatas.comName" class="form-control"
-                                                    id="name_company" placeholder="Enter Name Company" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="npwp">NPWP</label>
-                                                <input type="text" v-model="companyDatas.comTaxNum" class="form-control"
-                                                    id="npwp" placeholder="Enter NPWP" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="address">Address</label>
-                                                <input type="text" v-model="companyDatas.address" class="form-control"
-                                                    id="address" placeholder="Enter Address" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="email_company">Email</label>
-                                                <input type="email" v-model="companyDatas.mailAddress" class="form-control"
-                                                    id="email_company" placeholder="Enter Email Company" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="postal_code">Code Pos</label>
-                                                <input type="text" class="form-control" v-model="companyDatas.postal"
-                                                    id="postal_code" placeholder="Enter Code Pos" />
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="admin_name">Admin Name</label>
-                                                <input type="text" v-model="companyDatas.adminName" class="form-control"
-                                                    id="admin_name" placeholder="Enter Admin Name" />
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="dflex justify-content-center">
-                                        <b-button variant="primary" block @click="SubmitCompany">Submit</b-button>
-                                        <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
-                                    </div>
-                                </b-modal>
-                            </div>
-                            <!--------------------- END ADD COMPANY  --------------------------->
-
                             <!---------------------- START DETAIL COMPANY ---------------------->
                             <div class="flex-column">
                                 <div class="detail shadow">
@@ -120,7 +68,6 @@
                             <!---------------------- END DETAIL COMPANY ------------------------>
 
                             <!---------------------- SHOW MODAL STATUS ------------------------>
-
                             <div>
                                 <b-modal v-model="showModalStatus">
                                     <b-modal v-model="showModalStatus" hide-footer>
@@ -139,12 +86,10 @@
                                     </b-modal>
                                 </b-modal>
                             </div>
-
                             <!---------------------- END MODAL STATUS ------------------------>
                         </div>
                     </div>
                 </div>
-                <!-- END MODAL BOX -->
             </div>
 
             <!------------------ START TABLE ------------------->
@@ -178,7 +123,7 @@
                 <tbody v-else>
                     <tr class="msg-tr text-center">
                         <td colspan="6" class="msg-null text-center">
-                            <h3 class="color-text">Saat ini Tidak Ada Data Company !</h3>
+                            <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
                         </td>
                     </tr>
                 </tbody>
@@ -200,7 +145,6 @@
   
 <script>
 import companyService from '@/services/companyService.js';
-import adds from '@/services/userService.js';
 
 export default {
     name: "CompanyS",
@@ -214,61 +158,32 @@ export default {
             companyData: {
             },
 
-            companyDatas: {
-                comName: null,
-                mailAddress: null,
-                comTaxNum: null,
-                address: null,
-                siup: null,
-                postal: null,
-                adminName: null,
-                adminEmail: null,
-                status: 1,
-                createdBy: null,
-                createdTime: null,
-                apprBy: null,
-                updateTime: null
-            },
-
             updateCompany: {
                 id: null,
                 comName: null,
                 comTaxNum: null,
+                siup: null,
                 address: null,
                 mailAddress: null,
                 postal: null,
                 adminName: null,
                 adminEmail: null,
                 status: null,
+                createdBy: null,
+                createdTime: null,
+                apprBy: null,
+                updateTime: null
             },
 
-            buatAkun: {
-                name: null,
-                pass: null,
-                email: null,
-                roleId: 3,
-                statId: 1,
-                username: null,
-                createdBy: null,
-                approved: null
-            },
             showDetail: false,
             showModalStatus: false,
-
-            error: {
-                "comname": false,
-                "comtax": false,
-                "address": false,
-                "email": false,
-                "emailada": false,
-                "pass": false,
-            }
         }
     },
 
     methods: {
         updateCompanyFunc() {
             let data = this.updateCompany;
+
             // console.log(data);
             companyService.upload(data)
                 .then((response) => {
@@ -278,7 +193,7 @@ export default {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                    this.getCompany()
+                    this.getCompany();
                     this.showDetail = !this.showDetail;
                 })
                 .catch(() => {
@@ -293,6 +208,7 @@ export default {
         previousPage() {
             this.currentPage--;
         },
+
         showDetails(test) {
             this.showDetail = !this.showDetail
             // console.log(test);
@@ -308,29 +224,10 @@ export default {
                 this.updateCompany[property] = test[property];
             }
         },
+
         // navigasi ke halaman berikutnya
         nextPage() {
             this.currentPage++;
-        },
-
-        // SHOW MODAL BOX
-        showModal() {
-            this.$refs["my-modal"].show();
-        },
-        showModalDetail() {
-            this.$refs["company-modal"].show();
-        },
-        hideModal() {
-            this.$refs["my-modal"].hide();
-        },
-        toggleModal() {
-            for (const property in this.companyDatas) {
-                this.companyDatas[property] = null
-            }
-            this.$refs["my-modal"].toggle("#toggle-btn");
-        },
-        toggleModalDetail() {
-            this.$refs["company-modal"].toggle("#toggle-btn");
         },
 
         //test doang ya
@@ -338,6 +235,7 @@ export default {
             // handle accept action
             let data = this.updateCompany;
             data.status = 2;
+            data.apprBy = this.$session.get('email');
             companyService.upload(data)
                 .then((response) => {
                     this.$toast.success('Company status has been successfully Update!', {
@@ -347,7 +245,7 @@ export default {
                     // console.log(response.data);
                     console.log(response.status);
                     this.showModalStatus = false;
-                    this.getCompany()
+                    this.getCompany();
                 })
                 .catch(() => {
                     this.$toast.error('Error', {
@@ -361,6 +259,7 @@ export default {
             // handle reject action
             let data = this.updateCompany;
             data.status = 3;
+            data.apprBy = this.$session.get('email');
             companyService.upload(data)
                 .then((response) => {
                     this.$toast.success('Company status has been successfully Rejected!', {
@@ -369,7 +268,7 @@ export default {
                     });
                     console.log(response.status);
                     this.showModalStatus = false;
-                    this.getCompany()
+                    this.getCompany();
                 })
                 .catch(() => {
                     this.$toast.error('Error', {
@@ -382,6 +281,7 @@ export default {
             // handle review action
             let data = this.updateCompany;
             data.status = 4;
+            data.apprBy = this.$session.get('email');
             companyService.upload(data)
                 .then((response) => {
                     this.$toast.success('Company status has been successfully Deactive!', {
@@ -390,7 +290,7 @@ export default {
                     });
                     console.log(response.status);
                     this.showModalStatus = false;
-                    this.getCompany()
+                    this.getCompany();
                 })
                 .catch(() => {
                     this.$toast.error('Error', {
@@ -413,52 +313,6 @@ export default {
                     console.log(e);
                 });
         },
-        SubmitCompany() {
-            let datas = this.buatAkun
-            let data = this.companyDatas
-            datas.email = data.mailAddress
-            datas.pass = "testing"
-            datas.createdBy = this.$session.get('email')
-            datas.name = data.adminName
-            datas.username = data.adminName + 123
-            data.status = 1;
-            data.adminEmail = this.$session.get('email')
-            data.sender = this.$session.get("jwt").data.substr(23, this.$session.get("jwt").data.length)
-            // console.log(data);
-            companyService.upload(data)
-                .then((response) => {
-                    console.log("add Company");
-                    console.log(response.status);
-                    adds.register(datas)
-                        .then((response) => {
-                            // this.companyData = response.data;
-                            console.log("add User");
-                            console.log(response.status);
-                            this.$toast.success('Company Data has been successfully added!', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
-                            this.toggleModal()
-                            this.getCompany()
-                        })
-                        .catch(() => {
-                            this.$toast.error('Error!', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
-                        });
-                })
-                .catch(() => {
-                    this.$toast.error('Error!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                });
-        },
-
-        // Post Data Company
-
-
     },
 
     // MOUNTED
@@ -551,26 +405,6 @@ table tr:last-child td:last-child {
     border-bottom-right-radius: 0.25rem !important;
 }
 
-.add-user {
-    background-color: #695cfe;
-    color: whitesmoke;
-}
-
-.show-botton {
-    background-color: #695cfe;
-}
-
-.show-botton:hover {
-    background-color: #695cfe;
-}
-
-.form-select {
-    width: 100%;
-    height: 40px;
-    border: 1px solid rgb(200, 200, 200);
-    border-radius: 5px;
-}
-
 .btn-primary {
     background-color: #695cfe;
 }
@@ -603,45 +437,6 @@ form {
     margin-bottom: 5px;
 }
 
-/* Style untuk konten modal box */
-/* SHOW MODAL STYLE */
-
-.modal {
-    top: 150px;
-    left: 200px;
-    position: absolute;
-    margin: 50px 50px;
-    width: 25vw;
-    height: 300px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 15px;
-    background-color: transparent;
-
-}
-
-.modal-content {
-    border: 1px solid grey;
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-}
-
-.modal.fade .modal-dialog {
-    transition: opacity 0.3s linear;
-    opacity: 0;
-}
-
-.modal.fade.show .modal-dialog {
-    opacity: 1;
-}
-
-.button-status {
-    width: 250px;
-}
-
 .detail {
     margin-left: 100px;
     background-color: #695cfe;
@@ -650,17 +445,6 @@ form {
     font-size: 5px;
 
 }
-
-/* .status {
-  margin-top: 17px;
-  background-color: transparent;
-  border: 2px solid blue;
-  color: blue;
-  border-radius: 5px;
-  font-size: 13px;
-  padding: 3px;
-
-} */
 
 .next {
     /* background-color: #695cfe; */
@@ -697,17 +481,5 @@ form {
 .green {
     border: 2px solid green;
     color: green;
-}
-
-.iseng {
-    margin-left: 100px;
-}
-
-.add-company {
-    background-color: #695cfe;
-    color: white;
-    width: 100%;
-    border-radius: 10px;
-    margin-top: 15px;
 }
 </style>
