@@ -3,6 +3,7 @@ package com.gpay.gaja.controller;
 import com.gpay.gaja.common.dto.EmailAjaDTO;
 import com.gpay.gaja.common.dto.NgaturLuwh;
 import com.gpay.gaja.common.dto.ResetPassDTO;
+import com.gpay.gaja.common.dto.SendEmail;
 import com.gpay.gaja.common.dto.UserDTO;
 import com.gpay.gaja.config.SafetyConfiguration;
 import com.gpay.gaja.service.EmailService;
@@ -140,6 +141,12 @@ public class UserController {
         rp.setDate(LocalDateTime.now());
         rse.save(rp);
         services.sendEmail(rp.getEmail(), "OTP Ganti Password", randomString);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/semail")
+    public ResponseEntity<?> sendEmail(@RequestBody SendEmail rp) {
+        services.sendEmail(rp.getEmail(), rp.getSubject(), rp.getBody());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 

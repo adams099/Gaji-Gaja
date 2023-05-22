@@ -32,6 +32,10 @@ class User {
   cotp(data){
     return http.post("/user/cekotp",data)
   }
+
+  semail(data){
+    return http.post("/user/semail",data)
+  }
 }
 
 export default new User();
