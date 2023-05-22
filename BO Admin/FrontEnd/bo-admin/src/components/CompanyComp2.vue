@@ -1,11 +1,8 @@
 <template>
     <section class="home">
-
-        <div class="btn-add mt-3 d-flex flex-row text-white">
-            <button class="btn back text-white" v-if="showForm" v-on:click="BackButton(1)">
-                <i class="fas fa-arrow-left text-white"></i>Back
-            </button>
-            <button class="btn btn-add-com" @click="addFunc()" v-else>Add
+        <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between align-items-center">
+            <div class="text text-center" v-if="!showForm" style="font-size: 25px;">Company Table</div>
+            <button class="btn btn-add-com" @click="addFunc()" v-if="!showForm">Add
                 Company</button>
         </div>
 
@@ -56,8 +53,11 @@
 
         <!--------------------- START ADD COMPANY -------------------------->
         <div class="form" v-show="showForm">
-            <div class="form-company">
-                <h6 class="text-center mb-3 color-text">Form Add Company</h6>
+            <div class="form-company d-flex flex-row justify-content-between">
+                <h6 class=" color-text">Form Add Company</h6>
+                <button class="btn back text-white mb-3" v-if="showForm" v-on:click="BackButton(1)">
+                    <i class="fas fa-arrow-left text-white"></i> Back
+                </button>
             </div>
             <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
                 <div class="form-group">
@@ -364,10 +364,15 @@ export default {
 </script>
   
 <style scoped>
+.form-company {
+    margin-left: 95px;
+    margin-right: 95px;
+}
+
 table {
     width: 70vw;
     margin-left: 50px;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
 
@@ -412,6 +417,7 @@ form {
     background-color: #695cfe;
     color: white;
     border-radius: 10px;
+    height: 40px;
 
 }
 
@@ -430,6 +436,7 @@ form {
     color: white;
     border-radius: 10px;
     margin-right: 70px;
+    margin-left: 95px;
 
 
 }

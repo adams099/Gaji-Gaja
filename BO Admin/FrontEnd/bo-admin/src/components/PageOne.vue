@@ -12,7 +12,7 @@
                     <p></p>
                     <label class="angka" v-if="leng > 0">{{ leng }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">User
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
                         Kosong</label>
                 </b-col>
             </div>
@@ -24,7 +24,7 @@
                     <p></p>
                     <label class="angka" v-if="inReview > 0">{{ inReview }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Approval
                         Kosong</label>
                 </b-col>
             </div>
@@ -36,7 +36,7 @@
                     <p></p>
                     <label class="angka" v-if="approved > 0">{{ approved }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Approved
                         Kosong</label>
                 </b-col>
             </div>
@@ -46,7 +46,7 @@
                     <p></p>
                     <label class="angka" v-if="rejected > 0">{{ rejected }}</label>
                     <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
+                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Rejected
                         Kosong</label>
                 </b-col>
             </div>
@@ -88,6 +88,7 @@ export default {
             this.$refs['my-modal'].toggle('#toggle-btn')
         },
 
+        // GET ALL COMPANY
         getCompany() {
             companyService
                 .getAll()
@@ -139,6 +140,7 @@ export default {
                 });
         },
 
+        // COUNT LENGTH COMPANY DATA
         countLeng() {
             companyService
                 .getLength()
@@ -154,7 +156,6 @@ export default {
     },
 
     // MOUNTED
-
     mounted() {
         this.countInReview();
         this.countApproved();

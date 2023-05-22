@@ -56,7 +56,7 @@
           </a>
 
           <!--------------- COMPANY --------------->
-          <a v-if="sidebarItem" class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
+          <a v-if="sidebarItem || !sidebarItem" class="side-btn" @click="NyobaEmis(3)" :class="{ active: pa3 }" exact>
             <li class="">
               <a>
                 <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
@@ -71,7 +71,7 @@
           </a>
 
           <!--------------- APPROVAL --------------->
-          <a class="side-btn" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
+          <a v-if="sidebarItem" class="side-btn" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
             <li class="">
               <a>
                 <b-icon icon="check2-circle" class="rounded-circle p-1" variant="light" style="
@@ -85,7 +85,7 @@
             </li>
           </a>
 
-          <!--------------- Profile --------------->
+          <!--------------- PROFIL --------------->
           <a class="side-btn" @click="NyobaEmis(5)" :class="{ active: pa5 }" exact>
             <li class="">
               <a>
@@ -99,9 +99,6 @@
               </a>
             </li>
           </a>
-
-
-
         </ul>
       </div>
 
@@ -143,6 +140,8 @@
           </div>
         </li>
       </div>
+    </div>
+    <div class="footer">
     </div>
   </nav>
 </template>
@@ -275,20 +274,4 @@ a:active {
 .side-btn:hover {
   color: white;
 }
-
-/* .router-link-exact-active {
-    background-color: white;
-}
-
-.router-link-active {
-    background-color: #695CFE;
-}
-
-.router-link-exact-active .router-link-active {
-    background-color: #695CFE;
-} */
-
-/* .side-btn active {
-  background-color: #695cfe;
-} */
 </style>
