@@ -148,6 +148,8 @@
 </template>
 
 <script>
+import userService from '@/services/userService';
+
 export default {
   name: "DetalFormAnggota",
   data() {
@@ -231,6 +233,22 @@ export default {
       this.sidebarItem = false;
     }
   },
+  mounted() {
+    let data = {
+      email : this.$session.get('email')
+    }
+    userService.findEmail(data).then((response) => {
+      console.log(response.data.update)
+      if (response.data.update == null) {
+        this.$toast.warning('We Recommend You to Change Your Password', {
+                  position: 'top-right',
+                  timeout: 2500,
+                });
+      }
+    }).catch((e) => {
+      console.log(e)
+    })
+  }
 };
 </script>
 

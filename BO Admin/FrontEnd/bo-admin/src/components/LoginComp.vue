@@ -191,34 +191,45 @@ export default {
       } else {
         let data = this.otp
         data.otp = null
+        let posisi = null
         await userService
           .findEmail(data)
           .then((response) => {
             if (response.status === 200) {
               this.dataemail = response.data
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-        this.dataemail.pass = this.gantipw.pw1
-        let data2 = this.dataemail
-        userService
-          .register(data2)
-          .then((response) => {
-            if (response.status === 201) {
-              this.$toast.success('Success change password', {
+              if (response.data.update == null) {
+                this.$toast.warning('Please Change Password at Dashboard', {
                 position: 'top-right',
                 timeout: 2500,
               });
-              setTimeout(() => {
-                window.location.reload();
-              }, 2000);
+              } else {
+                posisi = 1
+              }
             }
           })
           .catch((e) => {
             console.log(e);
           });
+        if (posisi == 1) {
+          this.dataemail.pass = this.gantipw.pw1
+          let data2 = this.dataemail
+          userService
+            .register(data2)
+            .then((response) => {
+              if (response.status === 201) {
+                this.$toast.success('Success change password', {
+                  position: 'top-right',
+                  timeout: 2500,
+                });
+                setTimeout(() => {
+                  window.location.reload();
+                }, 2000);
+              }
+            })
+            .catch((e) => {
+              console.log(e);
+            });
+        }
       }
     },
     startLoading() {

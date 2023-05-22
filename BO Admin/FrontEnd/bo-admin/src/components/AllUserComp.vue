@@ -37,7 +37,7 @@
                     </div>
 
 
-                    <div class="form-group">
+                    <div class="form-group" v-if="false">
                       <label for="pass">Password</label>
                       <input type="password" class="form-control" id="pass" placeholder="Enter password" required
                         v-model="inputData.pass" />
@@ -192,9 +192,15 @@ export default {
         "phone": false,
         "pass": false,
       },
+      semail:{
+        "email":null,
+        "subject":null,
+        "body":null
+      },
       indexing: 1,
       maxdata: null,
       dikurangin: null,
+      
     }
   },
 
@@ -295,11 +301,19 @@ export default {
     },
 
     async addUser() {
+      const length = 10;
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      let result = "";
       for (const property in this.error) {
         this.error[property] = false;
       }
 
       let data = this.inputData;
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+      }
+      data.pass = result
       data.roleId = 2;
       data.statId = 2;
       data.createdBy = this.$session.get("email");
@@ -322,11 +336,15 @@ export default {
           });
 
         if (this.error['emailada'] == false) {
-
+          console.log(data)
           userService
             .register(data)
             .then((response) => {
               if (response.status == 201) {
+                this.semail.email = data.email
+                this.semail.subject = "Your Credential For Web"
+                this.semail.body = "Your Password " + data.pass
+                userService.semail(this.semail)
                 // console.log(response.data);
                 console.log("success regis user");
                 this.$refs["add-modal"].toggle("#toggle-btn");
