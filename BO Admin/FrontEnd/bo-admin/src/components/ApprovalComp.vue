@@ -1,13 +1,15 @@
 <template>
     <section class="home">
-        <div class="btn-add mt-2 d-flex flex-row text-white justify-content-end">
+        <div class="btn-add mt-4 d-flex flex-row text-white justify-content-between align-items-center">
+            <h5 class="color-text mt-3 mb-3 text-center text-color detail-comp" v-if="showDetail" style="font-size: 20px; ">
+                Detail Company</h5>
             <button class="btn back text-white" v-if="showDetail" @click="BackButton(1)">
                 <i class="fas fa-arrow-left text-white"></i> Back
             </button>
+            <h5 class="color-text daftar-company" v-if="!showDetail" style="font-size: 25px;">Approval</h5>
         </div>
         <div class="table">
             <div class="d-flex flex-row justify-content-between mb-2">
-                <h5 class="color-text" v-if="!showDetail">Daftar Company</h5>
 
                 <div>
                     <div class="container mr-3 d-flex">
@@ -15,9 +17,7 @@
                             <!---------------------- START DETAIL COMPANY ---------------------->
                             <div class="flex-column">
                                 <div class="detail shadow">
-                                    <h5 class="color-text mt-3 mb-3 text-center text-color text-white " v-if="showDetail"
-                                        style="font-size: 20px; ">
-                                        Detail Company</h5>
+
 
                                 </div>
                             </div>
@@ -67,7 +67,7 @@
 
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary mt-2">Update</button>
+                                    <button type="submit" class="btn mt-2 btn-update">Update</button>
                                 </form>
                             </div>
                             <!---------------------- END DETAIL COMPANY ------------------------>
@@ -119,7 +119,7 @@
                         <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
                         <button type="button" class="status salmon" v-else>Deactive</button>
                         <td class="text-center">
-                            <button type="button" class="btn btn-primary" @click="showDetails(item)">Detail</button>
+                            <button type="button" class="btn btn-detail" @click="showDetails(item)">Detail</button>
                             <button type="button" class="btn btn-delete text-white "
                                 @click="showModalStatuss(item)">Status</button>
                         </td>
@@ -501,7 +501,43 @@ form {
 
 .back {
     background-color: #695cfe;
-    margin-right: 120px;
+    margin-right: 125px;
     border-radius: 10px;
+    height: 40px;
+}
+
+.btn-update {
+    border-radius: 10px;
+    background-color: #695cfe;
+    color: white;
+}
+
+.btn-update:hover {
+    border-radius: 10px;
+    background-color: #594ed1;
+    color: white;
+}
+
+.daftar-company {
+    margin-left: 37px;
+    font-size: 30px;
+}
+
+.detail-comp {
+    /* background-color: #695cfe; */
+    padding: 5px;
+    border-radius: 10px;
+    margin-left: 130px;
+    color: grey;
+}
+
+.btn-detail {
+    background-color: #594ed1;
+    color: white;
+}
+
+.btn-detail:hover {
+    background-color: #4e44ba;
+    color: white;
 }
 </style>

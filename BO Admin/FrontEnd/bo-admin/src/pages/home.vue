@@ -1,12 +1,15 @@
 <template>
-  <body :class="{ dark: isDark }">
-    <Sidebar @TestEmit="NyobaEmit" @TestEmit2="NyobaEmits"></Sidebar>
-    <PageOne v-if="pa1"></PageOne>
-    <CompanyComp2 v-if="pa2"></CompanyComp2>
-    <AllUser v-if="pa3"></AllUser>
-    <Approval v-if="pa4"></Approval>
-    <ProfileComp v-if="pa5"></ProfileComp>
-  </body>
+  <div>
+
+    <body :class="{ dark: isDark }">
+      <Sidebar @TestEmit="NyobaEmit" @TestEmit2="NyobaEmits"></Sidebar>
+      <PageOne v-if="pa1"></PageOne>
+      <CompanyComp2 v-if="pa2"></CompanyComp2>
+      <AllUser v-if="pa3"></AllUser>
+      <Approval v-if="pa4"></Approval>
+      <ProfileComp v-if="pa5"></ProfileComp>
+    </body>
+  </div>
 </template>
 
 <script>

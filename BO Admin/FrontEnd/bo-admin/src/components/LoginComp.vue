@@ -5,10 +5,10 @@
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
     <div class="col-lg-4 ml-auto login mr-5">
+
       <div class="card register shadow-lg p-5  d-flex justify-content-end">
-        <h2 class="head" style="color: rgb(88, 84, 84);" v-if="!showForgotPassword">SIGN IN</h2>
-        <h2 class="head forgot-text" style="color: rgb(88, 84, 84);" v-else>FORGOT
-          PASSWORD</h2>
+        <h2 class="head" v-bind:class="{ 'mobile-text': showForgotPassword }" v-if="!showForgotPassword">SIGN IN</h2>
+        <h2 class="head forgot-text" v-bind:class="{ 'mobile-text': !showForgotPassword }" v-else>FORGOT PASSWORD</h2>
 
         <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword" class="login">
           <!-- Email -->
@@ -17,7 +17,7 @@
               <input type="email" id="email" name="email" class="form-control mb-3 mt-4" placeholder="Email" required
                 v-model="userLogin.email" />
               <span v-if="error.email" class="validation-message">Email harus diisi!</span>
-              <i class="fas fa-envelope input-icon mt-3"></i>
+              <i class="fas fa-envelope input-icon mt-4"></i>
             </div>
 
             <!-- Password -->
@@ -28,12 +28,11 @@
               <i class="fas fa-lock input-icon"></i>
             </div>
 
-            <vue-recaptcha v-if="attempts == 0" sitekey="6LcCOh8mAAAAAFa-Vv0emVYbkzEYYQOiBT9-YTfV"
+            <vue-recaptcha v-if="attempts === 0" sitekey="6LcCOh8mAAAAAFa-Vv0emVYbkzEYYQOiBT9-YTfV"
               @verify="onVerify"></vue-recaptcha>
             <div class="forgot-password" @click="toggleForgotPassword">Forgot Password
             </div>
           </div>
-
 
           <div class="d-flex flex-row justify-content-end">
             <button type="submit" tag="button" class="btn btn-primary mt-3">
@@ -47,14 +46,13 @@
           <form @submit.prevent="checkOtp" v-if="sfp" @click="hidenForgotPassword">
             <form @submit.prevent="sendOtp" class="form-input flex-row">
               <input type="email" id="otp-email" name="password" v-model="otp.email" class="form-control mb-1 otp-email"
-                placeholder="Enter Email" required style="flex-grow: 1" v-if="!showOtp" />
-              <button v-if="loading" class="sent btn btn-primary ml-3 p-2 pr-4" disabled
-                style="margin-bottom: 0.35rem;">{{ remainingTime }}</button>
-              <button v-else class="sent btn btn-primary ml-3 p-2" style="margin-bottom: 0.35rem;">Sent</button>
+                placeholder="Enter Email" required v-if="!showOtp" autocomplete="off" />
+              <button v-if="loading" class="sent btn btn-primary ml-3 p-2 pr-4" disabled>{{ remainingTime }}</button>
+              <button v-else class="sent btn btn-primary ml-3 p-2">Sent</button>
             </form>
             <div>
               <input type="text" id="otp-email" v-model="otp.otp" name="password" required
-                class="form-control mb-1 otp-email mb-4" placeholder="Enter OTP" style="flex-grow: 1" v-if="!showOtp" />
+                class="form-control mb-1 otp-email mb-4" placeholder="Enter OTP" v-if="!showOtp" autocomplete="off" />
             </div>
             <div>
               <button type="submit" tag="button" class="btn btn-primary mb-4">
@@ -63,7 +61,7 @@
             </div>
             <div class="back-button">
               <div class="btn-back" v-on:click="BackButton(1)">
-                <i class="fas fa-arrow-left "></i> Back
+                <i class="fas fa-arrow-left"></i> Back
               </div>
             </div>
           </form>
@@ -72,13 +70,11 @@
           <form @submit.prevent="changePass" v-if="scpass" @click="hidenForgotPassword">
             <div class="form-input flex-row">
               <input type="password" id="new-password" v-model="gantipw.pw1" name="new-password"
-                class="form-control mb-1 new-password" placeholder="Enter New Password" style="flex-grow: 1"
-                v-if="!showOtp" />
+                class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp" />
             </div>
             <div>
               <input type="password" id="confirm-password" name="confirm-password" v-model="gantipw.pw2"
-                class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" style="flex-grow: 1"
-                v-if="!showOtp" />
+                class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" />
             </div>
             <div>
               <button type="submit" tag="button" class="btn btn-primary mb-4" v-if="scpass">
@@ -87,15 +83,17 @@
             </div>
             <div class="back-button">
               <div class="btn-back" style="cursor: pointer;" v-on:click="BackButton(2)">
-                <i class="fas fa-arrow-left "></i> Back
+                <i class="fas fa-arrow-left"></i> Back
               </div>
             </div>
           </form>
         </div>
       </div>
+      <h6 class="cr text-center">Copyright @2023 | BO Admin</h6>
     </div>
   </div>
 </template>
+
     
 <script>
 import userService from "@/services/userService";
@@ -317,6 +315,45 @@ export default {
 </script>
     
 <style scoped lang="css">
+@media (max-width: 576px) {
+
+  .card.register {
+    width: 100%;
+    max-width: 350px;
+  }
+
+  .head {
+    font-size: 1.5rem;
+  }
+
+  .forgot-text {
+    font-size: 1.3rem;
+  }
+
+  .mobile-text {
+    font-size: 1.1rem;
+  }
+}
+
+@media (min-width: 576px) {
+
+  /* Styles for medium and large screens */
+  .card.register {
+    width: 100%;
+    max-width: 450px;
+  }
+}
+
+.img-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: -1;
+}
+
 .container {
   justify-content: flex-end;
 }
@@ -506,6 +543,16 @@ img {
   height: 350px;
   /* position: relative; */
   bottom: 50px;
+}
+
+.cr {
+  color: white;
+  font-size: 10px;
+  margin-top: 30px;
+  position: fixed;
+  bottom: 20px;
+  margin: auto;
+  left: 30px;
 }
 
 /* otp */

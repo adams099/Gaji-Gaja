@@ -8,8 +8,8 @@
           <div class="container mr-3">
             <!-------------------------- START ADD USER ---------------->
             <div>
-              <b-button id="show-btn" @click="showModal" class="btn-primary">Add</b-button>
-              <b-modal ref="add-modal" hide-footer title="Add User Admin">
+              <b-button id="show-btn" @click="showModal" class="btn-add">Add</b-button>
+              <b-modal ref="add-modal" hide-footer title="Add Admin User">
                 <div class="d-block">
                   <div class="form">
 
@@ -563,7 +563,17 @@ table tr:last-child td:last-child {
   color: green;
 }
 
-.btn-primary {
+.btn-add {
   background-color: #695cfe;
+  color: white;
+  border: none;
+  border-radius: 10px;
+  width: 60px;
+}
+
+.btn-add:hover {
+  background-color: #6155e4;
+  color: white;
+  border: none;
 }
 </style>

@@ -1,4 +1,4 @@
-.<template>
+<template>
   <div>
     <Sidebar></Sidebar>
     <ProfileComp></ProfileComp>
@@ -17,5 +17,4 @@ export default {
 };
 </script>
 
-<style>
-</style>
+<style></style>
