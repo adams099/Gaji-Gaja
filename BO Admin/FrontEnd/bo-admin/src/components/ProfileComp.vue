@@ -11,11 +11,7 @@
 
             <h5 class="my-3">{{ userData.name | toUpperCase }}</h5>
             <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
-            <!-- <p class="text-muted mb-4">Bay Area, San Francisco, CA</p> -->
             <div class="d-flex justify-content-center mb-2">
-              <!-- <button type="button" class="btn btn-outline-primary ms-1">
-                Edit
-              </button> -->
               <div class="ml-3">
                 <button type="button" @click="showModal" id="show-btn" class="btn btn-outline-primary ms-1 mt-2">
                   Change Password
@@ -218,6 +214,10 @@ export default {
 </script>
 
 <style scoped>
+/* .home {
+  height: 100vh;
+} */
+
 .card {
   border-radius: 20px;
   background-color: white;
