@@ -32,7 +32,8 @@ public class CompanyServiceImpl implements CompanyService {
 
     @Override
     public List<CompanyDTO> getAll() {
-        return mapper.convertToDto(repository.findAll());
+        Iterable<Company> test = repository.findAll();
+        return mapper.convertToDto(test);
     }
 
     @Override

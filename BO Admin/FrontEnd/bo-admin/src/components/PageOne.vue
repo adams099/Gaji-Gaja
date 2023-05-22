@@ -88,19 +88,6 @@ export default {
             this.$refs['my-modal'].toggle('#toggle-btn')
         },
 
-        // GET ALL COMPANY
-        getCompany() {
-            companyService
-                .getAll()
-                .then((response) => {
-                    this.companyData = response.data;
-                    console.log("get Company");
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-        },
-
         // COUNT COMPANY REVIEW
         countInReview() {
             let status = 1
@@ -161,7 +148,6 @@ export default {
         this.countApproved();
         this.countRejected();
         this.countLeng();
-        this.getCompany();
     }
 }
 </script>

@@ -192,15 +192,15 @@ export default {
         "phone": false,
         "pass": false,
       },
-      semail:{
-        "email":null,
-        "subject":null,
-        "body":null
+      semail: {
+        "email": null,
+        "subject": null,
+        "body": null
       },
       indexing: 1,
       maxdata: null,
       dikurangin: null,
-      
+
     }
   },
 
@@ -354,6 +354,10 @@ export default {
             })
             .catch((e) => {
               console.log(e);
+              this.$toast.error('Error!', {
+                position: 'top-right',
+                timeout: 2500,
+              });
             });
         }
 

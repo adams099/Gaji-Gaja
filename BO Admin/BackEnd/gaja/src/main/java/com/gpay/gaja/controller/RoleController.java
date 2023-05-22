@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/role")
 public class RoleController {
+
     @Autowired
     RoleService service;
 

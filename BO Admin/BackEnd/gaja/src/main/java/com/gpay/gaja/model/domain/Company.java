@@ -3,8 +3,11 @@ package com.gpay.gaja.model.domain;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.persistence.*;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "company")
@@ -30,8 +33,9 @@ public class Company {
     private String adminName;
     @Column(name = "admin_email")
     private String adminEmail;
+    @JsonIgnore
     @Column(name = "status_id")
-    private int status;
+    private Integer status;
     @Column(name = "created_by")
     private String createdBy;
     @Column(name = "created_time")
@@ -40,4 +44,8 @@ public class Company {
     private String apprBy;
     @Column(name = "update_time")
     private LocalDateTime updateTime;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "companyId", fetch = FetchType.LAZY)
+    private List<Approval> approvals;
 }
