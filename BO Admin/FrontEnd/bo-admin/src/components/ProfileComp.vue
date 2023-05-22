@@ -139,7 +139,7 @@ export default {
     saveChanges() {
       var data = this.userData
       data.pass = this.oldpass
-      console.log(data);
+      // console.log(data);
       userService
         .login(data)
         .then((response) => {
@@ -151,7 +151,7 @@ export default {
                 .register(data)
                 .then((response) => {
                   if (response.status == 201) {
-                    console.log(response.data);
+                    // console.log(response.data);
                     this.$toast.success('Success change password!', {
                       position: 'top-right',
                       timeout: 2500,

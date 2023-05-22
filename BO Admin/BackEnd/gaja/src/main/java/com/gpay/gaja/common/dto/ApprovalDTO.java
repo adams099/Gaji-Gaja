@@ -3,6 +3,7 @@ package com.gpay.gaja.common.dto;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.gpay.gaja.model.domain.Company;
 
 import lombok.Data;
 
@@ -10,7 +11,6 @@ import lombok.Data;
 public class ApprovalDTO {
 
     private Long id;
-    private Long companyId;
     private int status;
     private String comName;
     private String reqType;
@@ -20,4 +20,7 @@ public class ApprovalDTO {
     private String apprBy;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updateTime;
+
+    private Long companyId;
+    private Company companyz;
 }

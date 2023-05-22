@@ -176,10 +176,26 @@ export default {
           if (response.status === 200) {
             console.log(response.data);
             this.togleShowPass()
+            this.$toast.success('OTP verification successful!', {
+              position: 'top-right',
+              timeout: 2500,
+            });
           }
         })
         .catch((e) => {
           console.log(e);
+          try {
+            e.response.status == 404
+            this.$toast.warning('Invalid OTP. Please try again.', {
+              position: 'top-right',
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error('Error', {
+              position: 'top-right',
+              timeout: 2500,
+            });
+          }
         });
     },
     async changePass() {
@@ -199,9 +215,9 @@ export default {
               this.dataemail = response.data
               if (response.data.update == null) {
                 this.$toast.warning('Please Change Password at Dashboard', {
-                position: 'top-right',
-                timeout: 2500,
-              });
+                  position: 'top-right',
+                  timeout: 2500,
+                });
               } else {
                 posisi = 1
               }
@@ -209,6 +225,10 @@ export default {
           })
           .catch((e) => {
             console.log(e);
+            this.$toast.error('Error!', {
+              position: 'top-right',
+              timeout: 2500,
+            });
           });
         if (posisi == 1) {
           this.dataemail.pass = this.gantipw.pw1
@@ -217,7 +237,7 @@ export default {
             .register(data2)
             .then((response) => {
               if (response.status === 201) {
-                this.$toast.success('Success change password', {
+                this.$toast.success('Success change password!', {
                   position: 'top-right',
                   timeout: 2500,
                 });
@@ -228,6 +248,10 @@ export default {
             })
             .catch((e) => {
               console.log(e);
+              this.$toast.error('Error!', {
+                position: 'top-right',
+                timeout: 2500,
+              });
             });
         }
       }
@@ -306,7 +330,7 @@ export default {
             });
         }
       } else {
-        this.$toast.error('Verif Dulu Cuy', {
+        this.$toast.error('Please verify the CAPTCHA', {
           position: 'top-right',
           timeout: 2500,
         });

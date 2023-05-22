@@ -140,15 +140,14 @@ export default {
                             }
                         })
                         .catch(() => {
-                            this.$toast.error('Errorzzzzz!', {
+                            this.$toast.error('Error!', {
                                 position: 'top-right',
                                 timeout: 2500,
                             });
                         });
                 })
                 .catch(() => {
-
-                    this.$toast.error('Errorjjjjjj!', {
+                    this.$toast.error('Error!', {
                         position: 'top-right',
                         timeout: 2500,
                     });

@@ -119,6 +119,7 @@
   
 <script>
 import companyService from '@/services/companyService.js';
+import approvService from '@/services/approvalService.js';
 import adds from '@/services/userService.js';
 export default {
     name: "CompanyS",
@@ -127,6 +128,19 @@ export default {
     data() {
         return {
             submitBtn: null,
+
+            apprvData: {
+                status: null,
+                comName: null,
+                reqType: null,
+                reqBy: null,
+                createdTime: null,
+                apprBy: null,
+                updateTime: null,
+                companyId: null,
+                companyz: null
+            },
+
             companyDatas: {
                 id: null,
                 comName: null,
@@ -143,6 +157,7 @@ export default {
                 apprBy: null,
                 updateTime: null,
             },
+
             itemsPerPage: 7,
             currentPage: 1,
 
@@ -162,23 +177,6 @@ export default {
                 apprBy: null,
                 update: null
             },
-
-            // updateCompany: {
-            //     id: null,
-            //     comName: null,
-            //     comTaxNum: null,
-            //     siup: null,
-            //     address: null,
-            //     mailAddress: null,
-            //     postal: null,
-            //     adminName: null,
-            //     adminEmail: null,
-            //     status: null,
-            //     createdBy: null,
-            //     createdTime: null,
-            //     apprBy: null,
-            //     updateTime: null
-            // },
 
             showForm: false,
             showDetail: false,
@@ -203,8 +201,7 @@ export default {
         SubmitCompany() {
             let akun = this.buatAkun
             let data = this.companyDatas
-
-
+            let apprv = this.apprvData
 
 
             if (this.submitBtn === "Add Company") {
@@ -223,8 +220,25 @@ export default {
                     .then((response) => {
                         console.log("add Company");
                         console.log(response.status);
+                        apprv.comName = data.comName
+                        apprv.companyId = response.data.id
+                        apprv.reqBy = data.createdBy
+                        apprv.reqType = "Need Approve"
+                        apprv.status = data.status;
 
-                        // add table approved
+                        // add table approv
+                        approvService.saveApprov(apprv)
+                            .then((response) => {
+                                console.log("add Approv");
+                                console.log(response.status);
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                                this.$toast.error('Error!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                            });
 
                         adds.register(akun)
                             .then((response) => {
@@ -246,7 +260,6 @@ export default {
                             });
                     })
                     .catch(() => {
-
                         this.$toast.error('Error!', {
                             position: 'top-right',
                             timeout: 2500,
@@ -264,7 +277,6 @@ export default {
                         this.showForm = !this.showForm;
                     })
                     .catch(() => {
-
                         this.$toast.error('Error!', {
                             position: 'top-right',
                             timeout: 2500,
@@ -289,30 +301,6 @@ export default {
                     console.log(e);
                 });
         },
-
-        // updateCompanyFunc() {
-        //     let data = this.updateCompany;
-
-        //     // console.log(data);
-        //     companyService.upload(data)
-        //         .then((response) => {
-        //             // console.log(response.data);
-        //             console.log(response.status);
-        //             this.$toast.success('Company Data has been successfully Update!', {
-        //                 position: 'top-right',
-        //                 timeout: 2500,
-        //             });
-        //             this.getCompany();
-        //             this.showDetail = !this.showDetail;
-        //         })
-        //         .catch(() => {
-        //             this.$toast.error('Error', {
-        //                 position: 'top-right',
-        //                 timeout: 2500,
-        //             });
-        //         });
-
-        // },
 
         previousPage() {
             this.currentPage--;
