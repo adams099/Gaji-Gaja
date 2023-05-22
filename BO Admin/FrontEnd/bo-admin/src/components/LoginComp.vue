@@ -316,7 +316,11 @@ export default {
 };
 </script>
     
-<style scoped>
+<style scoped lang="css">
+.container {
+  justify-content: flex-end;
+}
+
 .input-group {
   position: relative;
   background-color: #060000;

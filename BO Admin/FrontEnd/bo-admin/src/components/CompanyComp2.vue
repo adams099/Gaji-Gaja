@@ -3,12 +3,10 @@
 
         <div class="btn-add mt-3 d-flex flex-row text-white">
             <button class="btn back text-white" v-if="showForm" v-on:click="BackButton(1)">
-                <i class="fas fa-arrow-left text-white"></i> Back
+                <i class="fas fa-arrow-left text-white"></i>Back
             </button>
-            <button class="btn btn-add-com" @click="showForm = true" v-else>Add
+            <button class="btn btn-add-com" @click="addFunc()" v-else>Add
                 Company</button>
-
-
         </div>
 
         <!------------------ START TABLE ------------------->
@@ -32,7 +30,7 @@
                     <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
                     <button type="button" class="status salmon" v-else>Deactive</button>
                     <td class="text-center">
-                        <button type="button" class="btn btn-primary" @click="showForm = true">Detail</button>
+                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Detail</button>
                     </td>
                 </tr>
             </tbody>
@@ -46,7 +44,7 @@
             </tbody>
         </table>
 
-        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && companyData.length < 10">
+        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && companyData.length >= 10">
             <button type="button" class="btn btn-success" @click="previousPage"
                 :disabled="currentPage == 1">Previous</button>
             <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -111,7 +109,7 @@
                     </div>
                 </div>
 
-                <button type="submit" class="btn add-company">Add Company</button>
+                <button type="submit" class="btn add-company">{{ submitBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
 
@@ -128,7 +126,9 @@ export default {
     // DATA
     data() {
         return {
+            submitBtn: null,
             companyDatas: {
+                id: null,
                 comName: null,
                 comTaxNum: null,
                 siup: null,
@@ -163,77 +163,117 @@ export default {
                 update: null
             },
 
-            updateCompany: {
-                id: null,
-                comName: null,
-                comTaxNum: null,
-                siup: null,
-                address: null,
-                mailAddress: null,
-                postal: null,
-                adminName: null,
-                adminEmail: null,
-                status: null,
-                createdBy: null,
-                createdTime: null,
-                apprBy: null,
-                updateTime: null
-            },
+            // updateCompany: {
+            //     id: null,
+            //     comName: null,
+            //     comTaxNum: null,
+            //     siup: null,
+            //     address: null,
+            //     mailAddress: null,
+            //     postal: null,
+            //     adminName: null,
+            //     adminEmail: null,
+            //     status: null,
+            //     createdBy: null,
+            //     createdTime: null,
+            //     apprBy: null,
+            //     updateTime: null
+            // },
 
             showForm: false,
-            showModal: false,
+            showDetail: false,
         }
     },
     methods: {
+        updateFunc(data) {
+            this.showForm = !this.showForm;
+            this.submitBtn = "Update Company"
+            console.log(data);
+            this.companyDatas = data;
+        },
+
+        addFunc() {
+            for (const property in this.companyDatas) {
+                this.companyDatas[property] = null;
+            }
+            this.showForm = !this.showForm;
+            this.submitBtn = "Add Company"
+        },
+
         SubmitCompany() {
             let akun = this.buatAkun
             let data = this.companyDatas
 
-            akun.email = data.adminEmail;
-            akun.name = data.adminName;
-            akun.status = 4;
-            akun.pass = "testing";
-            akun.roleId = 2;
-            akun.statId = 4;
-            akun.createdBy = this.$session.get('email');
 
-            data.status = 1;
-            data.createdBy = this.$session.get('email');
-            // console.log(data);
-            companyService.upload(data)
-                .then((response) => {
-                    console.log("add Company");
-                    console.log(response.status);
 
-                    // add table approved
 
-                    adds.register(akun)
-                        .then((response) => {
-                            // this.companyData = response.data;
-                            console.log("add User");
-                            console.log(response.status);
-                            this.$toast.success('Company Data has been successfully added!', {
-                                position: 'top-right',
-                                timeout: 2500,
+            if (this.submitBtn === "Add Company") {
+                akun.email = data.adminEmail;
+                akun.name = data.adminName;
+                akun.status = 4;
+                akun.pass = "testing";
+                akun.roleId = 2;
+                akun.statId = 4;
+                akun.createdBy = this.$session.get('email');
+                data.status = 1;
+                data.createdBy = this.$session.get('email');
+
+                // console.log(data);
+                companyService.upload(data)
+                    .then((response) => {
+                        console.log("add Company");
+                        console.log(response.status);
+
+                        // add table approved
+
+                        adds.register(akun)
+                            .then((response) => {
+                                // this.companyData = response.data;
+                                console.log("add User");
+                                console.log(response.status);
+                                this.$toast.success('Company Data has been successfully added!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                                this.showForm = !this.showForm;
+                                this.getCompany();
+                            })
+                            .catch(() => {
+                                this.$toast.error('Error!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
                             });
-                            for (const property in this.companyDatas) {
-                                this.companyDatas[property] = null
-                            }
-                        })
-                        .catch(() => {
-                            this.$toast.error('Errorzzzzz!', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
+                    })
+                    .catch(() => {
+
+                        this.$toast.error('Error!', {
+                            position: 'top-right',
+                            timeout: 2500,
                         });
-                })
-                .catch(() => {
-
-                    this.$toast.error('Errorjjjjjj!', {
-                        position: 'top-right',
-                        timeout: 2500,
                     });
-                });
+            } else {
+                companyService.upload(data)
+                    .then((response) => {
+                        console.log("add Company");
+                        console.log(response.status);
+                        this.$toast.success('Company Data has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        this.showForm = !this.showForm;
+                    })
+                    .catch(() => {
+
+                        this.$toast.error('Error!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    });
+            }
+
+
+
         },
 
         // GET COMPANY
@@ -250,29 +290,29 @@ export default {
                 });
         },
 
-        updateCompanyFunc() {
-            let data = this.updateCompany;
+        // updateCompanyFunc() {
+        //     let data = this.updateCompany;
 
-            // console.log(data);
-            companyService.upload(data)
-                .then((response) => {
-                    // console.log(response.data);
-                    console.log(response.status);
-                    this.$toast.success('Company Data has been successfully Update!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    this.getCompany();
-                    this.showDetail = !this.showDetail;
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                });
+        //     // console.log(data);
+        //     companyService.upload(data)
+        //         .then((response) => {
+        //             // console.log(response.data);
+        //             console.log(response.status);
+        //             this.$toast.success('Company Data has been successfully Update!', {
+        //                 position: 'top-right',
+        //                 timeout: 2500,
+        //             });
+        //             this.getCompany();
+        //             this.showDetail = !this.showDetail;
+        //         })
+        //         .catch(() => {
+        //             this.$toast.error('Error', {
+        //                 position: 'top-right',
+        //                 timeout: 2500,
+        //             });
+        //         });
 
-        },
+        // },
 
         previousPage() {
             this.currentPage--;
@@ -294,6 +334,7 @@ export default {
         BackButton(back) {
             if (back == 1) {
                 this.showForm = false
+                this.getCompany();
             }
         },
 
@@ -374,6 +415,16 @@ form {
 
 }
 
+.btn-detail {
+    background-color: #5a4de5;
+    color: white;
+}
+
+.btn-detail:hover {
+    background-color: #4a3ec6;
+    color: white;
+}
+
 .back {
     background-color: #695cfe;
     color: white;
@@ -427,5 +478,45 @@ h6 {
 .green {
     border: 2px solid green;
     color: green;
+}
+
+table {
+    border-collapse: separate !important;
+    border-spacing: 0 !important;
+}
+
+table tr th,
+table tr td {
+    border-right: 1px solid #dee2e6 !important;
+    border-bottom: 1px solid #dee2e6 !important;
+}
+
+table tr th:first-child,
+table tr td:first-child {
+    border-left: 1px solid #dee2e6 !important;
+}
+
+table tr th {
+    border-top: 1px solid #dee2e6 !important;
+}
+
+/* top-left border-radius */
+table tr:first-child th:first-child {
+    border-top-left-radius: 0.25rem !important;
+}
+
+/* top-right border-radius */
+table tr:first-child th:last-child {
+    border-top-right-radius: 0.25rem !important;
+}
+
+/* bottom-left border-radius */
+table tr:last-child td:first-child {
+    border-bottom-left-radius: 0.25rem !important;
+}
+
+/* bottom-right border-radius */
+table tr:last-child td:last-child {
+    border-bottom-right-radius: 0.25rem !important;
 }
 </style>

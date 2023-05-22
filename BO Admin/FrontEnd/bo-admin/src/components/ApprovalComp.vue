@@ -1,6 +1,10 @@
 <template>
     <section class="home">
-        <div class="text text-center" v-if="!showDetail">All Company</div>
+        <div class="btn-add mt-2 d-flex flex-row text-white justify-content-end">
+            <button class="btn back text-white" v-if="showDetail" @click="BackButton(1)">
+                <i class="fas fa-arrow-left text-white"></i> Back
+            </button>
+        </div>
         <div class="table">
             <div class="d-flex flex-row justify-content-between mb-2">
                 <h5 class="color-text" v-if="!showDetail">Daftar Company</h5>
@@ -14,6 +18,7 @@
                                     <h5 class="color-text mt-3 mb-3 text-center text-color text-white " v-if="showDetail"
                                         style="font-size: 20px; ">
                                         Detail Company</h5>
+
                                 </div>
                             </div>
 
@@ -91,6 +96,7 @@
                     </div>
                 </div>
             </div>
+
 
             <!------------------ START TABLE ------------------->
             <table class="table " v-show="!showDetail">
@@ -228,6 +234,11 @@ export default {
         // navigasi ke halaman berikutnya
         nextPage() {
             this.currentPage++;
+        },
+        BackButton(back) {
+            if (back == 1) {
+                this.showDetail = false
+            }
         },
 
         //test doang ya
@@ -486,5 +497,11 @@ form {
 .row {
     position: fixed;
 
+}
+
+.back {
+    background-color: #695cfe;
+    margin-right: 120px;
+    border-radius: 10px;
 }
 </style>
