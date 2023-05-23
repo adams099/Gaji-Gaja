@@ -6,7 +6,7 @@
           <img class="img" src="../assets/bo-admin.png" alt="" />
         </span>
 
-        <div class="text logo-text d-flex flex-column">
+        <div class="text logo-text d-flex flex-column mb-2">
           <span class="name">BO ADMIN</span>
           <span class="profession " style="font-size: 12px;">Gaji Gaja</span>
         </div>

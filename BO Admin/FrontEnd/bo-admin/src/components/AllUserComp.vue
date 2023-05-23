@@ -23,7 +23,7 @@
                     <div class="form-group">
                       <label for="phone_number">Phone Number</label>
                       <input type="text" class="form-control" id="phone_number" placeholder="Enter Phone Number" required
-                        v-model="inputData.phone_number" />
+                        v-model="inputData.phone" />
                       <span class="valid" v-if="error.phoneAda">Phone Number sudah ada</span>
                       <span class="valid" v-if="error.phone">Phone Number diisi!</span>
                     </div>

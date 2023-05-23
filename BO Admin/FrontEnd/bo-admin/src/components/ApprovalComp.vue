@@ -37,38 +37,33 @@
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="request_by">Request By</label>
-                                            <input type="text" class="form-control" id="request_by"
-                                                placeholder="Enter request_by Number" required
-                                                v-model="updateCompany.comTaxNum">
+                                            <input type="text" class="form-control" id="request_by" placeholder="Request By"
+                                                required v-model="updateCompany.comTaxNum">
                                         </div>
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="Address">Address</label>
-                                        <input type="text" class="form-control company-detail" id="Address"
-                                            placeholder="Address" required v-model="updateCompany.address">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="postal_code">Postal Code</label>
-                                        <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="Postal Code" required v-model="updateCompany.postal">
+                                        <label for="approve_by">Approve By</label>
+                                        <input type="text" class="form-control company-detail" id="approve_by"
+                                            placeholder="Approve By" required v-model="appData.comName">
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="admin_name">Admin Name</label>
-                                            <input type="text" class="form-control" id="admin_name"
-                                                placeholder="Enter Admin Name" disabled v-model="updateCompany.adminName">
+                                            <label for="created_time">Created Time</label>
+                                            <input type="text" class="form-control" id="created_time"
+                                                placeholder="Created Time" disabled v-model="updateCompany.adminName">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="admin_email">Admin Email</label>
-                                            <input type="text" class="form-control" id="admin_email"
-                                                placeholder="Enter Admin Email" disabled v-model="updateCompany.adminEmail">
+                                            <label for="update_time">Update Time</label>
+                                            <input type="text" class="form-control" id="update_time"
+                                                placeholder="Update Time" disabled v-model="updateCompany.adminEmail">
                                         </div>
 
                                     </div>
 
                                     <div class="buttons d-flex flex-row justify-content-between mt-3">
-                                        <button type="submit" class="btn mt-2 btn-update">Update</button>
+                                        <!-- <button type="submit" class="btn mt-2 btn-update">Update</button> -->
                                         <button type="button" class="btn btn-delete text-white "
                                             @click="showModalStatuss(item)" style="border-radius: 10px;">Edit
                                             Status</button>
@@ -122,10 +117,10 @@
                         <td>{{ item.reqType }}</td>
                         <td>{{ item.reqBy }}</td>
                         <td>{{ item.apprBy }}</td>
-                        <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
-                        <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
-                        <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
-                        <button type="button" class="status salmon" v-else>Deactive</button>
+                        <div class="status blue mx-1" v-if="item.status == 1">In Review</div>
+                        <div class="status green mx-1" v-else-if="item.status == 2">Active</div>
+                        <div class="status red mx-1" v-else-if="item.status == 3">Rejected</div>
+                        <div class="status salmon mx-1" v-else>Deactive</div>
                         <td class="text-center">
                             <button type="button" class="btn btn-detail" @click="showDetails(item)">Detail</button>
 

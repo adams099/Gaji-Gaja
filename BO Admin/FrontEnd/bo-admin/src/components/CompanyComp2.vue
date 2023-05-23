@@ -22,10 +22,10 @@
                     <th scope="row" class="text-center">{{ item.id }}</th>
                     <td>{{ item.comName }}</td>
                     <td>{{ item.mailAddress }}</td>
-                    <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
-                    <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
-                    <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
-                    <button type="button" class="status salmon" v-else>Deactive</button>
+                    <div class="status blue mx-1" v-if="item.status == 1">In Review</div>
+                    <div class="status green mx-1" v-else-if="item.status == 2">Active</div>
+                    <div class="status red mx-1" v-else-if="item.status == 3">Rejected</div>
+                    <div class="status salmon mx-1" v-else>Deactive</div>
                     <td class="text-center">
                         <button type="button" class="btn btn-detail" @click="updateFunc(item)">Detail</button>
                     </td>
