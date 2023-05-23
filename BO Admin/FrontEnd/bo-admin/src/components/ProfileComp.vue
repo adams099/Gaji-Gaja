@@ -1,6 +1,6 @@
 <template>
   <section class="home">
-    <div class="text text-center color-text">Profile</div>
+    <div class="text text-center color-text">{{ isFormVisible ? "Change Password Page" : "Profile" }}</div>
 
     <!-- CHANGE PASSWORD -->
     <div v-show="isFormVisible" class="col-md-12 mt-5">
@@ -22,7 +22,7 @@
             v-model="confPass">
         </div>
         <button class="btn submit btn-primary mt-4" type="submit">Save</button>
-        <button class="btn btn-outline-secondary submit mt-2" v-if="isCancle"
+        <button class="btn btn-outline-secondary submit mt-3" v-if="isCancle"
           @click="isFormVisible = false">Cancel</button>
       </form>
     </div>
@@ -36,7 +36,7 @@
             <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt=""
               style="width: 150px; height: 150px;" />
 
-            <h5 class="my-3">{{ userData.name | toUpperCase }}</h5>
+            <h5 class="my-3">{{ name | toUpperCase }}</h5>
             <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
@@ -114,7 +114,6 @@
         </div>
       </div>
     </div>
-
   </section>
 </template>
 
@@ -129,6 +128,7 @@ export default {
 
   data() {
     return {
+      name: null,
       userData: {
         id: null,
         email: null,
@@ -140,7 +140,8 @@ export default {
       newPass: null,
       confPass: null,
       isFormVisible: false,
-      isCancle: true
+      isCancle: true,
+      title: null,
     };
   },
 
@@ -169,6 +170,7 @@ export default {
     // },
     toggleFormVisibility() {
       this.isFormVisible = !this.isFormVisible;
+
     },
     Logout() {
       this.$session.destroy();
@@ -185,7 +187,6 @@ export default {
           if (response.status === 200) {
             if (this.newPass == this.confPass) {
               data.pass = this.newPass
-
               userService
                 .register(data)
                 .then((response) => {
@@ -238,6 +239,16 @@ export default {
         .findEmail(data)
         .then((response) => {
           if (response.status === 200) {
+
+            let oldName = response.data.name;
+            let first = oldName.split(" ")[0];
+            let second = oldName.split(" ")[1];
+            if (second == null || second == undefined) {
+              this.name = first;
+            } else {
+              this.name = first + " " + second;
+            }
+
             console.log("success get user");
             console.log(response.status);
             this.userData = response.data;

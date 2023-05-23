@@ -69,13 +69,9 @@
 
                                     <div class="buttons d-flex flex-row justify-content-between mt-3">
                                         <button type="submit" class="btn mt-2 btn-update">Update</button>
-                                        <div class="action-button">
-                                            <button type="submit" class="btn mt-2 btn-update bg-success">Approve</button>
-                                            <button type="submit"
-                                                class="btn mt-2 btn-update mx-3 bg-warning">Reject</button>
-                                            <button type="submit"
-                                                class="btn mt-2 btn-update bg-danger">Deactivetive</button>
-                                        </div>
+                                        <button type="button" class="btn btn-delete text-white "
+                                            @click="showModalStatuss(item)" style="border-radius: 10px;">Edit
+                                            Status</button>
                                     </div>
                                 </form>
                             </div>
@@ -89,10 +85,10 @@
                                             <h6> Status Confirmation</h6>
                                             <b-col>
                                                 <div class="initombol">
-                                                    <button @click="accept" class="btn btn-success mr-3">Accept</button>
+                                                    <button @click="accept" class="btn btn-success mr-3">Approve</button>
                                                     <button @click="reject" class="btn btn-danger mr-3">Reject</button>
-                                                    <button @click="deadactive"
-                                                        class="btn btn-primary mr-3">Deadactive</button>
+                                                    <!-- <button @click="deadactive"
+                                                        class="btn btn-primary mr-3">Deadactive</button> -->
                                                 </div>
                                             </b-col>
 
@@ -132,8 +128,7 @@
                         <button type="button" class="status salmon" v-else>Deactive</button>
                         <td class="text-center">
                             <button type="button" class="btn btn-detail" @click="showDetails(item)">Detail</button>
-                            <button type="button" class="btn btn-delete text-white "
-                                @click="showModalStatuss(item)">Status</button>
+
                         </td>
                     </tr>
                 </tbody>
