@@ -1,10 +1,37 @@
 <template>
   <section class="home">
     <div class="text text-center color-text">Profile</div>
-    <div class="row">
+
+    <!-- CHANGE PASSWORD -->
+    <div v-show="isFormVisible" class="col-md-12 mt-5">
+      <form class="change-password shadow-lg col-md-6" @submit.prevent="saveChanges">
+        <h6 class="change-text text-center mb-4">Change Password</h6>
+        <div class="form-group">
+          <label for="old-password">Old Password</label>
+          <input type="password" class="form-control" id="old-password" required placeholder="Old Password"
+            v-model="oldpass">
+        </div>
+        <div class="form-group">
+          <label for="new-password">New Password</label>
+          <input type="password" class="form-control" id="new-password" required placeholder="New Password"
+            v-model="newPass">
+        </div>
+        <div class="form-group">
+          <label for="confirm-password">Confirm Password</label>
+          <input type="password" class="form-control" id="confirm-password" required placeholder="Confirm Password"
+            v-model="confPass">
+        </div>
+        <button class="btn submit btn-primary mt-4" type="submit">Save</button>
+        <button class="btn btn-outline-secondary submit mt-2" v-if="isCancle"
+          @click="isFormVisible = false">Cancel</button>
+      </form>
+    </div>
+    <div class="row row-lg-10">
+      <!-- change password -->
+
       <div class="col-lg-4 ml-5 mt-4">
         <!-- CARD 1 -->
-        <div class="card mb-1 shadow-lg">
+        <div class="card mb-1 shadow-lg" v-show="!isFormVisible">
           <div class=" text-center">
             <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt=""
               style="width: 150px; height: 150px;" />
@@ -13,10 +40,13 @@
             <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
-                <button type="button" @click="showModal" id="show-btn" class="btn btn-outline-primary ms-1 mt-2">
-                  Change Password
+                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2"
+                  @click="toggleFormVisibility">
+                  Change Passwd
                 </button>
-                <b-modal ref="changepassword" hide-footer title="Change Password">
+
+                <!-- MODAL BOX -->
+                <!-- <b-modal ref="changepassword" hide-footer title="Change Password">
                   <div class="d-block">
                     <div class="form">
                       <div class="form-group">
@@ -43,15 +73,18 @@
                     <b-button class="primary" block @click="saveChanges">Save</b-button>
                     <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                   </div>
-                </b-modal>
+                </b-modal> -->
+
               </div>
             </div>
           </div>
         </div>
       </div>
 
+
+
       <!-- CARD 2 -->
-      <div class="col-lg-6 mt-4 card-dua shadow-lg ml-4">
+      <div class="col-lg-6 mt-4 card-dua shadow-lg ml-4" v-show="!isFormVisible">
         <div class="mb-4">
           <div class="table">
             <table style="width: 100%">
@@ -81,13 +114,18 @@
         </div>
       </div>
     </div>
+
   </section>
 </template>
 
 <script>
 import userService from "@/services/userService";
+import ChangePaswd from "@/components/ChangePaswdComp.vue"
 export default {
   name: "ProfileComp",
+  comments: {
+    ChangePaswd,
+  },
 
   data() {
     return {
@@ -96,10 +134,13 @@ export default {
         email: null,
         phone: null,
         pass: null,
+        update: null,
       },
       oldpass: null,
       newPass: null,
       confPass: null,
+      isFormVisible: false,
+      isCancle: true
     };
   },
 
@@ -112,24 +153,26 @@ export default {
 
   methods: {
     //Modal Box
-    showModal() {
-      this.$refs["changepassword"].show();
-      for (const property in this.error) {
-        this.error[property] = false;
-      }
-    },
+    // showModal() {
+    //   this.$refs["changepassword"].show();
+    //   for (const property in this.error) {
+    //     this.error[property] = false;
+    //   }
+    // },
 
-    hideModal() {
-      this.$refs["changepassword"].hide();
-    },
+    // hideModal() {
+    //   this.$refs["changepassword"].hide();
+    // },
 
-    toggleModal() {
-      this.$refs["changepassword"].toggle();
+    // toggleModal() {
+    //   this.$refs["changepassword"].toggle();
+    // },
+    toggleFormVisibility() {
+      this.isFormVisible = !this.isFormVisible;
     },
-
     Logout() {
-      this.$router.replace("/auth");
       this.$session.destroy();
+      this.$router.replace("/auth");
     },
 
     saveChanges() {
@@ -152,7 +195,6 @@ export default {
                       position: 'top-right',
                       timeout: 2500,
                     });
-                    this.toggleModal()
                     this.Logout()
                   }
                 })
@@ -199,6 +241,10 @@ export default {
             console.log("success get user");
             console.log(response.status);
             this.userData = response.data;
+            if (response.data.update == null) {
+              this.isFormVisible = !this.isFormVisible
+              this.isCancle = false
+            }
             // console.log(this.userData.id);
           }
         })
@@ -259,5 +305,35 @@ img:hover {
 .primary:hover {
   background-color: #5549da;
 
+}
+
+/* change password */
+.change-password {
+  background-color: white;
+  padding: 50px 50px;
+  border-radius: 25px;
+  margin: auto;
+  align-content: center;
+  right: 0px;
+
+}
+
+.submit {
+  /* background-color: #5549da; */
+  color: white;
+  width: 100%;
+  border-radius: 10px;
+}
+
+.change-text {
+  font-size: large;
+}
+
+.btn-outline-secondary:hover {
+  color: white;
+}
+
+.btn-outline-secondary {
+  color: grey;
 }
 </style>
