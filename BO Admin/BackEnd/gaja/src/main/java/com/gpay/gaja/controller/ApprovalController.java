@@ -29,4 +29,11 @@ public class ApprovalController {
         ApprovalDTO dto = service.save(approvalDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
+
+    @GetMapping("/getAll")
+    public ResponseEntity<?> getAll() {
+        List<ApprovalDTO> dto = service.getAll();
+        return new ResponseEntity<>(dto, HttpStatus.OK);
+    }
+
 }
