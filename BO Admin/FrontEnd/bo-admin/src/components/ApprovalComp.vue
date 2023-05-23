@@ -10,7 +10,6 @@
         </div>
         <div class="table">
             <div class="d-flex flex-row justify-content-between mb-2">
-
                 <div>
                     <div class="container mr-3 d-flex">
                         <div>
@@ -28,18 +27,19 @@
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input type="text" class="form-control company-detail" id="name_company"
-                                            placeholder="Company Name" required v-model="updateCompany.comName">
+                                            placeholder="Company Name" required v-model="appData.comName">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="email_company">Email Company</label>
-                                            <input type="email" class="form-control" id="email_company" placeholder="Email"
-                                                required v-model="updateCompany.mailAddress">
+                                            <label for="request_type">Reques Type</label>
+                                            <input type="text" class="form-control" id="request_type" placeholder="Email"
+                                                required v-model="appData.reqType">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="NPWP">NPWP</label>
-                                            <input type="text" class="form-control" id="NPWP"
-                                                placeholder="Enter NPWP Number" required v-model="updateCompany.comTaxNum">
+                                            <label for="request_by">Request By</label>
+                                            <input type="text" class="form-control" id="request_by"
+                                                placeholder="Enter request_by Number" required
+                                                v-model="updateCompany.comTaxNum">
                                         </div>
                                     </div>
                                     <div class="form-group">
@@ -67,7 +67,16 @@
 
                                     </div>
 
-                                    <button type="submit" class="btn mt-2 btn-update">Update</button>
+                                    <div class="buttons d-flex flex-row justify-content-between mt-3">
+                                        <button type="submit" class="btn mt-2 btn-update">Update</button>
+                                        <div class="action-button">
+                                            <button type="submit" class="btn mt-2 btn-update bg-success">Approve</button>
+                                            <button type="submit"
+                                                class="btn mt-2 btn-update mx-3 bg-warning">Reject</button>
+                                            <button type="submit"
+                                                class="btn mt-2 btn-update bg-danger">Deactivetive</button>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                             <!---------------------- END DETAIL COMPANY ------------------------>
@@ -102,18 +111,21 @@
             <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
-                        <th scope="col">ID</th>
                         <th scope="col">Company Name</th>
-                        <th scope="col">Mail Address</th>
+                        <th scope="col">Request Type</th>
+                        <th scope="col">Request By</th>
+                        <th scope="col">Approve By</th>
                         <th scope="col">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="companyData.length > 0">
+                <tbody v-if="appData.length > 0">
                     <tr class=" baris text-center shadow-lg " v-for="(item, index) in paginatedData" :key="index">
-                        <th scope="row" class="text-center">{{ item.id }}</th>
+                        <!-- <th scope="row" class="text-center">{{ item.id }}</th> -->
                         <td>{{ item.comName }}</td>
-                        <td>{{ item.mailAddress }}</td>
+                        <td>{{ item.reqType }}</td>
+                        <td>{{ item.reqBy }}</td>
+                        <td>{{ item.apprBy }}</td>
                         <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
                         <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
                         <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
@@ -151,6 +163,7 @@
   
 <script>
 import companyService from '@/services/companyService.js';
+import approvalService from '@/services/approvalService.js'
 
 export default {
     name: "CompanyS",
@@ -162,6 +175,19 @@ export default {
             currentPage: 1,
 
             companyData: {
+            },
+
+            appData: {},
+
+            appUpdate: {
+                id: null,
+                status: null,
+                comName: null,
+                reqType: null,
+                reqBy: null,
+                createdTime: null,
+                apprBy: null,
+                updateTime: null,
             },
 
             updateCompany: {
@@ -311,14 +337,28 @@ export default {
                 });
         },
 
-        // GET COMPANY
-        getCompany() {
-            companyService
+        // // GET COMPANY
+        // getCompany() {
+        //     companyService
+        //         .getAll()
+        //         .then((response) => {
+        //             this.companyData = response.data;
+        //             // console.log(this.companyData);
+        //             console.log("get Company");
+        //         })
+        //         .catch((e) => {
+        //             console.log(e);
+        //         });
+        // },
+        // GET APPROVAL
+        getApproval() {
+            approvalService
                 .getAll()
                 .then((response) => {
-                    this.companyData = response.data;
+                    this.appData = response.data;
                     // console.log(this.companyData);
-                    console.log("get Company");
+                    console.log(this.appData);
+                    console.log("get Approval");
                 })
                 .catch((e) => {
                     console.log(e);
@@ -328,14 +368,13 @@ export default {
 
     // MOUNTED
     mounted() {
-        this.getCompany();
-
+        this.getApproval();
     },
 
     computed: {
         // hitung jumlah halaman
         pageCount() {
-            const itemCount = this.companyData.length;
+            const itemCount = this.appData.length;
             const pageCount = Math.ceil(itemCount / this.itemsPerPage);
             return pageCount;
         },
@@ -343,7 +382,7 @@ export default {
         paginatedData() {
             const startIndex = (this.currentPage - 1) * this.itemsPerPage;
             const endIndex = startIndex + this.itemsPerPage;
-            return this.companyData.slice(startIndex, endIndex);
+            return this.appData.slice(startIndex, endIndex);
         },
     },
 };
