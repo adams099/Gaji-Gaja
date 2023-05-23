@@ -23,54 +23,54 @@
 
                             <div class="form justify-content-center d-flex flex-row bg-white shadow-lg" v-if="showDetail">
 
-                                <form class="form-detail-company flex-row" @submit.prevent="updateCompanyFunc">
+                                <form class="form-detail-company flex-row" @submit.prevent="updateApprovFunc">
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input type="text" class="form-control company-detail" id="name_company"
-                                            placeholder="Company Name" required v-model="appData.comName">
+                                            placeholder="Company Name" required v-model="appUpdateData.comName">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="request_type">Reques Type</label>
                                             <input type="text" class="form-control" id="request_type" placeholder="Email"
-                                                required v-model="appData.reqType">
+                                                required v-model="appUpdateData.reqType">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="request_by">Request By</label>
+                                            <label for="request_by">Request By</label>``
                                             <input type="text" class="form-control" id="request_by"
                                                 placeholder="Enter request_by Number" required
-                                                v-model="updateCompany.comTaxNum">
+                                                v-model="appUpdateData.comTaxNum">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="Address">Address</label>
                                         <input type="text" class="form-control company-detail" id="Address"
-                                            placeholder="Address" required v-model="updateCompany.address">
+                                            placeholder="Address" required v-model="appUpdateData.address">
                                     </div>
                                     <div class="form-group">
                                         <label for="postal_code">Postal Code</label>
                                         <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="Postal Code" required v-model="updateCompany.postal">
+                                            placeholder="Postal Code" required v-model="appUpdateData.postal">
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="admin_name">Admin Name</label>
                                             <input type="text" class="form-control" id="admin_name"
-                                                placeholder="Enter Admin Name" disabled v-model="updateCompany.adminName">
+                                                placeholder="Enter Admin Name" disabled v-model="appUpdateData.adminName">
                                         </div>
                                         <div class="form-group col-md-6">
                                             <label for="admin_email">Admin Email</label>
                                             <input type="text" class="form-control" id="admin_email"
-                                                placeholder="Enter Admin Email" disabled v-model="updateCompany.adminEmail">
+                                                placeholder="Enter Admin Email" disabled v-model="appUpdateData.adminEmail">
                                         </div>
 
                                     </div>
 
                                     <div class="buttons d-flex flex-row justify-content-between mt-3">
                                         <button type="submit" class="btn mt-2 btn-update">Update</button>
-                                        <button type="button" class="btn btn-delete text-white "
-                                            @click="showModalStatuss(item)" style="border-radius: 10px;">Edit
+                                        <button type="button" class="btn btn-delete text-white " @click="showModalStatuss()"
+                                            style="border-radius: 10px;">Edit
                                             Status</button>
                                     </div>
                                 </form>
@@ -127,8 +127,7 @@
                         <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
                         <button type="button" class="status salmon" v-else>Deactive</button>
                         <td class="text-center">
-                            <button type="button" class="btn btn-detail" @click="showDetails(item)">Detail</button>
-
+                            <button type="button" class="btn btn-detail" v-on:click="showDetails(item)">Detail</button>
                         </td>
                     </tr>
                 </tbody>
@@ -174,7 +173,7 @@ export default {
 
             appData: {},
 
-            appUpdate: {
+            appUpdateData: {
                 id: null,
                 status: null,
                 comName: null,
@@ -183,6 +182,10 @@ export default {
                 createdTime: null,
                 apprBy: null,
                 updateTime: null,
+            },
+
+            appUpdate: {
+
             },
 
             updateCompany: {
@@ -208,19 +211,17 @@ export default {
     },
 
     methods: {
-        updateCompanyFunc() {
-            let data = this.updateCompany;
+        updateApprovFunc() {
+            let data = this.appUpdateData;
 
-            // console.log(data);
-            companyService.upload(data)
+            approvalService.saveApprov(data)
                 .then((response) => {
-                    // console.log(response.data);
                     console.log(response.status);
-                    this.$toast.success('Company Data has been successfully Update!', {
+                    this.$toast.success('Approval Data has been successfully Update!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                    this.getCompany();
+                    this.getApproval();
                     this.showDetail = !this.showDetail;
                 })
                 .catch(() => {
@@ -238,24 +239,19 @@ export default {
 
         showDetails(test) {
             this.showDetail = !this.showDetail
-            // console.log(test);
-            for (const property in this.updateCompany) {
-                this.updateCompany[property] = test[property];
-            }
+            this.appUpdateData = test;
+            this.appUpdate = test;
         },
 
-        showModalStatuss(test) {
+        showModalStatuss() {
             this.showModalStatus = !this.showModalStatus
-            // console.log(test);
-            for (const property in this.updateCompany) {
-                this.updateCompany[property] = test[property];
-            }
         },
 
         // navigasi ke halaman berikutnya
         nextPage() {
             this.currentPage++;
         },
+
         BackButton(back) {
             if (back == 1) {
                 this.showDetail = false
@@ -264,95 +260,90 @@ export default {
 
         //test doang ya
         accept() {
-            // handle accept action
-            let data = this.updateCompany;
-            data.status = 2;
-            data.apprBy = this.$session.get('email');
-            companyService.upload(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    // console.log(response.data);
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getCompany();
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
+            let data = this.appUpdate;
+            if (data.reqBy == this.$session.get('email')) {
+                this.$toast.warning('Action Disable', {
+                    position: 'top-right',
+                    timeout: 2500,
                 });
-            this.showModalStatus = false
-        },
-        reject() {
-            // handle reject action
-            let data = this.updateCompany;
-            data.status = 3;
-            data.apprBy = this.$session.get('email');
-            companyService.upload(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Rejected!', {
-                        position: 'top-right',
-                        timeout: 2500,
+            } else {
+                data.status = 2;
+                data.apprBy = this.$session.get('email');
+                approvalService.saveApprov(data)
+                    .then((response) => {
+                        this.$toast.success('Status has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        console.log(response.status);
+                        this.showModalStatus = false;
+                        this.getApproval();
+                        this.showDetail = !this.showDetail
+                    })
+                    .catch(() => {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
                     });
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getCompany();
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
+                companyService.getCompanyById(data.companyId)
+                    .then((response) => {
+                        let comData = response.data
+                        comData.status = 2
+                        companyService.upload(response.data)
+                    })
+                    .catch(() => {
                     });
-                });
-        },
-        deadactive() {
-            // handle review action
-            let data = this.updateCompany;
-            data.status = 4;
-            data.apprBy = this.$session.get('email');
-            companyService.upload(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Deactive!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getCompany();
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                });
+                this.showModalStatus = false
+            }
         },
 
-        // // GET COMPANY
-        // getCompany() {
-        //     companyService
-        //         .getAll()
-        //         .then((response) => {
-        //             this.companyData = response.data;
-        //             // console.log(this.companyData);
-        //             console.log("get Company");
-        //         })
-        //         .catch((e) => {
-        //             console.log(e);
-        //         });
-        // },
+        reject() {
+            let data = this.appUpdate;
+            if (data.reqBy == this.$session.get('email')) {
+                this.$toast.warning('Action Disable', {
+                    position: 'top-right',
+                    timeout: 2500,
+                });
+            } else {
+
+                data.status = 3;
+                data.apprBy = this.$session.get('email');
+                approvalService.saveApprov(data)
+                    .then((response) => {
+                        this.$toast.success('Status has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        console.log(response.status);
+                        this.showModalStatus = false;
+                        this.getApproval();
+                        this.showDetail = !this.showDetail
+                    })
+                    .catch(() => {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    });
+                companyService.getCompanyById(data.companyId)
+                    .then((response) => {
+                        let comData = response.data
+                        comData.status = 3
+                        companyService.upload(response.data)
+                    })
+                    .catch(() => {
+                    });
+                this.showModalStatus = false
+            }
+        },
+
         // GET APPROVAL
         getApproval() {
             approvalService
                 .getAll()
                 .then((response) => {
                     this.appData = response.data;
-                    // console.log(this.companyData);
-                    console.log(this.appData);
                     console.log("get Approval");
                 })
                 .catch((e) => {
