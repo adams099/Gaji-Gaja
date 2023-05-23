@@ -19,15 +19,15 @@
             </thead>
             <tbody v-if="companyData.length > 0">
                 <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
-                    <th scope="row" class="text-center">{{ item.id }}</th>
-                    <td>{{ item.comName }}</td>
-                    <td>{{ item.mailAddress }}</td>
-                    <div class="status blue mx-1" v-if="item.status == 1">In Review</div>
-                    <div class="status green mx-1" v-else-if="item.status == 2">Active</div>
-                    <div class="status red mx-1" v-else-if="item.status == 3">Rejected</div>
-                    <div class="status salmon mx-1" v-else>Deactive</div>
+                    <th scope="row" class="text-center">{{ item?.id }}</th>
+                    <td>{{ item?.comName }}</td>
+                    <td>{{ item?.mailAddress }}</td>
+                    <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
+                    <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
+                    <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
+                    <button type="button" class="status salmon" v-else>Deactive</button>
                     <td class="text-center">
-                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Detail</button>
+                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Update</button>
                     </td>
                 </tr>
             </tbody>
@@ -59,7 +59,7 @@
                     <i class="fas fa-arrow-left text-white"></i> Back
                 </button>
             </div>
-            <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
+            <form class="iseng form-detail-company flex-row bg-white shadow-lg mb-5" @submit.prevent="SubmitCompany">
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
@@ -77,11 +77,7 @@
                             v-model="companyDatas.comTaxNum">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="Address">Address</label>
-                    <input type="text" class="form-control company-detail" id="Address" placeholder="Address" required
-                        v-model="companyDatas.address">
-                </div>
+
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -107,6 +103,12 @@
                         <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email"
                             v-model="companyDatas.adminEmail">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" placeholder="Input Address" id="address" rows="3"
+                        v-model="companyDatas.address"></textarea>
                 </div>
 
                 <button type="submit" class="btn add-company">{{ submitBtn }}</button>
@@ -186,7 +188,6 @@ export default {
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Company"
-            console.log(data);
             this.companyDatas = data;
         },
 
@@ -215,7 +216,6 @@ export default {
                 data.status = 1;
                 data.createdBy = this.$session.get('email');
 
-                // console.log(data);
                 companyService.upload(data)
                     .then((response) => {
                         console.log("add Company");
@@ -225,12 +225,18 @@ export default {
                         apprv.reqBy = data.createdBy;
                         apprv.reqType = "Need Approve";
                         apprv.status = data.status;
+                        this.$toast.success('CompanyData has been successfully added!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
 
                         // add table approv
                         approvService.saveApprov(apprv)
                             .then((response) => {
                                 console.log("add Approv");
                                 console.log(response.status);
+                                this.showForm = !this.showForm;
+                                this.getCompany();
                             })
                             .catch((e) => {
                                 console.log(e);
@@ -240,24 +246,25 @@ export default {
                                 });
                             });
 
-                        adds.register(akun)
-                            .then((response) => {
-                                // this.companyData = response.data;
-                                console.log("add User");
-                                console.log(response.status);
-                                this.$toast.success('Company Data has been successfully added!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                                this.showForm = !this.showForm;
-                                this.getCompany();
-                            })
-                            .catch(() => {
-                                this.$toast.error('Error!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                            });
+                        adds
+                        // adds.register(akun)
+                        //     .then((response) => {
+                        //         // this.companyData = response.data;
+                        //         console.log("add User");
+                        //         console.log(response.status);
+                        //         this.$toast.success('Company Data has been successfully added!', {
+                        //             position: 'top-right',
+                        //             timeout: 2500,
+                        //         });
+                        //         this.showForm = !this.showForm;
+                        //         this.getCompany();
+                        //     })
+                        //     .catch(() => {
+                        //         this.$toast.error('Error!', {
+                        //             position: 'top-right',
+                        //             timeout: 2500,
+                        //         });
+                        //     });
                     })
                     .catch(() => {
                         this.$toast.error('Error!', {
@@ -294,7 +301,6 @@ export default {
                 .getAll()
                 .then((response) => {
                     this.companyData = response.data;
-                    // console.log(this.companyData)
                     console.log("get Company");
                 })
                 .catch((e) => {
@@ -308,7 +314,6 @@ export default {
 
         showDetails(test) {
             this.showDetail = !this.showDetail
-            // console.log(test);
             for (const property in this.updateCompany) {
                 this.updateCompany[property] = test[property];
             }

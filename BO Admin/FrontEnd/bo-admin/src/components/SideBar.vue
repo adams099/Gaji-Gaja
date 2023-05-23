@@ -12,19 +12,13 @@
         </div>
       </div>
 
-      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"><b-icon icon="arrow-right-circle"
-          class="rounded-circle p-1" variant="light" style="
-            width: 30px;
-            height: 30px;
-            margin-left: 0px;
-            background-color: #695cfe;
-          "></b-icon></i>
+      <i class="bx bx-chevron-right toggle" v-on:click="SidebarClose"><i class="fa-solid fa-chevron-right"></i></i>
     </header>
 
     <div class="menu-bar">
       <div class="menu">
         <div class="div">
-          <p class="name-account text-uppercase text-center ">{{ name }}</p>
+          <p class="name-account text-uppercase text-center " v-if="!isClose">{{ name }}</p>
         </div>
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
@@ -37,7 +31,7 @@
                     margin-left: 10px;
                     background-color: #695cfe;
                   "></b-icon>
-                <span class="link-container" style="margin-left: 5px">Dashboard</span>
+                <span class="link-container" style="margin-left: 5px" v-if="!isClose">Dashboard</span>
               </a>
             </li>
           </a>
@@ -53,7 +47,7 @@
                     margin-left: 10px;
                     background-color: #695cfe;
                   "></b-icon>
-                <span class="link-container" style="margin-left: 5px">All User</span>
+                <span class="link-container" style="margin-left: 5px" v-if="!isClose">All User</span>
               </a>
             </li>
           </a>
@@ -69,7 +63,7 @@
                     margin-left: 10px;
                     background-color: #695cfe;
                   "></b-icon>
-                <span class="link-container" style="margin-left: 5px">Company</span>
+                <span class="link-container" style="margin-left: 5px" v-if="!isClose">Company</span>
               </a>
             </li>
           </a>
@@ -84,7 +78,7 @@
                     margin-left: 10px;
                     background-color: #695cfe;
                   "></b-icon>
-                <span class="link-container" style="margin-left: 5px">Approval</span>
+                <span class="link-container" style="margin-left: 5px" v-if="!isClose">Approval</span>
               </a>
             </li>
           </a>
@@ -99,7 +93,7 @@
                     margin-left: 10px;
                     background-color: #695cfe;
                   "></b-icon>
-                <span class="link-container" style="margin-left: 5px">Profile</span>
+                <span class="link-container" style="margin-left: 5px" v-if="!isClose">Profile</span>
               </a>
             </li>
           </a>
@@ -310,5 +304,9 @@ a:active {
   background-color: #695cfe;
   border-radius: 13px;
   color: white;
+}
+
+.fa-chevron-right {
+  font-size: 15px;
 }
 </style>
