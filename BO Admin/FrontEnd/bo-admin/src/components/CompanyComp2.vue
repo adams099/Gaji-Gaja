@@ -19,15 +19,15 @@
             </thead>
             <tbody v-if="companyData.length > 0">
                 <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
-                    <th scope="row" class="text-center">{{ item.id }}</th>
-                    <td>{{ item.comName }}</td>
-                    <td>{{ item.mailAddress }}</td>
+                    <th scope="row" class="text-center">{{ item?.id }}</th>
+                    <td>{{ item?.comName }}</td>
+                    <td>{{ item?.mailAddress }}</td>
                     <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
                     <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
                     <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
                     <button type="button" class="status salmon" v-else>Deactive</button>
                     <td class="text-center">
-                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Detail</button>
+                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Update</button>
                     </td>
                 </tr>
             </tbody>
@@ -186,7 +186,6 @@ export default {
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Company"
-            console.log(data);
             this.companyDatas = data;
         },
 
@@ -215,7 +214,6 @@ export default {
                 data.status = 1;
                 data.createdBy = this.$session.get('email');
 
-                // console.log(data);
                 companyService.upload(data)
                     .then((response) => {
                         console.log("add Company");
@@ -225,13 +223,18 @@ export default {
                         apprv.reqBy = data.createdBy;
                         apprv.reqType = "Need Approve";
                         apprv.status = data.status;
-                        console.log(apprv);
+                        this.$toast.success('CompanyData has been successfully added!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
 
                         // add table approv
                         approvService.saveApprov(apprv)
                             .then((response) => {
                                 console.log("add Approv");
                                 console.log(response.status);
+                                this.showForm = !this.showForm;
+                                this.getCompany();
                             })
                             .catch((e) => {
                                 console.log(e);
@@ -296,7 +299,6 @@ export default {
                 .getAll()
                 .then((response) => {
                     this.companyData = response.data;
-                    // console.log(this.companyData)
                     console.log("get Company");
                 })
                 .catch((e) => {
@@ -310,7 +312,6 @@ export default {
 
         showDetails(test) {
             this.showDetail = !this.showDetail
-            // console.log(test);
             for (const property in this.updateCompany) {
                 this.updateCompany[property] = test[property];
             }
