@@ -9,8 +9,8 @@ class Company {
     return http.post("/company/save", data);
   }
 
-  getCompanyById() {
-    return http.get("/company/id/{id}");
+  getCompanyById(id) {
+    return http.get(`/company/id/${id}`);
   }
 
   addCompany() {

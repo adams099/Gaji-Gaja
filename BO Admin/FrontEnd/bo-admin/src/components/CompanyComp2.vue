@@ -225,6 +225,7 @@ export default {
                         apprv.reqBy = data.createdBy
                         apprv.reqType = "Need Approve"
                         apprv.status = data.status;
+                        console.log(apprv);
 
                         // add table approv
                         approvService.saveApprov(apprv)
@@ -240,24 +241,25 @@ export default {
                                 });
                             });
 
-                        adds.register(akun)
-                            .then((response) => {
-                                // this.companyData = response.data;
-                                console.log("add User");
-                                console.log(response.status);
-                                this.$toast.success('Company Data has been successfully added!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                                this.showForm = !this.showForm;
-                                this.getCompany();
-                            })
-                            .catch(() => {
-                                this.$toast.error('Error!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                            });
+                        adds
+                        // adds.register(akun)
+                        //     .then((response) => {
+                        //         // this.companyData = response.data;
+                        //         console.log("add User");
+                        //         console.log(response.status);
+                        //         this.$toast.success('Company Data has been successfully added!', {
+                        //             position: 'top-right',
+                        //             timeout: 2500,
+                        //         });
+                        //         this.showForm = !this.showForm;
+                        //         this.getCompany();
+                        //     })
+                        //     .catch(() => {
+                        //         this.$toast.error('Error!', {
+                        //             position: 'top-right',
+                        //             timeout: 2500,
+                        //         });
+                        //     });
                     })
                     .catch(() => {
                         this.$toast.error('Error!', {

@@ -179,15 +179,18 @@ export default {
 
             appData: {},
 
+            // appUpdate: {
+            //     id: null,
+            //     status: null,
+            //     comName: null,
+            //     reqType: null,
+            //     reqBy: null,
+            //     createdTime: null,
+            //     apprBy: null,
+            //     updateTime: null,
+            // },
             appUpdate: {
-                id: null,
-                status: null,
-                comName: null,
-                reqType: null,
-                reqBy: null,
-                createdTime: null,
-                apprBy: null,
-                updateTime: null,
+
             },
 
             updateCompany: {
@@ -251,10 +254,10 @@ export default {
 
         showModalStatuss(test) {
             this.showModalStatus = !this.showModalStatus
-            // console.log(test);
-            for (const property in this.updateCompany) {
-                this.updateCompany[property] = test[property];
-            }
+            console.log(test);
+            this.appUpdate = test
+
+            console.log(this.appUpdate);
         },
 
         // navigasi ke halaman berikutnya
@@ -269,72 +272,125 @@ export default {
 
         //test doang ya
         accept() {
-            // handle accept action
-            let data = this.updateCompany;
-            data.status = 2;
-            data.apprBy = this.$session.get('email');
-            companyService.upload(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Update!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    // console.log(response.data);
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getCompany();
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
+            let data = this.appUpdate;
+            console.log(data);
+            if (data.reqBy == this.$session.get('email')) {
+                this.$toast.warning('Action Disable', {
+                    position: 'top-right',
+                    timeout: 2500,
                 });
-            this.showModalStatus = false
+            } else {
+                data.status = 2;
+                data.apprBy = this.$session.get('email');
+                approvalService.saveApprov(data)
+                    .then((response) => {
+                        this.$toast.success('Company status has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        // console.log(response.data);
+                        console.log(response.status);
+                        this.showModalStatus = false;
+                        this.getCompany();
+                    })
+                    .catch(() => {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    });
+                companyService.getCompanyById(data.companyId)
+                    .then((response) => {
+                        let haha = response.data
+                        haha.status = 2
+                        companyService.upload(response.data)
+                    })
+                    .catch(() => {
+                    });
+                this.showModalStatus = false
+            }
         },
         reject() {
             // handle reject action
-            let data = this.updateCompany;
-            data.status = 3;
-            data.apprBy = this.$session.get('email');
-            companyService.upload(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Rejected!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getCompany();
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
+            let data = this.appUpdate;
+            console.log(data);
+            if (data.reqBy == this.$session.get('email')) {
+                this.$toast.warning('Action Disable', {
+                    position: 'top-right',
+                    timeout: 2500,
                 });
+            } else {
+
+                data.status = 3;
+                data.apprBy = this.$session.get('email');
+                approvalService.saveApprov(data)
+                    .then((response) => {
+                        this.$toast.success('Company status has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        // console.log(response.data);
+                        console.log(response.status);
+                        this.showModalStatus = false;
+                        this.getCompany();
+                    })
+                    .catch(() => {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    });
+                companyService.getCompanyById(data.companyId)
+                    .then((response) => {
+                        let haha = response.data
+                        haha.status = 3
+                        companyService.upload(response.data)
+                    })
+                    .catch(() => {
+                    });
+                this.showModalStatus = false
+            }
         },
         deadactive() {
             // handle review action
-            let data = this.updateCompany;
-            data.status = 4;
-            data.apprBy = this.$session.get('email');
-            companyService.upload(data)
-                .then((response) => {
-                    this.$toast.success('Company status has been successfully Deactive!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
-                    console.log(response.status);
-                    this.showModalStatus = false;
-                    this.getCompany();
-                })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
+            let data = this.appUpdate;
+            console.log(data);
+            if (data.reqBy == this.$session.get('email')) {
+                this.$toast.warning('Action Disable', {
+                    position: 'top-right',
+                    timeout: 2500,
                 });
+            } else {
+
+                data.status = 4;
+                data.apprBy = this.$session.get('email');
+                approvalService.saveApprov(data)
+                    .then((response) => {
+                        this.$toast.success('Company status has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        // console.log(response.data);
+                        console.log(response.status);
+                        this.showModalStatus = false;
+                        this.getCompany();
+                    })
+                    .catch(() => {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    });
+                companyService.getCompanyById(data.companyId)
+                    .then((response) => {
+                        let haha = response.data
+                        haha.status = 4
+                        companyService.upload(response.data)
+                    })
+                    .catch(() => {
+                    });
+                this.showModalStatus = false
+            }
         },
 
         // // GET COMPANY
@@ -357,7 +413,7 @@ export default {
                 .then((response) => {
                     this.appData = response.data;
                     // console.log(this.companyData);
-                    console.log(this.appData);
+                    // console.log(this.appData);
                     console.log("get Approval");
                 })
                 .catch((e) => {
