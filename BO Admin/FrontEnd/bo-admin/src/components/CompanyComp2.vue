@@ -59,7 +59,7 @@
                     <i class="fas fa-arrow-left text-white"></i> Back
                 </button>
             </div>
-            <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
+            <form class="iseng form-detail-company flex-row bg-white shadow-lg mb-5" @submit.prevent="SubmitCompany">
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
@@ -77,11 +77,7 @@
                             v-model="companyDatas.comTaxNum">
                     </div>
                 </div>
-                <div class="form-group">
-                    <label for="Address">Address</label>
-                    <input type="text" class="form-control company-detail" id="Address" placeholder="Address" required
-                        v-model="companyDatas.address">
-                </div>
+
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
@@ -107,6 +103,12 @@
                         <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email"
                             v-model="companyDatas.adminEmail">
                     </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea class="form-control" placeholder="Input Address" id="address" rows="3"
+                        v-model="companyDatas.address"></textarea>
                 </div>
 
                 <button type="submit" class="btn add-company">{{ submitBtn }}</button>

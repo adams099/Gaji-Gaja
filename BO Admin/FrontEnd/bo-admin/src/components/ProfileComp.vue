@@ -9,17 +9,17 @@
         <div class="form-group">
           <label for="old-password">Old Password</label>
           <input type="password" class="form-control" id="old-password" required placeholder="Old Password"
-            v-model="oldpass">
+            autocomplete="off" v-model="oldpass">
         </div>
         <div class="form-group">
           <label for="new-password">New Password</label>
           <input type="password" class="form-control" id="new-password" required placeholder="New Password"
-            v-model="newPass">
+            autocomplete="off" v-model="newPass">
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
           <input type="password" class="form-control" id="confirm-password" required placeholder="Confirm Password"
-            v-model="confPass">
+            autocomplete="off" v-model="confPass">
         </div>
         <button class="btn submit btn-primary mt-4" type="submit">Save</button>
         <button class="btn btn-outline-secondary submit mt-3" v-if="isCancle"
@@ -40,7 +40,7 @@
             <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
-                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2"
+                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change"
                   @click="toggleFormVisibility">
                   Change Passwd
                 </button>
@@ -101,7 +101,7 @@
               <!-- <hr /> -->
               <tr>
                 <th>Phone Number</th>
-                <td>{{ userData.phone }}</td>
+                <td>{{ userData.phone ? userData.phone : "No hp kosong" }}</td>
               </tr>
               <!-- <hr /> -->
               <tr>
@@ -271,10 +271,6 @@ export default {
 </script>
 
 <style scoped>
-/* .home {
-  height: 100vh;
-} */
-
 .card {
   border-radius: 20px;
   background-color: white;
@@ -330,10 +326,17 @@ img:hover {
 }
 
 .submit {
-  /* background-color: #5549da; */
   color: white;
   width: 100%;
   border-radius: 10px;
+}
+
+.btn-primary {
+  background-color: #695cfe;
+}
+
+.btn-primary:hover {
+  background-color: #5549da;
 }
 
 .change-text {
@@ -347,4 +350,6 @@ img:hover {
 .btn-outline-secondary {
   color: grey;
 }
+
+.btn-change {}
 </style>

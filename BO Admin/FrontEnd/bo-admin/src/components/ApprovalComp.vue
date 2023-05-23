@@ -26,49 +26,44 @@
                                 <form class="form-detail-company flex-row" @submit.prevent="updateApprovFunc">
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
-                                        <input type="text" class="form-control company-detail" id="name_company"
+                                        <input disabled type="text" class="form-control company-detail" id="name_company"
                                             placeholder="Company Name" required v-model="appUpdateData.comName">
                                     </div>
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
                                             <label for="request_type">Reques Type</label>
-                                            <input type="text" class="form-control" id="request_type" placeholder="Email"
-                                                required v-model="appUpdateData.reqType">
+                                            <input disabled type="text" class="form-control" id="request_type"
+                                                placeholder="Email" required v-model="appUpdateData.reqType">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="request_by">Request By</label>``
-                                            <input type="text" class="form-control" id="request_by"
-                                                placeholder="Enter request_by Number" required
-                                                v-model="appUpdateData.comTaxNum">
+                                            <label for="request_by">Request By</label>
+                                            <input disabled type="text" class="form-control" id="request_by" required
+                                                v-model="appUpdateData.reqBy">
                                         </div>
                                     </div>
+
                                     <div class="form-group">
-                                        <label for="Address">Address</label>
-                                        <input type="text" class="form-control company-detail" id="Address"
-                                            placeholder="Address" required v-model="appUpdateData.address">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="postal_code">Postal Code</label>
-                                        <input type="text" class="form-control company-detail" id="postal_code"
-                                            placeholder="Postal Code" required v-model="appUpdateData.postal">
+                                        <label for="approve_by">Approve By</label>
+                                        <input disabled type="text" class="form-control company-detail" id="approve_by"
+                                            placeholder="Approve By" required v-model="appUpdateData.apprBy">
                                     </div>
 
                                     <div class="form-row">
                                         <div class="form-group col-md-6">
-                                            <label for="admin_name">Admin Name</label>
-                                            <input type="text" class="form-control" id="admin_name"
-                                                placeholder="Enter Admin Name" disabled v-model="appUpdateData.adminName">
+                                            <label for="created_time">Created Time</label>
+                                            <input type="text" class="form-control" id="created_time"
+                                                placeholder="Created Time" disabled v-model="appUpdateData.createdTime">
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <label for="admin_email">Admin Email</label>
-                                            <input type="text" class="form-control" id="admin_email"
-                                                placeholder="Enter Admin Email" disabled v-model="appUpdateData.adminEmail">
+                                            <label for="update_time">Update Time</label>
+                                            <input type="text" class="form-control" id="update_time"
+                                                placeholder="Update Time" disabled v-model="appUpdateData.updateTime">
                                         </div>
 
                                     </div>
 
                                     <div class="buttons d-flex flex-row justify-content-between mt-3">
-                                        <button type="submit" class="btn mt-2 btn-update">Update</button>
+                                        <!-- <button type="submit" class="btn mt-2 btn-update">Update</button> -->
                                         <button type="button" class="btn btn-delete text-white " @click="showModalStatuss()"
                                             style="border-radius: 10px;">Edit
                                             Status</button>
@@ -107,25 +102,26 @@
             <table class="table " v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
+                        <th scope="col">ID</th>
                         <th scope="col">Company Name</th>
                         <th scope="col">Request Type</th>
                         <th scope="col">Request By</th>
                         <th scope="col">Approve By</th>
-                        <th scope="col">Status</th>
+                        <th scope="col" style="width: 100px;">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody v-if="appData.length > 0">
                     <tr class=" baris text-center shadow-lg " v-for="(item, index) in paginatedData" :key="index">
-                        <!-- <th scope="row" class="text-center">{{ item.id }}</th> -->
+                        <th scope="row" class="text-center">{{ item.id }}</th>
                         <td>{{ item.comName }}</td>
                         <td>{{ item.reqType }}</td>
                         <td>{{ item.reqBy }}</td>
                         <td>{{ item.apprBy }}</td>
-                        <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
-                        <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
-                        <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
-                        <button type="button" class="status salmon" v-else>Deactive</button>
+                        <div class="status blue mx-2" v-if="item.status == 1">In Review</div>
+                        <div class="status green mx-2" v-else-if="item.status == 2">Active</div>
+                        <div class="status red mx-2" v-else-if="item.status == 3">Rejected</div>
+                        <div class="status salmon mx-2" v-else>Deactive</div>
                         <td class="text-center">
                             <button type="button" class="btn btn-detail" v-on:click="showDetails(item)">Detail</button>
                         </td>

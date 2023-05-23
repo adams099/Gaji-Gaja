@@ -286,7 +286,6 @@ export default {
       this.sfp = !this.sfp
     },
 
-
     // LOGIN FUNCTION
     loginFunc() {
       if (this.attempts > 0) {
