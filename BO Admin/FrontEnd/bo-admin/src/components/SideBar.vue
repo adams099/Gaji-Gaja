@@ -159,11 +159,13 @@ export default {
     return {
       isClose: false,
       textMode: "Dark Mode",
+
       pa1: true,
       pa2: false,
       pa3: false,
       pa4: false,
       pa5: false,
+
       tipeUser: null,
       sidebarItem: true,
       ntol: null,
@@ -244,8 +246,7 @@ export default {
     }
     userService.findEmail(data).then((response) => {
       let oldName = response.data.name;
-      let space = oldName.split(" ");
-      this.name = space[0];
+      this.name = oldName.split(" ")[0];
       console.log(response.data.update)
 
       if (response.data.update == null) {

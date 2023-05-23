@@ -41,7 +41,7 @@
             </tbody>
         </table>
 
-        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && companyData.length >= 10">
+        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && companyData.length > 7">
             <button type="button" class="btn btn-success" @click="previousPage"
                 :disabled="currentPage == 1">Previous</button>
             <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -130,6 +130,7 @@ export default {
             submitBtn: null,
 
             apprvData: {
+                id: null,
                 status: null,
                 comName: null,
                 reqType: null,
@@ -138,7 +139,6 @@ export default {
                 apprBy: null,
                 updateTime: null,
                 companyId: null,
-                companyz: null
             },
 
             companyDatas: {
@@ -220,10 +220,10 @@ export default {
                     .then((response) => {
                         console.log("add Company");
                         console.log(response.status);
-                        apprv.comName = data.comName
-                        apprv.companyId = response.data.id
-                        apprv.reqBy = data.createdBy
-                        apprv.reqType = "Need Approve"
+                        apprv.comName = data.comName;
+                        apprv.companyId = response.data.id;
+                        apprv.reqBy = data.createdBy;
+                        apprv.reqType = "Need Approve";
                         apprv.status = data.status;
                         console.log(apprv);
 
