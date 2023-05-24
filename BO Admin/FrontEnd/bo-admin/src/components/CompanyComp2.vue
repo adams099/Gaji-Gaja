@@ -380,7 +380,6 @@ form {
     width: 60vw;
     padding: 40px 40px;
     border-radius: 25px;
-    height: 90vh;
 }
 
 .iseng {
