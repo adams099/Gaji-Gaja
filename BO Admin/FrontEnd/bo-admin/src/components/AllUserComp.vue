@@ -237,7 +237,8 @@ export default {
             position: 'top-right',
             timeout: 2500,
           });
-          console.log(response.data);
+          // console.log(response.data);
+          console.log(response.status);
           this.showModalStatus = false;
           this.getUser()
         })
@@ -336,7 +337,7 @@ export default {
           });
 
         if (this.error['emailada'] == false) {
-          console.log(data)
+          // console.log(data)
           userService
             .register(data)
             .then((response) => {
@@ -344,12 +345,21 @@ export default {
                 this.semail.email = data.email
                 this.semail.subject = "Your Credential For Web"
                 this.semail.body = "Your Password " + data.pass
-                userService.semail(this.semail)
+
+                userService.semail(this.semail).then(() => {
+                  this.showToast();
+                }).catch((e) => {
+                  console.log(e);
+                  this.$toast.error('Failed to send the password to the email!', {
+                    position: 'top-right',
+                    timeout: 2500,
+                  });
+                });
+
                 // console.log(response.data);
                 console.log("success regis user");
                 this.$refs["add-modal"].toggle("#toggle-btn");
                 this.getUser()
-                this.showToast();
               }
             })
             .catch((e) => {
@@ -407,7 +417,7 @@ export default {
           this.maxdata = Math.ceil(njir)
           var suiiii = this.userData.length % 7
           this.dikurangin = 7 - suiiii
-          console.log(this.dikurangin);
+          // console.log(this.dikurangin);
           this.LimitData();
         })
         .catch((e) => {

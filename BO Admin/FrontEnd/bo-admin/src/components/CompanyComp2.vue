@@ -2,7 +2,7 @@
     <section class="home">
         <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between align-items-center">
             <div class="text text-center" v-if="!showForm" style="font-size: 25px;">Company Table</div>
-            <button class="btn btn-add-com" @click="addFunc()" v-if="!showForm">Add
+            <button class="btn btn-add-com" @click="addFunc()" v-if="roleId === 2" v-show="!showForm">Add
                 Company</button>
         </div>
 
@@ -27,7 +27,7 @@
                     <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
                     <button type="button" class="status salmon" v-else>Deactive</button>
                     <td class="text-center">
-                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Update</button>
+                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">{{ tableBtn }}</button>
                     </td>
                 </tr>
             </tbody>
@@ -63,18 +63,18 @@
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
-                        required v-model="companyDatas.comName">
+                        required :disabled="roleId === 1" v-model="companyDatas.comName">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email_company">Email Company</label>
                         <input type="email" class="form-control" id="email_company" placeholder="Email" required
-                            v-model="companyDatas.mailAddress">
+                            :disabled="roleId === 1" v-model="companyDatas.mailAddress">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="NPWP">NPWP</label>
                         <input type="text" class="form-control" id="NPWP" placeholder="Enter NPWP Number" required
-                            v-model="companyDatas.comTaxNum">
+                            :disabled="roleId === 1" v-model="companyDatas.comTaxNum">
                     </div>
                 </div>
 
@@ -83,35 +83,35 @@
                     <div class="form-group col-md-6">
                         <label for="postal_code">Postal Code</label>
                         <input type="text" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
-                            v-model="companyDatas.postal" required>
+                            v-model="companyDatas.postal" required :disabled="roleId === 1">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="siup">SIUP</label>
                         <input type="text" class="form-control" id="siup" placeholder="Enter SIUP number"
-                            v-model="companyDatas.siup" required>
+                            v-model="companyDatas.siup" required :disabled="roleId === 1">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="admin_name">Admin Name</label>
-                        <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name"
-                            v-model="companyDatas.adminName">
+                        <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name" required
+                            :disabled="roleId === 1" v-model="companyDatas.adminName">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="admin_email">Admin Email</label>
-                        <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email"
-                            v-model="companyDatas.adminEmail">
+                        <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email" required
+                            :disabled="roleId === 1" v-model="companyDatas.adminEmail">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <textarea class="form-control" placeholder="Input Address" id="address" rows="3"
-                        v-model="companyDatas.address"></textarea>
+                    <textarea class="form-control" placeholder="Input Address" id="address" rows="3" required
+                        :disabled="roleId === 1" v-model="companyDatas.address"></textarea>
                 </div>
 
-                <button type="submit" class="btn add-company">{{ submitBtn }}</button>
+                <button type="submit" v-show="roleId === 2" class="btn add-company">{{ submitBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
 
@@ -130,6 +130,8 @@ export default {
     data() {
         return {
             submitBtn: null,
+            tableBtn: null,
+            roleId: this.$session.get("jwt").roleId,
 
             apprvData: {
                 id: null,
@@ -350,6 +352,12 @@ export default {
 
     mounted() {
         this.getCompany();
+
+        if (this.roleId === 1) {
+            this.tableBtn = "Detail"
+        } else {
+            this.tableBtn = "Update"
+        }
     },
 
 
