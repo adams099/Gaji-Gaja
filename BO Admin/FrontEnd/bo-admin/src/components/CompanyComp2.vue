@@ -54,7 +54,7 @@
         <!--------------------- START ADD COMPANY -------------------------->
         <div class="form" v-show="showForm">
             <div class="form-company d-flex flex-row justify-content-between">
-                <h6 class=" color-text">Form Add Company</h6>
+                <h6 class=" color-text">Form {{ title }} Company</h6>
                 <button class="btn back text-white mb-3" v-if="showForm" v-on:click="BackButton(1)">
                     <i class="fas fa-arrow-left text-white"></i> Back
                 </button>
@@ -130,6 +130,7 @@ export default {
     data() {
         return {
             submitBtn: null,
+            title: null,
             tableBtn: null,
             roleId: this.$session.get("jwt").roleId,
 
@@ -176,6 +177,7 @@ export default {
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Company"
+            this.title = "Update"
             this.companyDatas = data;
         },
 
@@ -185,6 +187,7 @@ export default {
             }
             this.showForm = !this.showForm;
             this.submitBtn = "Add Company"
+            this.title = "Add"
         },
 
         SubmitCompany() {

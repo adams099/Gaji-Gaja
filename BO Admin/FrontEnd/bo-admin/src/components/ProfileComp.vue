@@ -6,16 +6,20 @@
     <div v-show="isFormVisible" class="col-md-12 mt-5">
       <form class="change-password shadow-lg col-md-6" @submit.prevent="saveChanges">
         <h6 class="change-text text-center mb-4">Change Password</h6>
+        <!-- old password -->
         <div class="form-group">
           <label for="old-password">Old Password</label>
-          <input type="password" class="form-control" id="old-password" required placeholder="Old Password"
-            autocomplete="off" v-model="oldpass">
+          <input :type="showPassword ? 'text' : 'password'" class="form-control" id="old-password" required
+            placeholder="Old Password" autocomplete="off" v-model="oldpass">
+          <i class="fas fass" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'" @click="toggleShowPassword"></i>
         </div>
+        <!-- new password -->
         <div class="form-group">
           <label for="new-password">New Password</label>
           <input type="password" class="form-control" id="new-password" required placeholder="New Password"
             autocomplete="off" v-model="newPass">
         </div>
+        <!-- confirm password -->
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
           <input type="password" class="form-control" id="confirm-password" required placeholder="Confirm Password"
@@ -142,6 +146,7 @@ export default {
       isFormVisible: false,
       isCancle: true,
       title: null,
+      showPassword: false
     };
   },
 
@@ -177,6 +182,9 @@ export default {
       this.$router.replace("/auth");
     },
 
+    toggleShowPassword() {
+      this.showPassword = !this.showPassword
+    },
     saveChanges() {
       var data = this.userData
       data.pass = this.oldpass
