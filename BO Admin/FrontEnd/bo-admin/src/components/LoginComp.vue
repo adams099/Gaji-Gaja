@@ -6,67 +6,33 @@
     </div>
     <div class="col-lg-4 ml-auto login mr-5">
       <div class="card register shadow-lg p-5 d-flex justify-content-end">
-        <h2
-          class="head"
-          v-bind:class="{ 'mobile-text': showForgotPassword }"
-          v-if="!showForgotPassword"
-        >
+        <h2 class="head" v-bind:class="{ 'mobile-text': showForgotPassword }" v-if="!showForgotPassword">
           SIGN IN
         </h2>
-        <h2
-          class="head forgot-text"
-          v-bind:class="{ 'mobile-text': !showForgotPassword }"
-          v-else
-        >
+        <h2 class="head forgot-text" v-bind:class="{ 'mobile-text': !showForgotPassword }" v-else>
           FORGOT PASSWORD
         </h2>
 
-        <form
-          action=""
-          @submit.prevent="loginFunc"
-          v-if="!showForgotPassword"
-          class="login"
-        >
+        <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword" class="login">
           <!-- Email -->
           <div>
             <div class="form-input">
-              <input
-                type="email"
-                id="email"
-                name="email"
-                class="form-control mb-3 mt-4"
-                placeholder="Email"
-                required
-                v-model="userLogin.email"
-              />
-              <span v-if="error.email" class="validation-message"
-                >Email harus diisi!</span
-              >
+              <input type="email" id="email" name="email" class="form-control mb-3 mt-4" placeholder="Email" required
+                v-model="userLogin.email" />
+              <span v-if="error.email" class="validation-message">Email harus diisi!</span>
               <i class="fas fa-envelope input-icon mt-4"></i>
             </div>
 
             <!-- Password -->
             <div class="form-input">
-              <input
-                type="password"
-                id="password"
-                name="password"
-                class="form-control mb-5 password-input"
-                placeholder="Password"
-                required
-                v-model="userLogin.pass"
-              />
-              <span v-if="error.password" class="validation-message"
-                >Password harus diisi!</span
-              >
-              <i class="fas fa-lock input-icon"></i>
+              <input :type="showPassword ? 'text' : 'password'" id="password" name="password"
+                class="form-control mb-5 password-input" placeholder="Password" required v-model="userLogin.pass" />
+              <span v-if="error.password" class="validation-message">Password harus diisi!</span>
+              <i class="fas fass" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'" @click="togglePasswordVisibility"></i>
             </div>
 
-            <vue-recaptcha
-              v-if="attempts === 0"
-              sitekey="6LcCOh8mAAAAAFa-Vv0emVYbkzEYYQOiBT9-YTfV"
-              @verify="onVerify"
-            ></vue-recaptcha>
+            <vue-recaptcha v-if="attempts === 0" sitekey="6LcCOh8mAAAAAFa-Vv0emVYbkzEYYQOiBT9-YTfV"
+              @verify="onVerify"></vue-recaptcha>
             <div class="forgot-password" @click="toggleForgotPassword">
               Forgot Password
             </div>
@@ -81,44 +47,18 @@
 
         <!-- FORM OTP -->
         <div class="form-2">
-          <form
-            @submit.prevent="checkOtp"
-            v-if="sfp"
-            @click="hidenForgotPassword"
-          >
+          <form @submit.prevent="checkOtp" v-if="sfp" @click="hidenForgotPassword">
             <form @submit.prevent="sendOtp" class="form-input flex-row">
-              <input
-                type="email"
-                id="otp-email"
-                name="password"
-                v-model="otp.email"
-                class="form-control mb-1 otp-email"
-                placeholder="Enter Email"
-                required
-                v-if="!showOtp"
-                autocomplete="off"
-              />
-              <button
-                v-if="loading"
-                class="sent btn btn-primary ml-3 p-2 pr-4"
-                disabled
-              >
+              <input type="email" id="otp-email" name="password" v-model="otp.email" class="form-control mb-1 otp-email"
+                placeholder="Enter Email" required v-if="!showOtp" autocomplete="off" />
+              <button v-if="loading" class="sent btn btn-primary ml-3 p-2 pr-4" disabled>
                 {{ remainingTime }}
               </button>
               <button v-else class="sent btn btn-primary ml-3 p-2">Sent</button>
             </form>
             <div>
-              <input
-                type="text"
-                id="otp-email"
-                v-model="otp.otp"
-                name="password"
-                required
-                class="form-control mb-1 otp-email mb-4"
-                placeholder="Enter OTP"
-                v-if="!showOtp"
-                autocomplete="off"
-              />
+              <input type="text" id="otp-email" v-model="otp.otp" name="password" required
+                class="form-control mb-1 otp-email mb-4" placeholder="Enter OTP" v-if="!showOtp" autocomplete="off" />
             </div>
             <div>
               <button type="submit" tag="button" class="btn btn-primary mb-4">
@@ -133,49 +73,22 @@
           </form>
 
           <!-- CHANGE PASSWORD -->
-          <form
-            @submit.prevent="changePass"
-            v-if="scpass"
-            @click="hidenForgotPassword"
-          >
+          <form @submit.prevent="changePass" v-if="scpass" @click="hidenForgotPassword">
             <div class="form-input flex-row">
-              <input
-                type="password"
-                id="new-password"
-                v-model="gantipw.pw1"
-                name="new-password"
-                class="form-control mb-1 new-password"
-                placeholder="Enter New Password"
-                v-if="!showOtp"
-              />
+              <input type="password" id="new-password" v-model="gantipw.pw1" name="new-password"
+                class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp" />
             </div>
             <div>
-              <input
-                type="password"
-                id="confirm-password"
-                name="confirm-password"
-                v-model="gantipw.pw2"
-                class="form-control mb-1 confirm-password mb-4"
-                placeholder="Confirm New Password"
-                v-if="!showOtp"
-              />
+              <input type="password" id="confirm-password" name="confirm-password" v-model="gantipw.pw2"
+                class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" />
             </div>
             <div>
-              <button
-                type="submit"
-                tag="button"
-                class="btn btn-primary mb-4"
-                v-if="scpass"
-              >
+              <button type="submit" tag="button" class="btn btn-primary mb-4" v-if="scpass">
                 Change Password
               </button>
             </div>
             <div class="back-button">
-              <div
-                class="btn-back"
-                style="cursor: pointer"
-                v-on:click="BackButton(2)"
-              >
+              <div class="btn-back" style="cursor: pointer" v-on:click="BackButton(2)">
                 <i class="fas fa-arrow-left"></i> Back
               </div>
             </div>
@@ -225,6 +138,7 @@ export default {
       remainingTime: 60,
       dataemail: {},
       attempts: 3,
+      showPassword: false
     };
   },
 
@@ -239,6 +153,9 @@ export default {
     },
     togleOtp() {
       this.showOtp = true;
+    },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
     },
     sendOtp() {
       this.startLoading();
@@ -301,7 +218,7 @@ export default {
           timeout: 2500,
         });
       } else {
-        if (this.gantipw.pw1.length < 8) {
+        if (this.gantipw.pw1.length >= 8) {
           if (regex.test(this.gantipw.pw1)) {
             //post data
             let data = this.otp;
@@ -355,21 +272,21 @@ export default {
             }
           } else {
             //warning combination
-            this.$toast.warning("The password is need more than 8 character!", {
-              position: "top-right",
-              timeout: 2500,
-            });
+            this.$toast.warning(
+              "The password must consist of a combination of letters and numbers!",
+              {
+                position: "top-right",
+                timeout: 2500,
+              }
+            );
           }
         } else {
           //warning character
+          this.$toast.warning("The password is need more than 8 character!", {
+            position: "top-right",
+            timeout: 2500,
+          });
 
-          this.$toast.warning(
-            "The password must consist of a combination of letters and numbers!",
-            {
-              position: "top-right",
-              timeout: 2500,
-            }
-          );
         }
       }
 
@@ -487,6 +404,7 @@ export default {
 }
 
 @media (min-width: 576px) {
+
   /* Styles for medium and large screens */
   .card.register {
     width: 100%;
@@ -570,7 +488,7 @@ input:focus {
   margin-top: 1rem;
 }
 
-input:focus ~ label {
+input:focus~label {
   transform: translateY(-50%) scale(0.8);
   background-color: red;
   padding: 0 0.2em;
@@ -602,6 +520,14 @@ input:focus ~ label {
 }
 
 .input-icon {
+  position: absolute;
+  top: 17px;
+  right: 14px;
+  font-size: px;
+  color: #999;
+}
+
+.fass {
   position: absolute;
   top: 17px;
   right: 14px;

@@ -6,53 +6,29 @@
 
     <!-- CHANGE PASSWORD -->
     <div v-show="isFormVisible" class="col-md-12 mt-5">
-      <form
-        class="change-password shadow-lg col-md-6"
-        @submit.prevent="saveChanges"
-      >
+      <form class="change-password shadow-lg col-md-6" @submit.prevent="saveChanges">
         <h6 class="change-text text-center mb-4">Change Password</h6>
+        <!-- old password -->
         <div class="form-group">
           <label for="old-password">Old Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="old-password"
-            required
-            placeholder="Old Password"
-            autocomplete="off"
-            v-model="currentPass"
-          />
+          <input :type="showPassword ? 'text' : 'password'" class="form-control" id="old-password" required
+            placeholder="Old Password" autocomplete="off" v-model="currentPass">
+          <!-- <i class="fas fass" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'" @click="toggleShowPassword"></i> -->
         </div>
+        <!-- new password -->
         <div class="form-group">
           <label for="new-password">New Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="new-password"
-            required
-            placeholder="New Password"
-            autocomplete="off"
-            v-model="newPass"
-          />
+          <input type="password" class="form-control" id="new-password" required placeholder="New Password"
+            autocomplete="off" v-model="newPass" />
         </div>
+        <!-- confirm password -->
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
-          <input
-            type="password"
-            class="form-control"
-            id="confirm-password"
-            required
-            placeholder="Confirm Password"
-            autocomplete="off"
-            v-model="confPass"
-          />
+          <input type="password" class="form-control" id="confirm-password" required placeholder="Confirm Password"
+            autocomplete="off" v-model="confPass" />
         </div>
         <button class="btn submit btn-primary mt-4" type="submit">Save</button>
-        <button
-          class="btn btn-outline-secondary submit mt-3"
-          v-if="isCancle"
-          @click="isFormVisible = false"
-        >
+        <button class="btn btn-outline-secondary submit mt-3" v-if="isCancle" @click="isFormVisible = false">
           Cancel
         </button>
       </form>
@@ -64,12 +40,7 @@
         <!-- CARD 1 -->
         <div class="card mb-1 shadow-lg" v-show="!isFormVisible">
           <div class="text-center">
-            <img
-              class="rounded-circle img-fluid"
-              src="../assets/suzume.jpg"
-              alt=""
-              style="width: 150px; height: 150px"
-            />
+            <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt="" style="width: 150px; height: 150px" />
 
             <h5 class="my-3">{{ name | toUpperCase }}</h5>
             <p class="text-muted mb-2">
@@ -77,12 +48,8 @@
             </p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
-                <button
-                  type="button"
-                  id="show-btn"
-                  class="btn btn-outline-primary ms-1 mt-2 btn-change"
-                  @click="toggleFormVisibility"
-                >
+                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change"
+                  @click="toggleFormVisibility">
                   Change Passwd
                 </button>
 
@@ -122,10 +89,7 @@
       </div>
 
       <!-- CARD 2 -->
-      <div
-        class="col-lg-6 mt-4 card-dua shadow-lg ml-4"
-        v-show="!isFormVisible"
-      >
+      <div class="col-lg-6 mt-4 card-dua shadow-lg ml-4" v-show="!isFormVisible">
         <div class="mb-4">
           <div class="table">
             <table style="width: 100%">
@@ -183,6 +147,7 @@ export default {
       isFormVisible: false,
       isCancle: true,
       title: null,
+      showPassword: false
     };
   },
 
@@ -217,13 +182,16 @@ export default {
       this.$router.replace("/auth");
     },
 
+    toggleShowPassword() {
+      this.showPassword = !this.showPassword
+    },
     saveChanges() {
       const regex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
       var data = this.userData;
       data.pass = this.currentPass;
       console.log(regex.test(this.newPass));
 
-      if (this.newPass.length > 8) {
+      if (this.newPass.length >= 8) {
         if (regex.test(this.newPass)) {
           //post data
           userService
@@ -413,6 +381,5 @@ img:hover {
   color: grey;
 }
 
-.btn-change {
-}
+.btn-change {}
 </style>
