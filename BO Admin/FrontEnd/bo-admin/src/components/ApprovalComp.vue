@@ -153,7 +153,9 @@
   
 <script>
 import companyService from '@/services/companyService.js';
-import approvalService from '@/services/approvalService.js'
+import approvalService from '@/services/approvalService.js';
+import adds from '@/services/userService.js'
+import userService from '@/services/userService.js';
 
 export default {
     name: "CompanyS",
@@ -165,6 +167,20 @@ export default {
             currentPage: 1,
 
             companyData: {
+            },
+
+            buatAkun: {
+                name: null,
+                email: null,
+                pass: null,
+                roleId: null,
+                statId: null,
+                companyId: null,
+                created: null,
+                createdBy: null,
+                phone: null,
+                apprBy: null,
+                update: null
             },
 
             appData: {},
@@ -284,9 +300,32 @@ export default {
                     });
                 companyService.getCompanyById(data.companyId)
                     .then((response) => {
+                        console.log(response.data)
                         let comData = response.data
                         comData.status = 2
-                        companyService.upload(response.data)
+                        companyService.upload(comData)
+                        console.log(comData)
+                        // adds
+                        if (data.reqType == "Add Company") {
+
+                            let akun = this.buatAkun
+                            akun.email = comData.adminEmail;
+                            akun.name = comData.adminName;
+                            akun.status = 4;
+                            akun.pass = "testing";
+                            akun.roleId = 3;
+                            akun.statId = 4;
+                            akun.createdBy = this.$session.get('email');
+                            adds.register(akun)
+                            let semail = {
+                                "email": akun.email,
+                                "subject": "Your Credential Login",
+                                "body": akun.pass
+                            }
+                            console.log(semail)
+                            userService.semail(semail)
+
+                        }
                     })
                     .catch(() => {
                     });
