@@ -1,5 +1,5 @@
 <template>
-    <section class="home">
+    <section class="home w-80" style="height: 100%;">
         <div class="btn-add mt-4 d-flex flex-row text-white justify-content-between align-items-center">
             <h5 class="color-text mt-3 mb-3 text-center text-color detail-comp" v-if="showDetail" style="font-size: 20px; ">
                 Detail Company</h5>
@@ -99,29 +99,29 @@
 
 
             <!------------------ START TABLE ------------------->
-            <table class="table " v-show="!showDetail">
+            <table class="table" v-show="!showDetail">
                 <thead class="text-center">
                     <tr>
                         <th scope="col">ID</th>
-                        <th scope="col">Company Name</th>
-                        <th scope="col">Request Type</th>
+                        <th scope="col" style="width: 170px;">Company Name</th>
+                        <th scope="col" style="width: 150px;">Request Type</th>
                         <th scope="col">Request By</th>
-                        <th scope="col">Approve By</th>
+                        <th scope="col" style="width: 150px;">Approve By</th>
                         <th scope="col" style="width: 100px;">Status</th>
                         <th scope="col">Action</th>
                     </tr>
                 </thead>
                 <tbody v-if="appData.length > 0">
-                    <tr class=" baris text-center shadow-lg " v-for="(item, index) in paginatedData" :key="index">
+                    <tr class="baris  shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
                         <th scope="row" class="text-center">{{ item.id }}</th>
                         <td>{{ item.comName }}</td>
                         <td>{{ item.reqType }}</td>
                         <td>{{ item.reqBy }}</td>
                         <td>{{ item.apprBy }}</td>
-                        <div class="status blue mx-2" v-if="item.status == 1">In Review</div>
-                        <div class="status green mx-2" v-else-if="item.status == 2">Active</div>
-                        <div class="status red mx-2" v-else-if="item.status == 3">Rejected</div>
-                        <div class="status salmon mx-2" v-else>Deactive</div>
+                        <div class="status blue mx-2 text-center" v-if="item.status == 1">In Review</div>
+                        <div class="status green mx-2 text-center" v-else-if="item.status == 2">Active</div>
+                        <div class="status red mx-2 text-center" v-else-if="item.status == 3">Rejected</div>
+                        <div class="status salmon mx-2 text-center" v-else>Deactive</div>
                         <td class="text-center">
                             <button type="button" class="btn btn-detail" v-on:click="showDetails(item)">Detail</button>
                         </td>
@@ -153,7 +153,9 @@
   
 <script>
 import companyService from '@/services/companyService.js';
-import approvalService from '@/services/approvalService.js'
+import approvalService from '@/services/approvalService.js';
+import adds from '@/services/userService.js'
+import userService from '@/services/userService.js';
 
 export default {
     name: "CompanyS",
@@ -165,6 +167,20 @@ export default {
             currentPage: 1,
 
             companyData: {
+            },
+
+            buatAkun: {
+                name: null,
+                email: null,
+                pass: null,
+                roleId: null,
+                statId: null,
+                companyId: null,
+                created: null,
+                createdBy: null,
+                phone: null,
+                apprBy: null,
+                update: null
             },
 
             appData: {},
@@ -284,9 +300,32 @@ export default {
                     });
                 companyService.getCompanyById(data.companyId)
                     .then((response) => {
+                        console.log(response.data)
                         let comData = response.data
                         comData.status = 2
-                        companyService.upload(response.data)
+                        companyService.upload(comData)
+                        console.log(comData)
+                        // adds
+                        if (data.reqType == "Add Company") {
+
+                            let akun = this.buatAkun
+                            akun.email = comData.adminEmail;
+                            akun.name = comData.adminName;
+                            akun.status = 4;
+                            akun.pass = "testing";
+                            akun.roleId = 3;
+                            akun.statId = 4;
+                            akun.createdBy = this.$session.get('email');
+                            adds.register(akun)
+                            let semail = {
+                                "email": akun.email,
+                                "subject": "Your Credential Login",
+                                "body": akun.pass
+                            }
+                            console.log(semail)
+                            userService.semail(semail)
+
+                        }
                     })
                     .catch(() => {
                     });
@@ -385,21 +424,16 @@ h6 {
     text-align: center;
 }
 
-thead {
-    background-color: #695cfe;
-    color: aliceblue;
-}
-
-.table {
-    padding-left: 20px;
-    padding-right: 20px;
-}
-
-
-
+/* TABLE STYLE */
 table {
     border-collapse: separate !important;
     border-spacing: 0 !important;
+
+}
+
+thead {
+    background-color: #695cfe;
+    color: aliceblue;
 }
 
 table tr th,
@@ -437,29 +471,15 @@ table tr:last-child td:last-child {
     border-bottom-right-radius: 0.25rem !important;
 }
 
-.btn-primary {
-    background-color: #695cfe;
-}
-
 .table {
     padding-left: 20px;
     padding-right: 20px;
 }
 
-.btn-delete {
-    margin-left: 10px;
-    background-color: rgb(195, 10, 10);
-    color: white;
-}
-
-.baris {
-    background-color: white;
-}
-
 form {
     width: 60vw;
     padding: 40px 40px;
-    border-radius: 20px;
+    border-radius: 25px;
 }
 
 .form {
@@ -478,6 +498,7 @@ form {
 
 }
 
+/* PAGINATION STYLE */
 .next {
     /* background-color: #695cfe; */
     position: fixed;
@@ -486,6 +507,8 @@ form {
     margin-bottom: 10px;
 }
 
+
+/* STATUS STYLE */
 .status {
     margin-top: 17px;
     background-color: transparent;
@@ -525,6 +548,18 @@ form {
     margin-right: 125px;
     border-radius: 10px;
     height: 40px;
+}
+
+
+/* BUTTON STYLE */
+.btn-primary {
+    background-color: #695cfe;
+}
+
+.btn-delete {
+    margin-left: 10px;
+    background-color: rgb(195, 10, 10);
+    color: white;
 }
 
 .btn-update {

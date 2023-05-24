@@ -283,7 +283,7 @@ body.dark .sidebar header .toggle {
 }
 
 .sidebar .menu {
-  margin-top: 40px;
+  margin-top: 20px;
 }
 
 .sidebar li.search-box {
@@ -338,7 +338,9 @@ body.dark .sidebar li a:hover .text {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  overflow-y: scroll;
+  /* overflow-y: scroll; */
+  /* background-color: #18191a; */
+  /* position: fixed; */
 }
 
 .menu-bar::-webkit-scrollbar {

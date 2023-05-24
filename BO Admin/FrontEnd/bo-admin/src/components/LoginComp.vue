@@ -294,14 +294,14 @@ export default {
       // var data = this.user;
       // data.newPass = this.gantipw.pw1;
       console.log(regex.test(this.gantipw.pw1));
-      if (this.gantipw.pw1.length < 8) {
+      if (this.gantipw.pw1 != this.gantipw.pw2) {
         // kurang
-        this.$toast.warning("Password is need more than 8 character!", {
+        this.$toast.error("Confirmation Password Didn't Match!", {
           position: "top-right",
           timeout: 2500,
         });
       } else {
-        if (this.gantipw.pw1 != this.gantipw.pw2) {
+        if (this.gantipw.pw1.length < 8) {
           if (regex.test(this.gantipw.pw1)) {
             //post data
             let data = this.otp;
@@ -355,7 +355,7 @@ export default {
             }
           } else {
             //warning combination
-            this.$toast.error("Confirmation Password Didn't Match!", {
+            this.$toast.warning("The password is need more than 8 character!", {
               position: "top-right",
               timeout: 2500,
             });

@@ -1,5 +1,5 @@
 <template>
-    <section class="home">
+    <section class="home w-80" style="height: 100%;">
         <div class="text text-center mb-5">Dashboard</div>
         <!---------------------------------- START CARD ---------------------------------->
         <h4 class="color-text">Cards</h4>

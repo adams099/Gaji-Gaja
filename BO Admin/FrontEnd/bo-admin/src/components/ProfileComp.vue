@@ -1,5 +1,5 @@
 <template>
-  <section class="home">
+  <section class="home h-100">
     <div class="text text-center color-text">
       {{ isFormVisible ? "Change Password Page" : "Profile" }}
     </div>
@@ -57,7 +57,7 @@
         </button>
       </form>
     </div>
-    <div class="row row-lg-10">
+    <div class="row">
       <!-- change password -->
 
       <div class="col-lg-4 ml-5 mt-4">
