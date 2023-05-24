@@ -122,7 +122,7 @@
 <script>
 import companyService from '@/services/companyService.js';
 import approvService from '@/services/approvalService.js';
-import adds from '@/services/userService.js';
+// import adds from '@/services/userService.js';
 export default {
     name: "CompanyS",
 
@@ -166,20 +166,6 @@ export default {
             companyData: {
             },
 
-            buatAkun: {
-                name: null,
-                email: null,
-                pass: null,
-                roleId: null,
-                statId: null,
-                companyId: null,
-                created: null,
-                createdBy: null,
-                phone: null,
-                apprBy: null,
-                update: null
-            },
-
             showForm: false,
             showDetail: false,
         }
@@ -200,21 +186,13 @@ export default {
         },
 
         SubmitCompany() {
-            let akun = this.buatAkun
             let data = this.companyDatas
             let apprv = this.apprvData
 
 
             if (this.submitBtn === "Add Company") {
-                akun.email = data.adminEmail;
-                akun.name = data.adminName;
-                akun.status = 4;
-                akun.pass = "testing";
-                akun.roleId = 2;
-                akun.statId = 4;
-                akun.createdBy = this.$session.get('email');
                 data.status = 1;
-                data.createdBy = this.$session.get('email');
+                data.createdBy = this.$session.get('email')
 
                 companyService.upload(data)
                     .then((response) => {
@@ -223,7 +201,7 @@ export default {
                         apprv.comName = data.comName;
                         apprv.companyId = response.data.id;
                         apprv.reqBy = data.createdBy;
-                        apprv.reqType = "Need Approve";
+                        apprv.reqType = "Add Company";
                         apprv.status = data.status;
                         this.$toast.success('CompanyData has been successfully added!', {
                             position: 'top-right',
@@ -246,7 +224,7 @@ export default {
                                 });
                             });
 
-                        adds
+                        // adds
                         // adds.register(akun)
                         //     .then((response) => {
                         //         // this.companyData = response.data;
@@ -273,6 +251,8 @@ export default {
                         });
                     });
             } else {
+                data.status = 1
+                data.createdBy = this.$session.get('email');
                 companyService.upload(data)
                     .then((response) => {
                         console.log("add Company");
@@ -282,6 +262,28 @@ export default {
                             timeout: 2500,
                         });
                         this.showForm = !this.showForm;
+                        //
+                        apprv.comName = data.comName;
+                        apprv.companyId = response.data.id;
+                        apprv.reqBy = data.createdBy;
+                        apprv.reqType = "Update Company";
+                        apprv.status = data.status;
+
+                        // add table approv
+                        approvService.saveApprov(apprv)
+                            .then((response) => {
+                                console.log("add Approv");
+                                console.log(response.status);
+                                this.showForm = !this.showForm;
+                                this.getCompany();
+                            })
+                            .catch((e) => {
+                                console.log(e);
+                                this.$toast.error('Error!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                            });
                     })
                     .catch(() => {
                         this.$toast.error('Error!', {
