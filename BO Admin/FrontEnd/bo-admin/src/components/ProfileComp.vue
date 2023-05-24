@@ -1,5 +1,5 @@
 <template>
-  <section class="home">
+  <section class="home h-100">
     <div class="text text-center color-text">{{ isFormVisible ? "Change Password Page" : "Profile" }}</div>
 
     <!-- CHANGE PASSWORD -->
@@ -26,7 +26,7 @@
           @click="isFormVisible = false">Cancel</button>
       </form>
     </div>
-    <div class="row row-lg-10">
+    <div class="row">
       <!-- change password -->
 
       <div class="col-lg-4 ml-5 mt-4">
@@ -180,6 +180,7 @@ export default {
     saveChanges() {
       var data = this.userData
       data.pass = this.oldpass
+
       // console.log(data);
       userService
         .login(data)
@@ -284,6 +285,7 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-content: center;
+
 }
 
 .btn-outline-primary:hover {
