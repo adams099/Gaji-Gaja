@@ -1,29 +1,60 @@
 <template>
   <section class="home h-100">
-    <div class="text text-center color-text">{{ isFormVisible ? "Change Password Page" : "Profile" }}</div>
+    <div class="text text-center color-text">
+      {{ isFormVisible ? "Change Password Page" : "Profile" }}
+    </div>
 
     <!-- CHANGE PASSWORD -->
     <div v-show="isFormVisible" class="col-md-12 mt-5">
-      <form class="change-password shadow-lg col-md-6" @submit.prevent="saveChanges">
+      <form
+        class="change-password shadow-lg col-md-6"
+        @submit.prevent="saveChanges"
+      >
         <h6 class="change-text text-center mb-4">Change Password</h6>
         <div class="form-group">
           <label for="old-password">Old Password</label>
-          <input type="password" class="form-control" id="old-password" required placeholder="Old Password"
-            autocomplete="off" v-model="oldpass">
+          <input
+            type="password"
+            class="form-control"
+            id="old-password"
+            required
+            placeholder="Old Password"
+            autocomplete="off"
+            v-model="currentPass"
+          />
         </div>
         <div class="form-group">
           <label for="new-password">New Password</label>
-          <input type="password" class="form-control" id="new-password" required placeholder="New Password"
-            autocomplete="off" v-model="newPass">
+          <input
+            type="password"
+            class="form-control"
+            id="new-password"
+            required
+            placeholder="New Password"
+            autocomplete="off"
+            v-model="newPass"
+          />
         </div>
         <div class="form-group">
           <label for="confirm-password">Confirm Password</label>
-          <input type="password" class="form-control" id="confirm-password" required placeholder="Confirm Password"
-            autocomplete="off" v-model="confPass">
+          <input
+            type="password"
+            class="form-control"
+            id="confirm-password"
+            required
+            placeholder="Confirm Password"
+            autocomplete="off"
+            v-model="confPass"
+          />
         </div>
         <button class="btn submit btn-primary mt-4" type="submit">Save</button>
-        <button class="btn btn-outline-secondary submit mt-3" v-if="isCancle"
-          @click="isFormVisible = false">Cancel</button>
+        <button
+          class="btn btn-outline-secondary submit mt-3"
+          v-if="isCancle"
+          @click="isFormVisible = false"
+        >
+          Cancel
+        </button>
       </form>
     </div>
     <div class="row">
@@ -32,16 +63,26 @@
       <div class="col-lg-4 ml-5 mt-4">
         <!-- CARD 1 -->
         <div class="card mb-1 shadow-lg" v-show="!isFormVisible">
-          <div class=" text-center">
-            <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt=""
-              style="width: 150px; height: 150px;" />
+          <div class="text-center">
+            <img
+              class="rounded-circle img-fluid"
+              src="../assets/suzume.jpg"
+              alt=""
+              style="width: 150px; height: 150px"
+            />
 
             <h5 class="my-3">{{ name | toUpperCase }}</h5>
-            <p class="text-muted mb-2">{{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}</p>
+            <p class="text-muted mb-2">
+              {{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}
+            </p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
-                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change"
-                  @click="toggleFormVisibility">
+                <button
+                  type="button"
+                  id="show-btn"
+                  class="btn btn-outline-primary ms-1 mt-2 btn-change"
+                  @click="toggleFormVisibility"
+                >
                   Change Passwd
                 </button>
 
@@ -74,17 +115,17 @@
                     <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                   </div>
                 </b-modal> -->
-
               </div>
             </div>
           </div>
         </div>
       </div>
 
-
-
       <!-- CARD 2 -->
-      <div class="col-lg-6 mt-4 card-dua shadow-lg ml-4" v-show="!isFormVisible">
+      <div
+        class="col-lg-6 mt-4 card-dua shadow-lg ml-4"
+        v-show="!isFormVisible"
+      >
         <div class="mb-4">
           <div class="table">
             <table style="width: 100%">
@@ -119,7 +160,7 @@
 
 <script>
 import userService from "@/services/userService";
-import ChangePaswd from "@/components/ChangePaswdComp.vue"
+import ChangePaswd from "@/components/ChangePaswdComp.vue";
 export default {
   name: "ProfileComp",
   comments: {
@@ -136,7 +177,7 @@ export default {
         pass: null,
         update: null,
       },
-      oldpass: null,
+      currentPass: null,
       newPass: null,
       confPass: null,
       isFormVisible: false,
@@ -147,9 +188,9 @@ export default {
 
   filters: {
     toUpperCase: function (value) {
-      if (!value) return '';
+      if (!value) return "";
       return value.toString().toUpperCase();
-    }
+    },
   },
 
   methods: {
@@ -170,7 +211,6 @@ export default {
     // },
     toggleFormVisibility() {
       this.isFormVisible = !this.isFormVisible;
-
     },
     Logout() {
       this.$session.destroy();
@@ -178,69 +218,93 @@ export default {
     },
 
     saveChanges() {
-      var data = this.userData
-      data.pass = this.oldpass
+      const regex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+      var data = this.userData;
+      data.pass = this.currentPass;
+      console.log(regex.test(this.newPass));
 
-      // console.log(data);
-      userService
-        .login(data)
-        .then((response) => {
-          if (response.status === 200) {
-            if (this.newPass == this.confPass) {
-              data.pass = this.newPass
-              userService
-                .register(data)
-                .then((response) => {
-                  if (response.status == 201) {
-                    // console.log(response.data);
-                    this.$toast.success('Success change password!', {
-                      position: 'top-right',
-                      timeout: 2500,
+      if (this.newPass.length > 8) {
+        if (regex.test(this.newPass)) {
+          //post data
+          userService
+            .login(data)
+            .then((response) => {
+              if (response.status === 200) {
+                if (this.newPass == this.confPass) {
+                  data.pass = this.newPass;
+                  userService
+                    .register(data)
+                    .then((response) => {
+                      if (response.status == 201) {
+                        // console.log(response.data);
+                        this.$toast.success("Success change password!", {
+                          position: "top-right",
+                          timeout: 2500,
+                        });
+                        this.Logout();
+                      }
+                    })
+                    .catch(() => {
+                      this.$toast.error("Error", {
+                        position: "top-right",
+                        timeout: 2500,
+                      });
                     });
-                    this.Logout()
-                  }
-                })
-                .catch(() => {
-                  this.$toast.error('Error', {
-                    position: 'top-right',
+                } else {
+                  this.$toast.warning(
+                    "New password and confirmation password do not match!",
+                    {
+                      position: "top-right",
+                      timeout: 2500,
+                    }
+                  );
+                }
+              }
+            })
+            .catch((e) => {
+              try {
+                e.response.status == 404;
+                this.$toast.warning(
+                  "Incorrect old password. Please try again!",
+                  {
+                    position: "top-right",
                     timeout: 2500,
-                  });
+                  }
+                );
+              } catch (error) {
+                this.$toast.error("Error", {
+                  position: "top-right",
+                  timeout: 2500,
                 });
-
-            } else {
-              this.$toast.warning('New password and confirmation password do not match!', {
-                position: 'top-right',
-                timeout: 2500,
-
-              });
+              }
+            });
+        } else {
+          //warning combination
+          this.$toast.warning(
+            "The password must consist of a combination of letters and numbers!",
+            {
+              position: "top-right",
+              timeout: 2500,
             }
-          }
-        })
-        .catch((e) => {
-          try {
-            e.response.status == 404
-            this.$toast.warning('Incorrect old password. Please try again!', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          } catch (error) {
-            this.$toast.error('Error', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          }
+          );
+        }
+      } else {
+        // warning character
+        this.$toast.warning("Your password is must more than 8 character!", {
+          position: "top-right",
+          timeout: 2500,
         });
+      }
     },
 
     getUser() {
-      let data = this.userData
-      data.email = this.$session.get("email")
+      let data = this.userData;
+      data.email = this.$session.get("email");
 
       userService
         .findEmail(data)
         .then((response) => {
           if (response.status === 200) {
-
             let oldName = response.data.name;
             let first = oldName.split(" ")[0];
             let second = oldName.split(" ")[1];
@@ -254,8 +318,8 @@ export default {
             console.log(response.status);
             this.userData = response.data;
             if (response.data.update == null) {
-              this.isFormVisible = !this.isFormVisible
-              this.isCancle = false
+              this.isFormVisible = !this.isFormVisible;
+              this.isCancle = false;
             }
             // console.log(this.userData.id);
           }
@@ -285,7 +349,6 @@ export default {
   flex-direction: column;
   justify-content: center;
   align-content: center;
-
 }
 
 .btn-outline-primary:hover {
@@ -308,12 +371,10 @@ img:hover {
 .primary {
   background-color: #695cfe;
   border: none;
-
 }
 
 .primary:hover {
   background-color: #5549da;
-
 }
 
 /* change password */
@@ -324,7 +385,6 @@ img:hover {
   margin: auto;
   align-content: center;
   right: 0px;
-
 }
 
 .submit {
@@ -353,5 +413,6 @@ img:hover {
   color: grey;
 }
 
-.btn-change {}
+.btn-change {
+}
 </style>
