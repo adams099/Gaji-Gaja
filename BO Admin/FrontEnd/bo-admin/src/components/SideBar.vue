@@ -22,7 +22,7 @@
         </div>
         <ul class="menu-links">
           <!--------------- DASHBOARD --------------->
-          <a class="side-btn" v-show="firstLogin" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
+          <a v-if="sidebarItem" class="side-btn" v-show="firstLogin" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
             <li class="">
               <a>
                 <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
@@ -241,9 +241,10 @@ export default {
     userService.findEmail(data).then((response) => {
       let oldName = response.data.name;
       this.name = oldName.split(" ")[0];
-      console.log(response.data.update)
 
-      if (response.data.update == null) {
+      if (response.data.roleId == 1) {
+        this.NyobaEmis(2)
+      } else if (response.data.update == null) {
         this.NyobaEmis(5);
         this.firstLogin = false;
         this.$toast.warning('We Recommend You to Change Your Password', {

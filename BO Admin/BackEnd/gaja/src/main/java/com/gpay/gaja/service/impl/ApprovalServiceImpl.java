@@ -3,7 +3,6 @@ package com.gpay.gaja.service.impl;
 import com.gpay.gaja.common.dto.ApprovalDTO;
 import com.gpay.gaja.common.mapper.ApprovalMapper;
 import com.gpay.gaja.model.domain.Approval;
-import com.gpay.gaja.model.domain.Company;
 import com.gpay.gaja.model.repository.ApprovalRepository;
 import com.gpay.gaja.service.ApprovalService;
 
