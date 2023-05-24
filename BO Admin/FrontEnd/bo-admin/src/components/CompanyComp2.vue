@@ -1,5 +1,5 @@
 <template>
-    <section class="home">
+    <section class="home w-80" style="height: 100%;">
         <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between align-items-center">
             <div class="text text-center" v-if="!showForm" style="font-size: 25px;">Company Table</div>
             <button class="btn btn-add-com" @click="addFunc()" v-if="!showForm">Add
@@ -7,7 +7,7 @@
         </div>
 
         <!------------------ START TABLE ------------------->
-        <table class="table " v-show="!showForm">
+        <table class="table" v-show="!showForm">
             <thead class="text-center">
                 <tr>
                     <th scope="col">ID</th>
@@ -59,7 +59,7 @@
                     <i class="fas fa-arrow-left text-white"></i> Back
                 </button>
             </div>
-            <form class="iseng form-detail-company flex-row bg-white shadow-lg mb-5" @submit.prevent="SubmitCompany">
+            <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
@@ -381,13 +381,9 @@ thead {
 form {
     width: 60vw;
     padding: 40px 40px;
-    border-radius: 20px;
+    border-radius: 25px;
+    height: 90vh;
 }
-
-.form {
-    padding-bottom: 20px;
-}
-
 
 .iseng {
     margin-left: 100px;
@@ -405,7 +401,6 @@ form {
     display: flex;
     justify-content: flex-end;
     margin-right: 80px;
-
 }
 
 .btn-add-com {
