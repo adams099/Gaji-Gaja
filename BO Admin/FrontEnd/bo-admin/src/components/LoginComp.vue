@@ -712,4 +712,8 @@ img {
 .otp-2 {
   margin-top: 18px;
 }
+
+i:hover {
+  cursor: pointer;
+}
 </style>
