@@ -220,11 +220,20 @@ export default {
           this.showModalStatus = false;
           this.getUser()
         })
-        .catch(() => {
-          this.$toast.error('Error', {
-            position: 'top-right',
-            timeout: 2500,
-          });
+        .catch((e) => {
+          try {
+            e["code"] === "ERR_NETWORK";
+            console.log(e["code"]);
+            this.$toast.error("ERROR NETWORK CONNECTION", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error("Error", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
         });
     },
     reject() {
@@ -242,13 +251,23 @@ export default {
           this.showModalStatus = false;
           this.getUser()
         })
-        .catch(() => {
-          this.$toast.error('Error', {
-            position: 'top-right',
-            timeout: 2500,
-          });
+        .catch((e) => {
+          try {
+            e["code"] === "ERR_NETWORK";
+            console.log(e["code"]);
+            this.$toast.error("ERROR NETWORK CONNECTION", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error("Error", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
         });
     },
+
     deadactive() {
       // handle review action
       let data = this.updateData;
@@ -350,10 +369,19 @@ export default {
                   this.showToast();
                 }).catch((e) => {
                   console.log(e);
-                  this.$toast.error('Failed to send the password to the email!', {
-                    position: 'top-right',
-                    timeout: 2500,
-                  });
+                  try {
+                    e["code"] === "ERR_NETWORK";
+                    console.log(e["code"]);
+                    this.$toast.error("ERROR NETWORK CONNECTION", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                  } catch (error) {
+                    this.$toast.error('Failed to send the password to the email!', {
+                      position: 'top-right',
+                      timeout: 2500,
+                    });
+                  }
                 });
 
                 // console.log(response.data);
@@ -421,7 +449,16 @@ export default {
           this.LimitData();
         })
         .catch((e) => {
-          console.log(e);
+          try {
+            e["code"] === "ERR_NETWORK";
+            console.log(e["code"]);
+            this.$toast.error("ERROR NETWORK CONNECTION", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          } catch (error) {
+            console.log(e);
+          }
         });
     }
 

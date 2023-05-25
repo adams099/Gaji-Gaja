@@ -173,6 +173,18 @@ export default {
 
 
   methods: {
+    startLoading() {
+      this.loading = true;
+      this.remainingTime = 60;
+
+      const timer = setInterval(() => {
+        this.remainingTime--;
+        if (this.remainingTime <= 0) {
+          this.stopLoading(timer);
+        }
+      }, 1000);
+    },
+
     togglePasswordVisibilityS(field) {
       this.showPasswordS[field] = !this.showPasswordS[field];
     },
@@ -207,6 +219,19 @@ export default {
         })
         .catch((e) => {
           console.log(e);
+          try {
+            e["code"] === "ERR_NETWORK";
+            console.log(e["code"]);
+            this.$toast.error("ERROR NETWORK CONNECTION", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error("Error", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
         });
     },
     checkOtp() {
@@ -297,10 +322,19 @@ export default {
                 })
                 .catch((e) => {
                   console.log(e);
-                  this.$toast.error("Error!", {
-                    position: "top-right",
-                    timeout: 2500,
-                  });
+                  try {
+                    e["code"] === "ERR_NETWORK";
+                    console.log(e["code"]);
+                    this.$toast.error("ERROR NETWORK CONNECTION", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                  } catch (error) {
+                    this.$toast.error("Error", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                  }
                 });
             }
           } else {
@@ -331,17 +365,6 @@ export default {
       // }
     },
 
-    startLoading() {
-      this.loading = true;
-      this.remainingTime = 60;
-
-      const timer = setInterval(() => {
-        this.remainingTime--;
-        if (this.remainingTime <= 0) {
-          this.stopLoading(timer);
-        }
-      }, 1000);
-    },
     stopLoading(timer) {
       this.loading = false;
       clearInterval(timer);

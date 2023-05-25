@@ -236,11 +236,20 @@ export default {
                     this.getApproval();
                     this.showDetail = !this.showDetail;
                 })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
+                .catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    }
                 });
 
         },
@@ -292,11 +301,20 @@ export default {
                         this.getApproval();
                         this.showDetail = !this.showDetail
                     })
-                    .catch(() => {
-                        this.$toast.error('Error', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
+                    .catch((e) => {
+                        try {
+                            e["code"] === "ERR_NETWORK";
+                            console.log(e["code"]);
+                            this.$toast.error("ERROR NETWORK CONNECTION", {
+                                position: "top-right",
+                                timeout: 2500,
+                            });
+                        } catch (error) {
+                            this.$toast.error('Error', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                        }
                     });
                 companyService.getCompanyById(data.companyId)
                     .then((response) => {
@@ -323,7 +341,7 @@ export default {
                                 "body": akun.pass
                             }
                             console.log(semail)
-                            userService.semail(semail)
+                            userService.asemail(semail)
 
                         }
                     })
@@ -382,7 +400,16 @@ export default {
                     console.log("get Approval");
                 })
                 .catch((e) => {
-                    console.log(e);
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        console.log(e);
+                    }
                 });
         },
     },

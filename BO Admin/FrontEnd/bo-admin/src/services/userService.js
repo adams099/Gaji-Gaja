@@ -36,6 +36,10 @@ class User {
   semail(data){
     return http.post("/user/semail",data)
   }
+
+  asemail(data){
+    return http.post("/user/akunsemail",data)
+  }
 }
 
 export default new User();
