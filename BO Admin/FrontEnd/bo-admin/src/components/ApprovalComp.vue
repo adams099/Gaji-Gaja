@@ -137,7 +137,7 @@
                 </tbody>
 
             </table>
-            <div class="row d-flex justify-content-center next color-text" v-if="!showDetail">
+            <div class="row d-flex justify-content-center next color-text" v-if="!showDetail && companyData.length > 7">
                 <button type="button" class="btn btn-success" @click="previousPage"
                     :disabled="currentPage == 1">Previous</button>
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -236,11 +236,20 @@ export default {
                     this.getApproval();
                     this.showDetail = !this.showDetail;
                 })
-                .catch(() => {
-                    this.$toast.error('Error', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
+                .catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        this.$toast.error('Error', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    }
                 });
 
         },
@@ -292,11 +301,20 @@ export default {
                         this.getApproval();
                         this.showDetail = !this.showDetail
                     })
-                    .catch(() => {
-                        this.$toast.error('Error', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
+                    .catch((e) => {
+                        try {
+                            e["code"] === "ERR_NETWORK";
+                            console.log(e["code"]);
+                            this.$toast.error("ERROR NETWORK CONNECTION", {
+                                position: "top-right",
+                                timeout: 2500,
+                            });
+                        } catch (error) {
+                            this.$toast.error('Error', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                        }
                     });
                 companyService.getCompanyById(data.companyId)
                     .then((response) => {
@@ -382,7 +400,16 @@ export default {
                     console.log("get Approval");
                 })
                 .catch((e) => {
-                    console.log(e);
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        console.log(e);
+                    }
                 });
         },
     },
@@ -548,6 +575,7 @@ form {
     margin-right: 125px;
     border-radius: 10px;
     height: 40px;
+    margin-right: 15rem;
 }
 
 

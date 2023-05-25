@@ -1,14 +1,17 @@
 <template>
   <div class="body h-100 d-flex align-items-center">
-    <img src="../assets/background.png" alt="">
+    <img src="../assets/background.png" alt="" />
     <div>
       <!-- <img src="../assets/gaja.jpg" style="width: 50vh" /> -->
     </div>
     <div class="col-lg-4 ml-auto login mr-5">
-
-      <div class="card register shadow-lg p-5  d-flex justify-content-end">
-        <h2 class="head" v-bind:class="{ 'mobile-text': showForgotPassword }" v-if="!showForgotPassword">SIGN IN</h2>
-        <h2 class="head forgot-text" v-bind:class="{ 'mobile-text': !showForgotPassword }" v-else>FORGOT PASSWORD</h2>
+      <div class="card register shadow-lg p-5 d-flex justify-content-end">
+        <h2 class="head" v-bind:class="{ 'mobile-text': showForgotPassword }" v-if="!showForgotPassword">
+          SIGN IN
+        </h2>
+        <h2 class="head forgot-text" v-bind:class="{ 'mobile-text': !showForgotPassword }" v-else>
+          FORGOT PASSWORD
+        </h2>
 
         <form action="" @submit.prevent="loginFunc" v-if="!showForgotPassword" class="login">
           <!-- Email -->
@@ -22,15 +25,16 @@
 
             <!-- Password -->
             <div class="form-input">
-              <input type="password" id="password" name="password" class="form-control mb-5 password-input"
-                placeholder="Password" required v-model="userLogin.pass" />
+              <input :type="showPassword ? 'text' : 'password'" id="password" name="password"
+                class="form-control mb-5 password-input" placeholder="Password" required v-model="userLogin.pass" />
               <span v-if="error.password" class="validation-message">Password harus diisi!</span>
-              <i class="fas fa-lock input-icon"></i>
+              <i class="fas fass" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'" @click="togglePasswordVisibility"></i>
             </div>
 
             <vue-recaptcha v-if="attempts === 0" sitekey="6LcCOh8mAAAAAFa-Vv0emVYbkzEYYQOiBT9-YTfV"
               @verify="onVerify"></vue-recaptcha>
-            <div class="forgot-password" @click="toggleForgotPassword">Forgot Password
+            <div class="forgot-password" @click="toggleForgotPassword">
+              Forgot Password
             </div>
           </div>
 
@@ -47,7 +51,9 @@
             <form @submit.prevent="sendOtp" class="form-input flex-row">
               <input type="email" id="otp-email" name="password" v-model="otp.email" class="form-control mb-1 otp-email"
                 placeholder="Enter Email" required v-if="!showOtp" autocomplete="off" />
-              <button v-if="loading" class="sent btn btn-primary ml-3 p-2 pr-4" disabled>{{ remainingTime }}</button>
+              <button v-if="loading" class="sent btn btn-primary ml-3 p-2 pr-4" disabled>
+                {{ remainingTime }}
+              </button>
               <button v-else class="sent btn btn-primary ml-3 p-2">Sent</button>
             </form>
             <div>
@@ -68,13 +74,29 @@
 
           <!-- CHANGE PASSWORD -->
           <form @submit.prevent="changePass" v-if="scpass" @click="hidenForgotPassword">
-            <div class="form-input flex-row">
+            <!-- <div class="form-input flex-row">
               <input type="password" id="new-password" v-model="gantipw.pw1" name="new-password"
                 class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp" />
+            </div> -->
+            <div class="form-input flex-row">
+              <input id="new-password" v-model="gantipw.pw1" name="new-password" class="form-control mb-1 new-password"
+                placeholder="Enter New Password" v-if="!showOtp" :type="inputType1" />
+              <span class="password-toggle" @click="togglePasswordVisibilityS('pw1')">
+                <i class="fas otp-1" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </span>
             </div>
-            <div>
+
+            <!-- <div>
               <input type="password" id="confirm-password" name="confirm-password" v-model="gantipw.pw2"
                 class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" />
+            </div> -->
+            <div>
+              <input id="confirm-password" v-model="gantipw.pw2" name="confirm-password"
+                class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp"
+                :type="inputType2" />
+              <span class="password-toggle" @click="togglePasswordVisibilityS('pw2')">
+                <i class="fas otp-2" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </span>
             </div>
             <div>
               <button type="submit" tag="button" class="btn btn-primary mb-4" v-if="scpass">
@@ -82,7 +104,7 @@
               </button>
             </div>
             <div class="back-button">
-              <div class="btn-back" style="cursor: pointer;" v-on:click="BackButton(2)">
+              <div class="btn-back" style="cursor: pointer" v-on:click="BackButton(2)">
                 <i class="fas fa-arrow-left"></i> Back
               </div>
             </div>
@@ -97,11 +119,11 @@
     
 <script>
 import userService from "@/services/userService";
-import { VueRecaptcha } from 'vue-recaptcha'
+import { VueRecaptcha } from "vue-recaptcha";
 export default {
   name: "LoginComp",
   components: {
-    VueRecaptcha
+    VueRecaptcha,
   },
 
   data() {
@@ -118,6 +140,10 @@ export default {
         pw1: "",
         pw2: "",
       },
+      showPasswordS: {
+        pw1: false,
+        pw2: false
+      },
       error: {
         email: false,
         password: false,
@@ -132,128 +158,21 @@ export default {
       remainingTime: 60,
       dataemail: {},
       attempts: 3,
+      showPassword: false
     };
   },
+  computed: {
+    inputType1() {
+      return this.showPasswordS.pw1 ? "text" : "password";
+      // return this.showPassword.pw2 ? "text" : "password";
+    },
+    inputType2() {
+      return this.showPasswordS.pw2 ? "text" : "password";
+    },
+  },
+
 
   methods: {
-    toggleForgotPassword() {
-      this.showForgotPassword = true;
-      this.sfp = true
-    },
-    onVerify(response) {
-      console.log('Verify: ' + response)
-      this.attempts++
-    },
-    togleOtp() {
-      this.showOtp = true;
-    },
-    sendOtp() {
-      this.startLoading()
-      let data = this.otp
-      data.otp = null
-      userService
-        .potp(data)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log("succes");
-            this.$toast.success('Check Your Email', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-    },
-    checkOtp() {
-      let data = this.otp
-      userService
-        .cotp(data)
-        .then((response) => {
-          if (response.status === 200) {
-            console.log(response.data);
-            this.togleShowPass()
-            this.$toast.success('OTP verification successful!', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          }
-        })
-        .catch((e) => {
-          console.log(e);
-          try {
-            e.response.status == 404
-            this.$toast.warning('Invalid OTP. Please try again.', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          } catch (error) {
-            this.$toast.error('Error', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          }
-        });
-    },
-    async changePass() {
-      if (this.gantipw.pw1 != this.gantipw.pw2) {
-        this.$toast.error('Password Not Same', {
-          position: 'top-right',
-          timeout: 2500,
-        });
-      } else {
-        let data = this.otp
-        data.otp = null
-        let posisi = null
-        await userService
-          .findEmail(data)
-          .then((response) => {
-            if (response.status === 200) {
-              this.dataemail = response.data
-              if (response.data.update == null) {
-                this.$toast.warning('Please Change Password at Dashboard', {
-                  position: 'top-right',
-                  timeout: 2500,
-                });
-              } else {
-                posisi = 1
-              }
-            }
-          })
-          .catch((e) => {
-            console.log(e);
-            this.$toast.error('Error!', {
-              position: 'top-right',
-              timeout: 2500,
-            });
-          });
-        if (posisi == 1) {
-          this.dataemail.pass = this.gantipw.pw1
-          let data2 = this.dataemail
-          userService
-            .register(data2)
-            .then((response) => {
-              if (response.status === 201) {
-                this.$toast.success('Success change password!', {
-                  position: 'top-right',
-                  timeout: 2500,
-                });
-                setTimeout(() => {
-                  window.location.reload();
-                }, 2000);
-              }
-            })
-            .catch((e) => {
-              console.log(e);
-              this.$toast.error('Error!', {
-                position: 'top-right',
-                timeout: 2500,
-              });
-            });
-        }
-      }
-    },
     startLoading() {
       this.loading = true;
       this.remainingTime = 60;
@@ -265,6 +184,187 @@ export default {
         }
       }, 1000);
     },
+
+    togglePasswordVisibilityS(field) {
+      this.showPasswordS[field] = !this.showPasswordS[field];
+    },
+    toggleForgotPassword() {
+      this.showForgotPassword = true;
+      this.sfp = true;
+    },
+    onVerify(response) {
+      console.log("Verify: " + response);
+      this.attempts++;
+    },
+    togleOtp() {
+      this.showOtp = true;
+    },
+    togglePasswordVisibility() {
+      this.showPassword = !this.showPassword;
+    },
+    sendOtp() {
+      this.startLoading();
+      let data = this.otp;
+      data.otp = null;
+      userService
+        .potp(data)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log("succes");
+            this.$toast.success("Check Your Email", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          try {
+            e["code"] === "ERR_NETWORK";
+            console.log(e["code"]);
+            this.$toast.error("ERROR NETWORK CONNECTION", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error("Error", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
+        });
+    },
+    checkOtp() {
+      let data = this.otp;
+      userService
+        .cotp(data)
+        .then((response) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            this.togleShowPass();
+            this.$toast.success("OTP verification successful!", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
+        })
+        .catch((e) => {
+          console.log(e);
+          try {
+            e.response.status == 404;
+            this.$toast.warning("Invalid OTP. Please try again.", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          } catch (error) {
+            this.$toast.error("Error", {
+              position: "top-right",
+              timeout: 2500,
+            });
+          }
+        });
+    },
+    async changePass() {
+      const regex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
+      // var data = this.user;
+      // data.newPass = this.gantipw.pw1;
+      console.log(regex.test(this.gantipw.pw1));
+      if (this.gantipw.pw1 != this.gantipw.pw2) {
+        // kurang
+        this.$toast.error("Confirmation Password Didn't Match!", {
+          position: "top-right",
+          timeout: 2500,
+        });
+      } else {
+        if (this.gantipw.pw1.length >= 8) {
+          if (regex.test(this.gantipw.pw1)) {
+            //post data
+            let data = this.otp;
+            data.otp = null;
+            let posisi = null;
+            await userService
+              .findEmail(data)
+              .then((response) => {
+                if (response.status === 200) {
+                  this.dataemail = response.data;
+                  if (response.data.update == null) {
+                    this.$toast.warning("Please Change Password at Dashboard", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                  } else {
+                    posisi = 1;
+                  }
+                }
+              })
+              .catch((e) => {
+                console.log(e);
+                this.$toast.error("Error!", {
+                  position: "top-right",
+                  timeout: 2500,
+                });
+              });
+            if (posisi == 1) {
+              this.dataemail.pass = this.gantipw.pw1;
+              let data2 = this.dataemail;
+              userService
+                .register(data2)
+                .then((response) => {
+                  if (response.status === 201) {
+                    this.$toast.success("Success change password!", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 2000);
+                  }
+                })
+                .catch((e) => {
+                  console.log(e);
+                  try {
+                    e["code"] === "ERR_NETWORK";
+                    console.log(e["code"]);
+                    this.$toast.error("ERROR NETWORK CONNECTION", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                  } catch (error) {
+                    this.$toast.error("Error", {
+                      position: "top-right",
+                      timeout: 2500,
+                    });
+                  }
+                });
+            }
+          } else {
+            //warning combination
+            this.$toast.warning(
+              "The password must consist of a combination of letters and numbers!",
+              {
+                position: "top-right",
+                timeout: 2500,
+              }
+            );
+          }
+        } else {
+          //warning character
+          this.$toast.warning("The password is need more than 8 character!", {
+            position: "top-right",
+            timeout: 2500,
+          });
+
+        }
+      }
+
+      // if (this.gantipw.pw1 != this.gantipw.pw2) {
+      //   this.$toast.error("Confirmation Password Didn't Match!", {
+      //     position: "top-right",
+      //     timeout: 2500,
+      //   });
+      // }
+    },
+
     stopLoading(timer) {
       this.loading = false;
       clearInterval(timer);
@@ -274,22 +374,23 @@ export default {
     },
     BackButton(he) {
       if (he == 1) {
-        this.showForgotPassword = false
-        this.sfp = false
+        this.showForgotPassword = false;
+        this.sfp = false;
       } else {
         this.scpass = !this.scpass;
-        this.sfp = !this.sfp
+        this.sfp = !this.sfp;
       }
     },
     togleShowPass() {
       this.scpass = true;
-      this.sfp = !this.sfp
+      this.sfp = !this.sfp;
     },
+
 
     // LOGIN FUNCTION
     loginFunc() {
       if (this.attempts > 0) {
-        this.attempts--
+        this.attempts--;
         this.loginError = false;
         this.error = {};
         let data = this.userLogin;
@@ -313,33 +414,37 @@ export default {
             })
             .catch((e) => {
               try {
-                e.response.status == 404
-                this.$toast.warning('Incorrect email or password. Please try again!', {
-                  position: 'top-right',
-                  timeout: 2500,
-                });
+                e.response.status == 404;
+                this.$toast.warning(
+                  "Incorrect email or password. Please try again!",
+                  {
+                    position: "top-right",
+                    timeout: 2500,
+                  }
+                );
               } catch (error) {
-                this.$toast.error('Error', {
-                  position: 'top-right',
+                this.$toast.error("Error", {
+                  position: "top-right",
                   timeout: 2500,
                 });
               }
             });
         }
       } else {
-        this.$toast.error('Please verify the CAPTCHA', {
-          position: 'top-right',
+        this.$toast.error("Please verify the CAPTCHA", {
+          position: "top-right",
           timeout: 2500,
         });
       }
     },
   },
+
 };
+
 </script>
     
 <style scoped lang="css">
 @media (max-width: 576px) {
-
   .card.register {
     width: 100%;
     max-width: 350px;
@@ -482,17 +587,27 @@ input:focus~label {
   color: #999;
 }
 
+.fass {
+  position: absolute;
+  top: 17px;
+  right: 14px;
+  font-size: px;
+  color: #999;
+}
+
 .form-input {
   display: flex;
   align-items: end;
+  position: relative;
 }
 
 .input-icon {
   margin-left: 10px;
   font-size: 16px;
   color: #999;
-
 }
+
+
 
 .forgot-password {
   font-size: 13px;
@@ -543,7 +658,6 @@ input:focus~label {
   background-color: #584be0;
   border-radius: 100%;
   padding: 5px 6px;
-
 }
 
 .btn-back {
@@ -578,5 +692,24 @@ img {
   left: 30px;
 }
 
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  margin-left: 320px;
+  /* right: 10px; */
+  transform: translateY(-50%);
+}
+
+.password-toggle i {
+  display: inline-block;
+  vertical-align: center;
+  color: #999;
+
+}
+
 /* otp */
+
+.otp-2 {
+  margin-top: 18px;
+}
 </style>

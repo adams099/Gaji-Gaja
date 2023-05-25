@@ -1,8 +1,8 @@
 <template>
     <section class="home w-80" style="height: 100%;">
-        <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between align-items-center">
+        <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between  align-items-center">
             <div class="text text-center" v-if="!showForm" style="font-size: 25px;">Company Table</div>
-            <button class="btn btn-add-com" @click="addFunc()" v-if="!showForm">Add
+            <button class="btn btn-add-com" @click="addFunc()" v-if="roleId === 2" v-show="!showForm">Add
                 Company</button>
         </div>
 
@@ -27,7 +27,7 @@
                     <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
                     <button type="button" class="status salmon" v-else>Deactive</button>
                     <td class="text-center">
-                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">Update</button>
+                        <button type="button" class="btn btn-detail" @click="updateFunc(item)">{{ tableBtn }}</button>
                     </td>
                 </tr>
             </tbody>
@@ -53,9 +53,9 @@
 
         <!--------------------- START ADD COMPANY -------------------------->
         <div class="form" v-show="showForm">
-            <div class="form-company d-flex flex-row justify-content-between">
-                <h6 class=" color-text">Form Add Company</h6>
-                <button class="btn back text-white mb-3" v-if="showForm" v-on:click="BackButton(1)">
+            <div class="form-company d-flex flex-row justify-content-between align-items-center">
+                <h6 class=" color-text">Form {{ roleId == 1 ? "Detail" : title }} Company</h6>
+                <button class="btn back text-white mb-3 mt-2" v-if="showForm" v-on:click="BackButton(1)">
                     <i class="fas fa-arrow-left text-white"></i> Back
                 </button>
             </div>
@@ -63,18 +63,18 @@
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
-                        required v-model="companyDatas.comName">
+                        required :disabled="roleId === 1" v-model="companyDatas.comName">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="email_company">Email Company</label>
                         <input type="email" class="form-control" id="email_company" placeholder="Email" required
-                            v-model="companyDatas.mailAddress">
+                            :disabled="roleId === 1" v-model="companyDatas.mailAddress">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="NPWP">NPWP</label>
                         <input type="text" class="form-control" id="NPWP" placeholder="Enter NPWP Number" required
-                            v-model="companyDatas.comTaxNum">
+                            :disabled="roleId === 1" v-model="companyDatas.comTaxNum">
                     </div>
                 </div>
 
@@ -83,35 +83,35 @@
                     <div class="form-group col-md-6">
                         <label for="postal_code">Postal Code</label>
                         <input type="text" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
-                            v-model="companyDatas.postal" required>
+                            v-model="companyDatas.postal" required :disabled="roleId === 1">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="siup">SIUP</label>
                         <input type="text" class="form-control" id="siup" placeholder="Enter SIUP number"
-                            v-model="companyDatas.siup" required>
+                            v-model="companyDatas.siup" required :disabled="roleId === 1">
                     </div>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="admin_name">Admin Name</label>
-                        <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name"
-                            v-model="companyDatas.adminName">
+                        <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name" required
+                            :disabled="roleId === 1" v-model="companyDatas.adminName">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="admin_email">Admin Email</label>
-                        <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email"
-                            v-model="companyDatas.adminEmail">
+                        <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email" required
+                            :disabled="roleId === 1" v-model="companyDatas.adminEmail">
                     </div>
                 </div>
 
                 <div class="form-group">
                     <label for="address">Address</label>
-                    <textarea class="form-control" placeholder="Input Address" id="address" rows="3"
-                        v-model="companyDatas.address"></textarea>
+                    <textarea class="form-control" placeholder="Input Address" id="address" rows="3" required
+                        :disabled="roleId === 1" v-model="companyDatas.address"></textarea>
                 </div>
 
-                <button type="submit" class="btn add-company">{{ submitBtn }}</button>
+                <button type="submit" v-show="roleId === 2" class="btn add-company">{{ submitBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
 
@@ -122,7 +122,7 @@
 <script>
 import companyService from '@/services/companyService.js';
 import approvService from '@/services/approvalService.js';
-// import adds from '@/services/userService.js';
+import adds from '@/services/userService.js';
 export default {
     name: "CompanyS",
 
@@ -130,6 +130,14 @@ export default {
     data() {
         return {
             submitBtn: null,
+            title: null,
+            tableBtn: null,
+            roleId: this.$session.get("jwt").roleId,
+
+            akun: {
+                email: null,
+            },
+            isFound: false,
 
             apprvData: {
                 id: null,
@@ -174,6 +182,7 @@ export default {
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Company"
+            this.title = "Update"
             this.companyDatas = data;
         },
 
@@ -183,117 +192,138 @@ export default {
             }
             this.showForm = !this.showForm;
             this.submitBtn = "Add Company"
+            this.title = "Add"
         },
 
-        SubmitCompany() {
-            let data = this.companyDatas
-            let apprv = this.apprvData
+        async SubmitCompany() {
+            let data = this.companyDatas;
+            let apprv = this.apprvData;
+            let dataAkun = this.akun;
+            let found = this.isFound;
+            dataAkun.email = this.companyDatas.adminEmail;
 
+            await adds.findByEmail(dataAkun)
+                .then((response) => {
+                    if (response.status == 200) {
+                        found = true
+                    }
+                })
+                .catch(() => {
+                    console.log("valid-email");
+                });
 
-            if (this.submitBtn === "Add Company") {
-                data.status = 1;
-                data.createdBy = this.$session.get('email')
-
-                companyService.upload(data)
-                    .then((response) => {
-                        console.log("add Company");
-                        console.log(response.status);
-                        apprv.comName = data.comName;
-                        apprv.companyId = response.data.id;
-                        apprv.reqBy = data.createdBy;
-                        apprv.reqType = "Add Company";
-                        apprv.status = data.status;
-                        this.$toast.success('CompanyData has been successfully added!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-
-                        // add table approv
-                        approvService.saveApprov(apprv)
-                            .then((response) => {
-                                console.log("add Approv");
-                                console.log(response.status);
-                                this.showForm = !this.showForm;
-                                this.getCompany();
-                            })
-                            .catch((e) => {
-                                console.log(e);
-                                this.$toast.error('Error!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                            });
-
-                        // adds
-                        // adds.register(akun)
-                        //     .then((response) => {
-                        //         // this.companyData = response.data;
-                        //         console.log("add User");
-                        //         console.log(response.status);
-                        //         this.$toast.success('Company Data has been successfully added!', {
-                        //             position: 'top-right',
-                        //             timeout: 2500,
-                        //         });
-                        //         this.showForm = !this.showForm;
-                        //         this.getCompany();
-                        //     })
-                        //     .catch(() => {
-                        //         this.$toast.error('Error!', {
-                        //             position: 'top-right',
-                        //             timeout: 2500,
-                        //         });
-                        //     });
-                    })
-                    .catch(() => {
-                        this.$toast.error('Error!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                    });
+            if (found) {
+                this.$toast.warning('Admin Email is already in use!', {
+                    position: 'top-right',
+                    timeout: 2500,
+                });
             } else {
-                data.status = 1
-                data.createdBy = this.$session.get('email');
-                companyService.upload(data)
-                    .then((response) => {
-                        console.log("add Company");
-                        console.log(response.status);
-                        this.$toast.success('Company Data has been successfully Update!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                        this.showForm = !this.showForm;
-                        //
-                        apprv.comName = data.comName;
-                        apprv.companyId = response.data.id;
-                        apprv.reqBy = data.createdBy;
-                        apprv.reqType = "Update Company";
-                        apprv.status = data.status;
+                if (this.submitBtn === "Add Company") {
 
-                        // add table approv
-                        approvService.saveApprov(apprv)
-                            .then((response) => {
-                                console.log("add Approv");
-                                console.log(response.status);
-                                this.showForm = !this.showForm;
-                                this.getCompany();
-                            })
-                            .catch((e) => {
-                                console.log(e);
+                    data.status = 1;
+                    data.createdBy = this.$session.get('email')
+
+                    companyService.upload(data)
+                        .then((response) => {
+                            console.log("add Company");
+                            console.log(response.status);
+                            apprv.comName = data.comName;
+                            apprv.companyId = response.data.id;
+                            apprv.reqBy = data.createdBy;
+                            apprv.reqType = "Add Company";
+                            apprv.status = data.status;
+                            this.$toast.success('CompanyData has been successfully added!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+
+                            // add table approv
+                            approvService.saveApprov(apprv)
+                                .then((response) => {
+                                    console.log("add Approv");
+                                    console.log(response.status);
+                                    this.showForm = !this.showForm;
+                                    this.getCompany();
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                    this.$toast.error('Error!', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                });
+                        })
+                        .catch((e) => {
+                            try {
+                                e["code"] === "ERR_NETWORK";
+                                console.log(e["code"]);
+                                this.$toast.error("ERROR NETWORK CONNECTION", {
+                                    position: "top-right",
+                                    timeout: 2500,
+                                });
+                            } catch (error) {
                                 this.$toast.error('Error!', {
                                     position: 'top-right',
                                     timeout: 2500,
                                 });
-                            });
-                    })
-                    .catch(() => {
-                        this.$toast.error('Error!', {
-                            position: 'top-right',
-                            timeout: 2500,
+                            }
                         });
-                    });
+
+
+
+
+                } else {
+                    data.status = 1
+                    data.createdBy = this.$session.get('email');
+                    companyService.upload(data)
+                        .then((response) => {
+                            console.log("add Company");
+                            console.log(response.status);
+                            this.$toast.success('Company Data has been successfully Update!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                            this.showForm = !this.showForm;
+                            //
+                            apprv.comName = data.comName;
+                            apprv.companyId = response.data.id;
+                            apprv.reqBy = data.createdBy;
+                            apprv.reqType = "Update Company";
+                            apprv.status = data.status;
+
+                            // add table approv
+                            approvService.saveApprov(apprv)
+                                .then((response) => {
+                                    console.log("add Approv");
+                                    console.log(response.status);
+                                    this.showForm = !this.showForm;
+                                    this.getCompany();
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                    this.$toast.error('Error!', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                });
+                        })
+                        .catch((e) => {
+                            try {
+                                e["code"] === "ERR_NETWORK";
+                                console.log(e["code"]);
+                                this.$toast.error("ERROR NETWORK CONNECTION", {
+                                    position: "top-right",
+                                    timeout: 2500,
+                                });
+                            } catch (error) {
+                                this.$toast.error('Error!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                            }
+                        });
+                }
             }
-
-
 
         },
 
@@ -352,6 +382,12 @@ export default {
 
     mounted() {
         this.getCompany();
+
+        if (this.roleId === 1) {
+            this.tableBtn = "Detail"
+        } else {
+            this.tableBtn = "Update"
+        }
     },
 
 
@@ -382,7 +418,6 @@ form {
     width: 60vw;
     padding: 40px 40px;
     border-radius: 25px;
-    height: 90vh;
 }
 
 .iseng {
@@ -408,7 +443,7 @@ form {
     color: white;
     border-radius: 10px;
     height: 40px;
-
+    margin-right: 5rem;
 }
 
 .btn-detail {
@@ -425,8 +460,7 @@ form {
     background-color: #695cfe;
     color: white;
     border-radius: 10px;
-    margin-right: 70px;
-    margin-left: 95px;
+    margin-right: 11rem;
 
 
 }
@@ -516,4 +550,9 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
     border-bottom-right-radius: 0.25rem !important;
 }
+
+/* .btn,
+.btn-add-com {
+    margin-right: 80px;
+} */
 </style>

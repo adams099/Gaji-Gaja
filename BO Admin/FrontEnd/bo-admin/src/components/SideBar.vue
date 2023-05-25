@@ -20,11 +20,11 @@
         <div class="div">
           <p class="name-account text-uppercase text-center " v-if="!isClose">{{ name }}</p>
         </div>
-        <ul class="menu-links">
+        <ul class="menu-links mt-5">
           <!--------------- DASHBOARD --------------->
-          <a class="side-btn" v-show="firstLogin" @click="NyobaEmis(1)" :class="{ active: pa1 }" exact>
+          <a v-if="sidebarItem" class="side-btn " v-show="firstLogin">
             <li class="">
-              <a>
+              <a @click="NyobaEmis(1)" :class="{ active: pa1 }">
                 <b-icon icon="house" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
@@ -37,10 +37,9 @@
           </a>
 
           <!--------------- ALL USER --------------->
-          <a v-if="!sidebarItem" class="side-btn" v-show="firstLogin" @click="NyobaEmis(2)" :class="{ active: pa2 }"
-            exact>
+          <a v-if="!sidebarItem" class="side-btn " v-show="firstLogin">
             <li class="">
-              <a>
+              <a @click="NyobaEmis(2)" :class="{ active: pa2 }">
                 <b-icon icon="person-plus" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
@@ -53,10 +52,9 @@
           </a>
 
           <!--------------- COMPANY --------------->
-          <a v-if="sidebarItem || !sidebarItem" class="side-btn" v-show="firstLogin" @click="NyobaEmis(3)"
-            :class="{ active: pa3 }" exact>
+          <a v-if="sidebarItem || !sidebarItem" class="side-btn" v-show="firstLogin">
             <li class="">
-              <a>
+              <a @click="NyobaEmis(3)" :class="{ active: pa3 }">
                 <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
@@ -69,9 +67,9 @@
           </a>
 
           <!--------------- APPROVAL --------------->
-          <a v-if="sidebarItem" class="side-btn" v-show="firstLogin" @click="NyobaEmis(4)" :class="{ active: pa4 }" exact>
+          <a v-if="sidebarItem" class="side-btn" v-show="firstLogin">
             <li class="">
-              <a>
+              <a @click="NyobaEmis(4)" :class="{ active: pa4 }">
                 <b-icon icon="check2-circle" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
@@ -84,9 +82,9 @@
           </a>
 
           <!--------------- PROFIL --------------->
-          <a class="side-btn" @click="NyobaEmis(5)" :class="{ active: pa5 }" exact>
+          <a class="side-btn">
             <li class="">
-              <a>
+              <a @click="NyobaEmis(5)" :class="{ active: pa5 }">
                 <b-icon icon="person" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
@@ -165,6 +163,7 @@ export default {
       ntol: null,
       firstLogin: true,
       name: null,
+
     };
   },
   methods: {
@@ -241,9 +240,10 @@ export default {
     userService.findEmail(data).then((response) => {
       let oldName = response.data.name;
       this.name = oldName.split(" ")[0];
-      console.log(response.data.update)
 
-      if (response.data.update == null) {
+      if (response.data.roleId == 1) {
+        this.NyobaEmis(2)
+      } else if (response.data.update == null) {
         this.NyobaEmis(5);
         this.firstLogin = false;
         this.$toast.warning('We Recommend You to Change Your Password', {
@@ -263,11 +263,19 @@ export default {
   outline: none;
 }
 
-.side-btn.active {
-  position: relative;
-  background-color: #ffff;
-  color: #695cfe;
+a {
+  color: grey;
+}
+
+a:hover {
+  color: white;
+}
+
+.active {
+  background-color: #695cfe;
+  color: white;
   font-weight: 300px;
+  position: relative;
 }
 
 .side-btn {
