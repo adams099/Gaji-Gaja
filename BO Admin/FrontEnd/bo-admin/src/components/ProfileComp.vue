@@ -51,9 +51,9 @@
     <div class="row">
       <!-- change password -->
 
-      <div class="col-lg-4 ml-5 mt-4">
+      <div class="ml-5 mt-4 d-flex flex-row flex-wrep">
         <!-- CARD 1 -->
-        <div class="card mb-1 shadow-lg" v-show="!isFormVisible">
+        <div class=" card mb-1 shadow-lg" v-show="!isFormVisible">
           <div class="text-center">
             <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt="" style="width: 150px; height: 150px" />
 
@@ -290,6 +290,7 @@ export default {
   border-radius: 20px;
   background-color: white;
   padding: 20px;
+  width: 350px;
 }
 
 .card-dua {
@@ -380,6 +381,10 @@ i,
   color: #999;
   right: 20px;
   margin-top: 17px;
+}
+
+i:hover {
+  cursor: pointer;
 }
 
 input,

@@ -559,8 +559,11 @@ form {
 
 .btn-delete {
     margin-left: 10px;
-    background-color: rgb(195, 10, 10);
+    background-color: rgba(195, 10, 10, 0.84);
     color: white;
+    height: 50px;
+    width: 150px;
+    border-radius: 15px;
 }
 
 .btn-update {

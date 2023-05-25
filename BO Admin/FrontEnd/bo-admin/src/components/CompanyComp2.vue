@@ -111,7 +111,7 @@
                         :disabled="roleId === 1" v-model="companyDatas.address"></textarea>
                 </div>
 
-                <button type="submit" v-show="roleId === 2" class="btn add-company">{{ submitBtn }}</button>
+                <button type="submit" v-show="roleId === 2" class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
 
@@ -403,8 +403,15 @@ form {
     background-color: #695cfe;
     color: white;
     width: 100%;
+    height: 50px;
     border-radius: 10px;
     margin-top: 15px;
+    border-radius: 15px;
+}
+
+.add-company:hover {
+    background-color: #4a3ec6;
+    color: white;
 }
 
 .btn-add {
