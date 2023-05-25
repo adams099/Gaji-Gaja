@@ -5,32 +5,47 @@
     </div>
 
     <!-- CHANGE PASSWORD -->
-    <div v-show="isFormVisible" class="col-md-12 mt-5">
-      <form class="change-password shadow-lg col-md-6" @submit.prevent="saveChanges">
+    <div v-show="isFormVisible" class="col-md-11 mt-5">
+      <form class="change-password shadow-lg col-md-6  " @submit.prevent="saveChanges">
         <h6 class="change-text text-center mb-4">Change Password</h6>
         <!-- old password -->
-        <div class="form-group">
-          <label for="old-password">Old Password</label>
-          <input :type="showPassword ? 'text' : 'password'" class="form-control" id="old-password" required
-            placeholder="Old Password" autocomplete="off" v-model="currentPass">
-          <!-- <i class="fas fass" :class="showPassword ? 'fa-eye-slash' : 'fa-eye'" @click="toggleShowPassword"></i> -->
+        <div class="form-group d-flex flex-column align-items-center">
+          <div class="form-group col-md-11 ">
+            <label for="old-password">Old Password</label>
+            <div class="row">
+              <input :type="showPassword ? 'text' : 'password'" class="form-control" id="old-password" required
+                placeholder="Old Password" autocomplete="off" v-model="currentPass">
+              <i class="fas fass " :class="showPassword ? 'fa-eye ' : 'fa-eye-slash'" @click="toggleShowPassword(1)"></i>
+            </div>
+          </div>
+
+          <!-- new password -->
+          <div class="form-group col-md-11">
+            <label for="new-password">New Password</label>
+            <div class="row">
+              <input :type="showNewPassword ? 'text' : 'password'" class="form-control " id="new-password" required
+                placeholder="New Password" autocomplete="off" v-model="newPass">
+              <i class="fas fass " :class="showNewPassword ? 'fa-eye ' : 'fa-eye-slash'"
+                @click="toggleShowPassword(2)"></i>
+            </div>
+          </div>
+          <!-- confirm password -->
+          <div class="form-group col-md-11">
+            <label for="confirm-password">Confirm Password</label>
+            <div class="row">
+              <input :type="showConfirmPassword ? 'text' : 'password'" class="form-control " id="confirm-password"
+                required placeholder="Confirm Password" autocomplete="off" v-model="confPass">
+              <i class="fas fass " :class="showConfirmPassword ? 'fa-eye ' : 'fa-eye-slash'"
+                @click="toggleShowPassword(3)"></i>
+            </div>
+          </div>
+          <div class="col align-items-center d-flex flex-column">
+            <button class="btn submit btn-primary mt-4 row" type="submit">Save</button>
+            <button class="btn btn-outline-secondary submit mt-3 row" v-if="isCancle" @click="isFormVisible = false">
+              Cancel
+            </button>
+          </div>
         </div>
-        <!-- new password -->
-        <div class="form-group">
-          <label for="new-password">New Password</label>
-          <input type="password" class="form-control" id="new-password" required placeholder="New Password"
-            autocomplete="off" v-model="newPass" />
-        </div>
-        <!-- confirm password -->
-        <div class="form-group">
-          <label for="confirm-password">Confirm Password</label>
-          <input type="password" class="form-control" id="confirm-password" required placeholder="Confirm Password"
-            autocomplete="off" v-model="confPass" />
-        </div>
-        <button class="btn submit btn-primary mt-4" type="submit">Save</button>
-        <button class="btn btn-outline-secondary submit mt-3" v-if="isCancle" @click="isFormVisible = false">
-          Cancel
-        </button>
       </form>
     </div>
     <div class="row">
@@ -48,40 +63,10 @@
             </p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
-                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change"
+                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change py-3 "
                   @click="toggleFormVisibility">
                   Change Passwd
                 </button>
-
-                <!-- MODAL BOX -->
-                <!-- <b-modal ref="changepassword" hide-footer title="Change Password">
-                  <div class="d-block">
-                    <div class="form">
-                      <div class="form-group">
-                        <label for="oldpass">Old Password</label>
-                        <input type="text" class="form-control" id="oldpass" aria-describedby="emailHelp"
-                          placeholder="Input Your Old Password" required v-model="oldpass" />
-                      </div>
-
-                      <div class="form-group">
-                        <label for="newpass">New Password</label>
-                        <input type="password" class="form-control" id="newpass" aria-describedby="emailHelp"
-                          placeholder="Input Your New Password" required v-model="newPass" />
-                      </div>
-
-                      <div class="form-group">
-                        <label for="confnewpass">Confirmation</label>
-                        <input type="password" class="form-control" id="confnewpass" aria-describedby="emailHelp"
-                          placeholder="Input Your New Password" required v-model="confPass" />
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="dflex justify-content-center">
-                    <b-button class="primary" block @click="saveChanges">Save</b-button>
-                    <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
-                  </div>
-                </b-modal> -->
               </div>
             </div>
           </div>
@@ -147,7 +132,10 @@ export default {
       isFormVisible: false,
       isCancle: true,
       title: null,
-      showPassword: false
+      showPassword: false,
+      showNewPassword: false,
+      showConfirmPassword: false,
+      item: null
     };
   },
 
@@ -159,21 +147,6 @@ export default {
   },
 
   methods: {
-    //Modal Box
-    // showModal() {
-    //   this.$refs["changepassword"].show();
-    //   for (const property in this.error) {
-    //     this.error[property] = false;
-    //   }
-    // },
-
-    // hideModal() {
-    //   this.$refs["changepassword"].hide();
-    // },
-
-    // toggleModal() {
-    //   this.$refs["changepassword"].toggle();
-    // },
     toggleFormVisibility() {
       this.isFormVisible = !this.isFormVisible;
     },
@@ -182,9 +155,17 @@ export default {
       this.$router.replace("/auth");
     },
 
-    toggleShowPassword() {
-      this.showPassword = !this.showPassword
+    // SHOW / HIDE PASSWORD
+    toggleShowPassword(item) {
+      if (item == 1) {
+        this.showPassword = !this.showPassword
+      } else if (item == 2) {
+        this.showNewPassword = !this.showNewPassword
+      } else {
+        this.showConfirmPassword = !this.showConfirmPassword
+      }
     },
+
     saveChanges() {
       const regex = /^(?=.*[a-zA-Z])(?=.*\d).+$/;
       var data = this.userData;
@@ -265,6 +246,7 @@ export default {
       }
     },
 
+    // GET USE
     getUser() {
       let data = this.userData;
       data.email = this.$session.get("email");
@@ -323,6 +305,11 @@ export default {
   background-color: #695cfe;
 }
 
+.btn-outline-primary {
+  padding: 5px 20px;
+  border-radius: 15px;
+}
+
 .table {
   margin-top: 40px;
   margin-bottom: 0;
@@ -363,6 +350,8 @@ img:hover {
 
 .btn-primary {
   background-color: #695cfe;
+  height: 50px;
+  border-radius: 15px;
 }
 
 .btn-primary:hover {
@@ -375,11 +364,27 @@ img:hover {
 
 .btn-outline-secondary:hover {
   color: white;
+
 }
 
 .btn-outline-secondary {
   color: grey;
+  height: 50px;
+  border-radius: 15px;
 }
 
-.btn-change {}
+i,
+.fass {
+  position: absolute;
+  font-size: px;
+  color: #999;
+  right: 20px;
+  margin-top: 17px;
+}
+
+input,
+.form-control {
+  height: 50px;
+  border-radius: 10px;
+}
 </style>
