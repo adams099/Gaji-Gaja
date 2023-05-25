@@ -122,7 +122,7 @@
 <script>
 import companyService from '@/services/companyService.js';
 import approvService from '@/services/approvalService.js';
-// import adds from '@/services/userService.js';
+import adds from '@/services/userService.js';
 export default {
     name: "CompanyS",
 
@@ -133,6 +133,11 @@ export default {
             title: null,
             tableBtn: null,
             roleId: this.$session.get("jwt").roleId,
+
+            akun: {
+                email: null,
+            },
+            isFound: false,
 
             apprvData: {
                 id: null,
@@ -190,115 +195,135 @@ export default {
             this.title = "Add"
         },
 
-        SubmitCompany() {
-            let data = this.companyDatas
-            let apprv = this.apprvData
+        async SubmitCompany() {
+            let data = this.companyDatas;
+            let apprv = this.apprvData;
+            let dataAkun = this.akun;
+            let found = this.isFound;
+            dataAkun.email = this.companyDatas.adminEmail;
 
+            await adds.findByEmail(dataAkun)
+                .then((response) => {
+                    if (response.status == 200) {
+                        found = true
+                    }
+                })
+                .catch(() => {
+                    console.log("valid-email");
+                });
 
-            if (this.submitBtn === "Add Company") {
-                data.status = 1;
-                data.createdBy = this.$session.get('email')
-
-                companyService.upload(data)
-                    .then((response) => {
-                        console.log("add Company");
-                        console.log(response.status);
-                        apprv.comName = data.comName;
-                        apprv.companyId = response.data.id;
-                        apprv.reqBy = data.createdBy;
-                        apprv.reqType = "Add Company";
-                        apprv.status = data.status;
-                        this.$toast.success('CompanyData has been successfully added!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-
-                        // add table approv
-                        approvService.saveApprov(apprv)
-                            .then((response) => {
-                                console.log("add Approv");
-                                console.log(response.status);
-                                this.showForm = !this.showForm;
-                                this.getCompany();
-                            })
-                            .catch((e) => {
-                                console.log(e);
-                                this.$toast.error('Error!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                            });
-
-                        // adds
-                        // adds.register(akun)
-                        //     .then((response) => {
-                        //         // this.companyData = response.data;
-                        //         console.log("add User");
-                        //         console.log(response.status);
-                        //         this.$toast.success('Company Data has been successfully added!', {
-                        //             position: 'top-right',
-                        //             timeout: 2500,
-                        //         });
-                        //         this.showForm = !this.showForm;
-                        //         this.getCompany();
-                        //     })
-                        //     .catch(() => {
-                        //         this.$toast.error('Error!', {
-                        //             position: 'top-right',
-                        //             timeout: 2500,
-                        //         });
-                        //     });
-                    })
-                    .catch(() => {
-                        this.$toast.error('Error!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                    });
+            if (found) {
+                this.$toast.warning('Admin Email is already in use!', {
+                    position: 'top-right',
+                    timeout: 2500,
+                });
             } else {
-                data.status = 1
-                data.createdBy = this.$session.get('email');
-                companyService.upload(data)
-                    .then((response) => {
-                        console.log("add Company");
-                        console.log(response.status);
-                        this.$toast.success('Company Data has been successfully Update!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                        this.showForm = !this.showForm;
-                        //
-                        apprv.comName = data.comName;
-                        apprv.companyId = response.data.id;
-                        apprv.reqBy = data.createdBy;
-                        apprv.reqType = "Update Company";
-                        apprv.status = data.status;
+                if (this.submitBtn === "Add Company") {
 
-                        // add table approv
-                        approvService.saveApprov(apprv)
-                            .then((response) => {
-                                console.log("add Approv");
-                                console.log(response.status);
-                                this.showForm = !this.showForm;
-                                this.getCompany();
-                            })
-                            .catch((e) => {
-                                console.log(e);
+                    data.status = 1;
+                    data.createdBy = this.$session.get('email')
+
+                    companyService.upload(data)
+                        .then((response) => {
+                            console.log("add Company");
+                            console.log(response.status);
+                            apprv.comName = data.comName;
+                            apprv.companyId = response.data.id;
+                            apprv.reqBy = data.createdBy;
+                            apprv.reqType = "Add Company";
+                            apprv.status = data.status;
+                            this.$toast.success('CompanyData has been successfully added!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+
+                            // add table approv
+                            approvService.saveApprov(apprv)
+                                .then((response) => {
+                                    console.log("add Approv");
+                                    console.log(response.status);
+                                    this.showForm = !this.showForm;
+                                    this.getCompany();
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                    this.$toast.error('Error!', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                });
+                        })
+                        .catch((e) => {
+                            try {
+                                e["code"] === "ERR_NETWORK";
+                                console.log(e["code"]);
+                                this.$toast.error("ERROR NETWORK CONNECTION", {
+                                    position: "top-right",
+                                    timeout: 2500,
+                                });
+                            } catch (error) {
                                 this.$toast.error('Error!', {
                                     position: 'top-right',
                                     timeout: 2500,
                                 });
-                            });
-                    })
-                    .catch(() => {
-                        this.$toast.error('Error!', {
-                            position: 'top-right',
-                            timeout: 2500,
+                            }
                         });
-                    });
+
+
+
+
+                } else {
+                    data.status = 1
+                    data.createdBy = this.$session.get('email');
+                    companyService.upload(data)
+                        .then((response) => {
+                            console.log("add Company");
+                            console.log(response.status);
+                            this.$toast.success('Company Data has been successfully Update!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                            this.showForm = !this.showForm;
+                            //
+                            apprv.comName = data.comName;
+                            apprv.companyId = response.data.id;
+                            apprv.reqBy = data.createdBy;
+                            apprv.reqType = "Update Company";
+                            apprv.status = data.status;
+
+                            // add table approv
+                            approvService.saveApprov(apprv)
+                                .then((response) => {
+                                    console.log("add Approv");
+                                    console.log(response.status);
+                                    this.showForm = !this.showForm;
+                                    this.getCompany();
+                                })
+                                .catch((e) => {
+                                    console.log(e);
+                                    this.$toast.error('Error!', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                });
+                        })
+                        .catch((e) => {
+                            try {
+                                e["code"] === "ERR_NETWORK";
+                                console.log(e["code"]);
+                                this.$toast.error("ERROR NETWORK CONNECTION", {
+                                    position: "top-right",
+                                    timeout: 2500,
+                                });
+                            } catch (error) {
+                                this.$toast.error('Error!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                            }
+                        });
+                }
             }
-
-
 
         },
 
