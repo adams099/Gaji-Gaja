@@ -137,7 +137,7 @@
                 </tbody>
 
             </table>
-            <div class="row d-flex justify-content-center next color-text" v-if="!showDetail">
+            <div class="row d-flex justify-content-center next color-text" v-if="!showDetail && companyData.length > 7">
                 <button type="button" class="btn btn-success" @click="previousPage"
                     :disabled="currentPage == 1">Previous</button>
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -548,6 +548,7 @@ form {
     margin-right: 125px;
     border-radius: 10px;
     height: 40px;
+    margin-right: 15rem;
 }
 
 

@@ -1,6 +1,6 @@
 <template>
     <section class="home w-80" style="height: 100%;">
-        <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between align-items-center">
+        <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between  align-items-center">
             <div class="text text-center" v-if="!showForm" style="font-size: 25px;">Company Table</div>
             <button class="btn btn-add-com" @click="addFunc()" v-if="roleId === 2" v-show="!showForm">Add
                 Company</button>
@@ -53,9 +53,9 @@
 
         <!--------------------- START ADD COMPANY -------------------------->
         <div class="form" v-show="showForm">
-            <div class="form-company d-flex flex-row justify-content-between">
-                <h6 class=" color-text">Form {{ title }} Company</h6>
-                <button class="btn back text-white mb-3" v-if="showForm" v-on:click="BackButton(1)">
+            <div class="form-company d-flex flex-row justify-content-between align-items-center">
+                <h6 class=" color-text">Form {{ roleId == 1 ? "Detail" : title }} Company</h6>
+                <button class="btn back text-white mb-3 mt-2" v-if="showForm" v-on:click="BackButton(1)">
                     <i class="fas fa-arrow-left text-white"></i> Back
                 </button>
             </div>
@@ -418,7 +418,7 @@ form {
     color: white;
     border-radius: 10px;
     height: 40px;
-
+    margin-right: 5rem;
 }
 
 .btn-detail {
@@ -435,8 +435,7 @@ form {
     background-color: #695cfe;
     color: white;
     border-radius: 10px;
-    margin-right: 70px;
-    margin-left: 95px;
+    margin-right: 11rem;
 
 
 }
@@ -526,4 +525,9 @@ table tr:last-child td:first-child {
 table tr:last-child td:last-child {
     border-bottom-right-radius: 0.25rem !important;
 }
+
+/* .btn,
+.btn-add-com {
+    margin-right: 80px;
+} */
 </style>

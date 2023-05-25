@@ -79,25 +79,25 @@
                 class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp" />
             </div> -->
             <div class="form-input flex-row">
-  <input id="new-password" v-model="gantipw.pw1" name="new-password"
-    class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp"
-    :type="inputType1" />
-  <span class="password-toggle" @click="togglePasswordVisibilityS('pw1')">
-    <i class="fas" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
-  </span>
-</div>
+              <input id="new-password" v-model="gantipw.pw1" name="new-password" class="form-control mb-1 new-password"
+                placeholder="Enter New Password" v-if="!showOtp" :type="inputType1" />
+              <span class="password-toggle" @click="togglePasswordVisibilityS('pw1')">
+                <i class="fas otp-1" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </span>
+            </div>
 
             <!-- <div>
               <input type="password" id="confirm-password" name="confirm-password" v-model="gantipw.pw2"
                 class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" />
             </div> -->
-            <div >
-  <input id="confirm-password" v-model="gantipw.pw2" name="confirm-password"
-    class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" :type="inputType2"/>
-  <span class="password-toggle" @click="togglePasswordVisibilityS('pw2')">
-    <i class="fas" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
-  </span>
-</div>
+            <div>
+              <input id="confirm-password" v-model="gantipw.pw2" name="confirm-password"
+                class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp"
+                :type="inputType2" />
+              <span class="password-toggle" @click="togglePasswordVisibilityS('pw2')">
+                <i class="fas otp-2" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
+              </span>
+            </div>
             <div>
               <button type="submit" tag="button" class="btn btn-primary mb-4" v-if="scpass">
                 Change Password
@@ -141,9 +141,9 @@ export default {
         pw2: "",
       },
       showPasswordS: {
-      pw1: false,
-      pw2: false
-    },
+        pw1: false,
+        pw2: false
+      },
       error: {
         email: false,
         password: false,
@@ -162,20 +162,20 @@ export default {
     };
   },
   computed: {
-  inputType1() {
-    return this.showPasswordS.pw1 ? "text" : "password";
-    // return this.showPassword.pw2 ? "text" : "password";
+    inputType1() {
+      return this.showPasswordS.pw1 ? "text" : "password";
+      // return this.showPassword.pw2 ? "text" : "password";
+    },
+    inputType2() {
+      return this.showPasswordS.pw2 ? "text" : "password";
+    },
   },
-  inputType2() {
-    return this.showPasswordS.pw2 ? "text" : "password";
-  },
-},
-  
+
 
   methods: {
     togglePasswordVisibilityS(field) {
-    this.showPasswordS[field] = !this.showPasswordS[field];
-  },
+      this.showPasswordS[field] = !this.showPasswordS[field];
+    },
     toggleForgotPassword() {
       this.showForgotPassword = true;
       this.sfp = true;
@@ -330,7 +330,7 @@ export default {
       //   });
       // }
     },
-    
+
     startLoading() {
       this.loading = true;
       this.remainingTime = 60;
@@ -415,7 +415,7 @@ export default {
       }
     },
   },
-  
+
 };
 
 </script>
@@ -584,6 +584,8 @@ input:focus~label {
   color: #999;
 }
 
+
+
 .forgot-password {
   font-size: 13px;
   color: #695cfe;
@@ -666,6 +668,7 @@ img {
   margin: auto;
   left: 30px;
 }
+
 .password-toggle {
   position: absolute;
   top: 50%;
@@ -676,8 +679,14 @@ img {
 
 .password-toggle i {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: center;
+  color: #999;
+
 }
 
 /* otp */
+
+.otp-2 {
+  margin-top: 18px;
+}
 </style>

@@ -1,6 +1,6 @@
 <template>
   <section class="home h-100">
-    <div class="text text-center color-text">
+    <div class="text text-center color-text" style="margin-right: 100px;">
       {{ isFormVisible ? "Change Password Page" : "Profile" }}
     </div>
 
@@ -57,13 +57,13 @@
           <div class="text-center">
             <img class="rounded-circle img-fluid" src="../assets/suzume.jpg" alt="" style="width: 150px; height: 150px" />
 
-            <h5 class="my-3">{{ name | toUpperCase }}</h5>
-            <p class="text-muted mb-2">
+            <h5 class="mt-4">{{ name | toUpperCase }}</h5>
+            <p class="text-muted mb-4">
               {{ userData.roleId === 1 ? "SuperAdmin" : "Admin" }}
             </p>
             <div class="d-flex justify-content-center mb-2">
               <div class="ml-3">
-                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change py-3 "
+                <button type="button" id="show-btn" class="btn btn-outline-primary ms-1 mt-2 btn-change"
                   @click="toggleFormVisibility">
                   Change Passwd
                 </button>
@@ -246,7 +246,7 @@ export default {
       }
     },
 
-    // GET USE
+    // 
     getUser() {
       let data = this.userData;
       data.email = this.$session.get("email");
@@ -306,8 +306,8 @@ export default {
 }
 
 .btn-outline-primary {
-  padding: 5px 20px;
-  border-radius: 15px;
+  padding: 13px 13px;
+  border-radius: 13px;
 }
 
 .table {

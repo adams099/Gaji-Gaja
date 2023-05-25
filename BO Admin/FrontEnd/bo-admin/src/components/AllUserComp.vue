@@ -48,7 +48,7 @@
                 </div>
 
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="addUser">Submit</b-button>
+                  <b-button variant="primary" block @click="addUser">Save</b-button>
                   <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
                 </div>
               </b-modal>
