@@ -82,8 +82,8 @@
   <input id="new-password" v-model="gantipw.pw1" name="new-password"
     class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp"
     :type="inputType1" />
-  <span class="password-toggle" @click="togglePasswordVisibility('pw1')">
-    <i class="fas" :class="showPassword.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+  <span class="password-toggle" @click="togglePasswordVisibilityS('pw1')">
+    <i class="fas" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
   </span>
 </div>
 
@@ -94,8 +94,8 @@
             <div >
   <input id="confirm-password" v-model="gantipw.pw2" name="confirm-password"
     class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" :type="inputType2"/>
-  <span class="password-toggle" @click="togglePasswordVisibility('pw2')">
-    <i class="fas" :class="showPassword.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
+  <span class="password-toggle" @click="togglePasswordVisibilityS('pw2')">
+    <i class="fas" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
   </span>
 </div>
             <div>
@@ -140,7 +140,7 @@ export default {
         pw1: "",
         pw2: "",
       },
-      showPassword: {
+      showPasswordS: {
       pw1: false,
       pw2: false
     },
@@ -163,18 +163,18 @@ export default {
   },
   computed: {
   inputType1() {
-    return this.showPassword.pw1 ? "text" : "password";
+    return this.showPasswordS.pw1 ? "text" : "password";
     // return this.showPassword.pw2 ? "text" : "password";
   },
   inputType2() {
-    return this.showPassword.pw2 ? "text" : "password";
+    return this.showPasswordS.pw2 ? "text" : "password";
   },
 },
   
 
   methods: {
-    togglePasswordVisibility(field) {
-    this.showPassword[field] = !this.showPassword[field];
+    togglePasswordVisibilityS(field) {
+    this.showPasswordS[field] = !this.showPasswordS[field];
   },
     toggleForgotPassword() {
       this.showForgotPassword = true;
