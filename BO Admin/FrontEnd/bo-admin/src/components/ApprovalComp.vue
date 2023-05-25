@@ -323,7 +323,7 @@ export default {
                                 "body": akun.pass
                             }
                             console.log(semail)
-                            userService.semail(semail)
+                            userService.asemail(semail)
 
                         }
                     })

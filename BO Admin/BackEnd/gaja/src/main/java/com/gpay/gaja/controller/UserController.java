@@ -13,6 +13,7 @@ import com.gpay.gaja.service.UserService;
 import java.time.LocalDateTime;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -136,17 +137,25 @@ public class UserController {
 
     @PostMapping("/otp")
     public ResponseEntity<?> createotp(@RequestBody ResetPassDTO rp) {
-        String randomString = RandomStringUtils.randomAlphanumeric(6);
+        Random random = new Random();
+        int rand = random.nextInt(900000) + 100000;
+        String randomString = String.valueOf(rand);
         rp.setOtp(randomString);
         rp.setDate(LocalDateTime.now());
         rse.save(rp);
-        services.sendEmail(rp.getEmail(), "OTP Ganti Password", randomString);
+        services.otp(rp.getEmail(), "OTP Ganti Password", randomString);
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @PostMapping("/semail")
     public ResponseEntity<?> sendEmail(@RequestBody SendEmail rp) {
         services.sendEmail(rp.getEmail(), rp.getSubject(), rp.getBody());
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("/akunsemail")
+    public ResponseEntity<?> AkunSeMail(@RequestBody SendEmail rp) {
+        services.register(rp.getEmail(), rp.getSubject(), rp.getBody());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
