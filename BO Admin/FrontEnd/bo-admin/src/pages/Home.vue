@@ -314,7 +314,7 @@ body.dark .sidebar header .toggle {
   align-items: center;
   height: 100%;
   width: 100%;
-  border-radius: 6px;
+  border-radius: 10px;
   text-decoration: none;
   transition: var(--tran-03);
 }

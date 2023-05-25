@@ -82,7 +82,7 @@
               <input id="new-password" v-model="gantipw.pw1" name="new-password" class="form-control mb-1 new-password"
                 placeholder="Enter New Password" v-if="!showOtp" :type="inputType1" />
               <span class="password-toggle" @click="togglePasswordVisibilityS('pw1')">
-                <i class="fas" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+                <i class="fas otp-1" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
               </span>
             </div>
 
@@ -95,7 +95,7 @@
                 class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp"
                 :type="inputType2" />
               <span class="password-toggle" @click="togglePasswordVisibilityS('pw2')">
-                <i class="fas" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
+                <i class="fas otp-2" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
               </span>
             </div>
             <div>
@@ -607,6 +607,8 @@ input:focus~label {
   color: #999;
 }
 
+
+
 .forgot-password {
   font-size: 13px;
   color: #695cfe;
@@ -700,8 +702,14 @@ img {
 
 .password-toggle i {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: center;
+  color: #999;
+
 }
 
 /* otp */
+
+.otp-2 {
+  margin-top: 18px;
+}
 </style>
