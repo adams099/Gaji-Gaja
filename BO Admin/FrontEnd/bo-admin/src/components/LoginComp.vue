@@ -74,14 +74,30 @@
 
           <!-- CHANGE PASSWORD -->
           <form @submit.prevent="changePass" v-if="scpass" @click="hidenForgotPassword">
-            <div class="form-input flex-row">
+            <!-- <div class="form-input flex-row">
               <input type="password" id="new-password" v-model="gantipw.pw1" name="new-password"
                 class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp" />
-            </div>
-            <div>
+            </div> -->
+            <div class="form-input flex-row">
+  <input id="new-password" v-model="gantipw.pw1" name="new-password"
+    class="form-control mb-1 new-password" placeholder="Enter New Password" v-if="!showOtp"
+    :type="inputType1" />
+  <span class="password-toggle" @click="togglePasswordVisibilityS('pw1')">
+    <i class="fas" :class="showPasswordS.pw1 ? 'fa-eye' : 'fa-eye-slash'"></i>
+  </span>
+</div>
+
+            <!-- <div>
               <input type="password" id="confirm-password" name="confirm-password" v-model="gantipw.pw2"
                 class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" />
-            </div>
+            </div> -->
+            <div >
+  <input id="confirm-password" v-model="gantipw.pw2" name="confirm-password"
+    class="form-control mb-1 confirm-password mb-4" placeholder="Confirm New Password" v-if="!showOtp" :type="inputType2"/>
+  <span class="password-toggle" @click="togglePasswordVisibilityS('pw2')">
+    <i class="fas" :class="showPasswordS.pw2 ? 'fa-eye' : 'fa-eye-slash'"></i>
+  </span>
+</div>
             <div>
               <button type="submit" tag="button" class="btn btn-primary mb-4" v-if="scpass">
                 Change Password
@@ -124,6 +140,10 @@ export default {
         pw1: "",
         pw2: "",
       },
+      showPasswordS: {
+      pw1: false,
+      pw2: false
+    },
       error: {
         email: false,
         password: false,
@@ -141,8 +161,21 @@ export default {
       showPassword: false
     };
   },
+  computed: {
+  inputType1() {
+    return this.showPasswordS.pw1 ? "text" : "password";
+    // return this.showPassword.pw2 ? "text" : "password";
+  },
+  inputType2() {
+    return this.showPasswordS.pw2 ? "text" : "password";
+  },
+},
+  
 
   methods: {
+    togglePasswordVisibilityS(field) {
+    this.showPasswordS[field] = !this.showPasswordS[field];
+  },
     toggleForgotPassword() {
       this.showForgotPassword = true;
       this.sfp = true;
@@ -297,6 +330,7 @@ export default {
       //   });
       // }
     },
+    
     startLoading() {
       this.loading = true;
       this.remainingTime = 60;
@@ -328,6 +362,7 @@ export default {
       this.scpass = true;
       this.sfp = !this.sfp;
     },
+
 
     // LOGIN FUNCTION
     loginFunc() {
@@ -380,7 +415,9 @@ export default {
       }
     },
   },
+  
 };
+
 </script>
     
 <style scoped lang="css">
@@ -538,6 +575,7 @@ input:focus~label {
 .form-input {
   display: flex;
   align-items: end;
+  position: relative;
 }
 
 .input-icon {
@@ -627,6 +665,18 @@ img {
   bottom: 20px;
   margin: auto;
   left: 30px;
+}
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  margin-left: 320px;
+  /* right: 10px; */
+  transform: translateY(-50%);
+}
+
+.password-toggle i {
+  display: inline-block;
+  vertical-align: middle;
 }
 
 /* otp */
