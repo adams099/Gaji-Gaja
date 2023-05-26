@@ -65,7 +65,7 @@
                                     <div class="buttons d-flex flex-row justify-content-between mt-3">
                                         <!-- <button type="submit" class="btn mt-2 btn-update">Update</button> -->
                                         <button type="button" class="btn btn-delete text-white " @click="showModalStatuss()"
-                                            style="border-radius: 10px;">Edit
+                                            style="border-radius: 10px;" :disabled="appUpdateData.updateTime !== null">Edit
                                             Status</button>
                                     </div>
                                 </form>
@@ -166,8 +166,7 @@ export default {
             itemsPerPage: 7,
             currentPage: 1,
 
-            companyData: {
-            },
+            companyData: {},
 
             buatAkun: {
                 name: null,
@@ -196,9 +195,7 @@ export default {
                 updateTime: null,
             },
 
-            appUpdate: {
-
-            },
+            appUpdate: {},
 
             updateCompany: {
                 id: null,
@@ -219,6 +216,7 @@ export default {
 
             showDetail: false,
             showModalStatus: false,
+            isDisable: false,
         }
     },
 
@@ -266,6 +264,7 @@ export default {
 
         showModalStatuss() {
             this.showModalStatus = !this.showModalStatus
+
         },
 
         // navigasi ke halaman berikutnya
@@ -318,11 +317,11 @@ export default {
                     });
                 companyService.getCompanyById(data.companyId)
                     .then((response) => {
-                        console.log(response.data)
+                        // console.log(response.data)
                         let comData = response.data
                         comData.status = 2
                         companyService.upload(comData)
-                        console.log(comData)
+                        // console.log(comData)
                         // adds
                         if (data.reqType == "Add Company") {
 
@@ -340,7 +339,7 @@ export default {
                                 "subject": "Your Credential Login",
                                 "body": akun.pass
                             }
-                            console.log(semail)
+                            // console.log(semail)
                             userService.asemail(semail)
 
                         }
@@ -359,7 +358,6 @@ export default {
                     timeout: 2500,
                 });
             } else {
-
                 data.status = 3;
                 data.apprBy = this.$session.get('email');
                 approvalService.saveApprov(data)

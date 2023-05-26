@@ -82,7 +82,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="postal_code">Postal Code</label>
-                        <input type="text" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
+                        <input type="number" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
                             v-model="companyDatas.postal" required :disabled="roleId === 1">
                     </div>
                     <div class="form-group col-md-6">
