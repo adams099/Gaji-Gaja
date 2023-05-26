@@ -60,6 +60,10 @@
                 </button>
             </div>
             <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
+                <div class="row d-flex flex-row justify-content-center">
+                    <h6 class="text-center mr-2 text-secondary ">Status Company Saat ini</h6>
+                    <h6 :class="colorStatus">{{ status }}</h6>
+                </div>
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
@@ -105,6 +109,13 @@
                     </div>
                 </div>
 
+                <div class="form-group" v-if="submitBtn == 'Add Company'">
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Choose File</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+                </div>
+
                 <div class="form-group">
                     <label for="address">Address</label>
                     <textarea class="form-control" placeholder="Input Address" id="address" rows="3" required
@@ -112,7 +123,8 @@
                 </div>
 
                 <button type="submit" v-show="roleId === 2" class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
-                <p v-if="companyDatas.status == 2" @click="deactiveFunc()">Deactive</p>
+                <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2"
+                    @click="deactiveFunc()">Deactive</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
 
@@ -130,10 +142,12 @@ export default {
     // DATA
     data() {
         return {
+            status: null,
             submitBtn: null,
             title: null,
             tableBtn: null,
             roleId: this.$session.get("jwt").roleId,
+            colorStatus: null,
 
             akun: {
                 email: null,
@@ -239,6 +253,23 @@ export default {
             this.submitBtn = "Update Company"
             this.title = "Update"
             this.companyDatas = data;
+            if (data.status == 1) {
+                this.status = "In Review"
+                this.colorStatus = "review"
+
+            } else if (data.status == 2) {
+                this.status = "Active"
+                this.colorStatus = "active"
+
+            } else if (data.status == 3) {
+                this.status = "Reject"
+                this.colorStatus = "reject"
+
+            } else {
+                this.status = "Deactive"
+                this.colorStatus = "deactive"
+
+            }
         },
 
         addFunc() {
@@ -476,6 +507,26 @@ form {
     margin-left: 100px;
 }
 
+.review {
+    color: rgb(88, 88, 233);
+    font-weight: 600;
+}
+
+.active {
+    color: green;
+    font-weight: 600;
+}
+
+.reject {
+    color: red;
+    font-weight: 600;
+}
+
+.deactive {
+    color: grey;
+    font-weight: 600;
+}
+
 .add-company {
     background-color: #695cfe;
     color: white;
@@ -484,6 +535,21 @@ form {
     border-radius: 10px;
     margin-top: 15px;
     border-radius: 15px;
+}
+
+.btn-deactive {
+    color: grey;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+    border-radius: 15px;
+    border: 1px solid grey;
+}
+
+.btn-deactive:hover {
+    background-color: orange;
+    color: white;
+    border: none;
 }
 
 .add-company:hover {
