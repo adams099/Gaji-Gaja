@@ -101,7 +101,7 @@
                     <div class="form-group col-md-6">
                         <label for="admin_email">Admin Email</label>
                         <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email" required
-                            :disabled="roleId === 1" v-model="companyDatas.adminEmail">
+                            :disabled="roleId === 1 || submitBtn === 'Update Company'" v-model="companyDatas.adminEmail">
                     </div>
                 </div>
 
@@ -112,6 +112,7 @@
                 </div>
 
                 <button type="submit" v-show="roleId === 2" class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
+                <p v-if="companyDatas.status == 2" @click="deactiveFunc()">Deactive</p>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
 
@@ -179,6 +180,60 @@ export default {
         }
     },
     methods: {
+        deactiveFunc() {
+            let data = this.companyDatas;
+            let apprv = this.apprvData;
+            data.status = 1
+            data.createdBy = this.$session.get('email');
+            companyService.upload(data)
+                .then((response) => {
+                    console.log("add Company");
+                    console.log(response.status);
+                    this.$toast.success('Company Data has been successfully Update!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                    this.showForm = !this.showForm;
+                    //
+                    apprv.comName = data.comName;
+                    apprv.companyId = response.data.id;
+                    apprv.reqBy = data.createdBy;
+                    apprv.reqType = "Deactive Company";
+                    apprv.status = data.status;
+
+                    // add table approv
+                    approvService.saveApprov(apprv)
+                        .then((response) => {
+                            console.log("add Approv");
+                            console.log(response.status);
+                            this.showForm = !this.showForm;
+                            this.getCompany();
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                            this.$toast.error('Error!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                        });
+                })
+                .catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        this.$toast.error('Error!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    }
+                });
+        },
+
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Company"
@@ -212,14 +267,13 @@ export default {
                     console.log("valid-email");
                 });
 
-            if (found) {
-                this.$toast.warning('Admin Email is already in use!', {
-                    position: 'top-right',
-                    timeout: 2500,
-                });
-            } else {
-                if (this.submitBtn === "Add Company") {
-
+            if (this.submitBtn === "Add Company") {
+                if (found) {
+                    this.$toast.warning('Admin Email is already in use!', {
+                        position: 'top-right',
+                        timeout: 2500,
+                    });
+                } else {
                     data.status = 1;
                     data.createdBy = this.$session.get('email')
 
@@ -269,61 +323,59 @@ export default {
                             }
                         });
 
+                }
+            } else {
+                data.status = 1
+                data.createdBy = this.$session.get('email');
+                companyService.upload(data)
+                    .then((response) => {
+                        console.log("add Company");
+                        console.log(response.status);
+                        this.$toast.success('Company Data has been successfully Update!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                        this.showForm = !this.showForm;
+                        //
+                        apprv.comName = data.comName;
+                        apprv.companyId = response.data.id;
+                        apprv.reqBy = data.createdBy;
+                        apprv.reqType = "Update Company";
+                        apprv.status = data.status;
 
-
-
-                } else {
-                    data.status = 1
-                    data.createdBy = this.$session.get('email');
-                    companyService.upload(data)
-                        .then((response) => {
-                            console.log("add Company");
-                            console.log(response.status);
-                            this.$toast.success('Company Data has been successfully Update!', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
-                            this.showForm = !this.showForm;
-                            //
-                            apprv.comName = data.comName;
-                            apprv.companyId = response.data.id;
-                            apprv.reqBy = data.createdBy;
-                            apprv.reqType = "Update Company";
-                            apprv.status = data.status;
-
-                            // add table approv
-                            approvService.saveApprov(apprv)
-                                .then((response) => {
-                                    console.log("add Approv");
-                                    console.log(response.status);
-                                    this.showForm = !this.showForm;
-                                    this.getCompany();
-                                })
-                                .catch((e) => {
-                                    console.log(e);
-                                    this.$toast.error('Error!', {
-                                        position: 'top-right',
-                                        timeout: 2500,
-                                    });
-                                });
-                        })
-                        .catch((e) => {
-                            try {
-                                e["code"] === "ERR_NETWORK";
-                                console.log(e["code"]);
-                                this.$toast.error("ERROR NETWORK CONNECTION", {
-                                    position: "top-right",
-                                    timeout: 2500,
-                                });
-                            } catch (error) {
+                        // add table approv
+                        approvService.saveApprov(apprv)
+                            .then((response) => {
+                                console.log("add Approv");
+                                console.log(response.status);
+                                this.showForm = !this.showForm;
+                                this.getCompany();
+                            })
+                            .catch((e) => {
+                                console.log(e);
                                 this.$toast.error('Error!', {
                                     position: 'top-right',
                                     timeout: 2500,
                                 });
-                            }
-                        });
-                }
+                            });
+                    })
+                    .catch((e) => {
+                        try {
+                            e["code"] === "ERR_NETWORK";
+                            console.log(e["code"]);
+                            this.$toast.error("ERROR NETWORK CONNECTION", {
+                                position: "top-right",
+                                timeout: 2500,
+                            });
+                        } catch (error) {
+                            this.$toast.error('Error!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                        }
+                    });
             }
+
 
         },
 

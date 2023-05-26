@@ -137,7 +137,7 @@
                 </tbody>
 
             </table>
-            <div class="row d-flex justify-content-center next color-text" v-if="!showDetail && companyData.length > 7">
+            <div class="row d-flex justify-content-center next color-text">
                 <button type="button" class="btn btn-success" @click="previousPage"
                     :disabled="currentPage == 1">Previous</button>
                 <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -320,9 +320,10 @@ export default {
                         // console.log(response.data)
                         let comData = response.data
                         comData.status = 2
+                        if (data.reqType == "Deactive Company") {
+                            comData.status = 4
+                        }
                         companyService.upload(comData)
-                        // console.log(comData)
-                        // adds
                         if (data.reqType == "Add Company") {
 
                             let akun = this.buatAkun
