@@ -44,8 +44,14 @@ public class Company {
     private String apprBy;
     @Column(name = "update_time")
     private LocalDateTime updateTime;
+    @Column(name = "attachment")
+    private String file;
 
     @JsonIgnore
     @OneToMany(mappedBy = "companyId", fetch = FetchType.LAZY)
     private List<Approval> approvals;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "companyId", fetch = FetchType.LAZY)
+    private List<Attachment> images;
 }

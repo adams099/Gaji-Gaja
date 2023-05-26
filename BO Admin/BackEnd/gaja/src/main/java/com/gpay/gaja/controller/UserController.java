@@ -20,8 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import org.apache.commons.lang3.RandomStringUtils;
-
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
 @RequestMapping("/user")

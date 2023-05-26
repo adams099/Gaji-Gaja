@@ -20,6 +20,8 @@ public class CompanyDTO {
     private String adminEmail;
     private int status;
     private String createdBy;
+    private String file;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime createdTime;
     private String apprBy;
