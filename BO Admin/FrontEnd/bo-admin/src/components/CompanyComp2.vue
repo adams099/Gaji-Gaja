@@ -125,9 +125,8 @@
 
                 <button type="submit" v-if="companyDatas.status == 2 || submitBtn == 'Add Company'" v-show="roleId === 2"
                     class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
-                <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2"
-                    @click.prevent="deactiveAlert()">Deactive</button>
-
+                <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2 || companyDatas.status == 4"
+                    @click.prevent="deactiveAlert()">{{ actBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
         </div>
@@ -150,6 +149,7 @@ export default {
             tableBtn: null,
             roleId: this.$session.get("jwt").roleId,
             colorStatus: null,
+            actBtn: null,
 
             akun: {
                 email: null,
@@ -201,18 +201,25 @@ export default {
         },
 
         deactiveAlert() {
+            let data = this.companyDatas;
+
             this.$swal({
                 title: 'Are you sure?',
                 text: 'You can\'t revert your action',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Deactive it!',
+                confirmButtonText: data.status === 2 ? 'Deactive it!' : 'Reactive it!',
                 cancelButtonText: 'No, Cancel!',
                 showCloseButton: true,
                 showLoaderOnConfirm: true
             }).then((result) => {
                 if (result.value) {
-                    this.deactiveFunc();
+
+                    if (data.status === 2) {
+                        this.deactiveFunc();
+                    } else {
+                        this.reactiveFunc();
+                    }
                 } else {
                     this.BackButton(1);
                     this.$swal({
@@ -250,7 +257,69 @@ export default {
                             this.showForm = !this.showForm;
                             this.getCompany();
                             this.BackButton(1);
-                            this.$swal('Deactive', 'Wait for other admin to approv it!', 'success')
+                            this.$swal({
+                                title: "Deactive",
+                                text: "Wait for other admin to Approv it!",
+                                icon: 'success',
+                                confirmButtonText: 'Close'
+                            })
+                        })
+                        .catch((e) => {
+                            console.log(e);
+                            this.$toast.error('Error!', {
+                                position: 'top-right',
+                                timeout: 2500,
+                            });
+                        });
+                })
+                .catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        this.$toast.error('Error!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    }
+                });
+        },
+
+        reactiveFunc() {
+            let data = this.companyDatas;
+            let apprv = this.apprvData;
+            data.status = 1
+            data.createdBy = this.$session.get('email');
+
+            companyService.upload(data)
+                .then((response) => {
+                    console.log("add Company");
+                    console.log(response.status);
+                    this.showForm = !this.showForm;
+                    apprv.comName = data.comName;
+                    apprv.companyId = response.data.id;
+                    apprv.reqBy = data.createdBy;
+                    apprv.reqType = "Reactive Company";
+                    apprv.status = data.status;
+
+                    // add table approv
+                    approvService.saveApprov(apprv)
+                        .then((response) => {
+                            console.log("add Approv");
+                            console.log(response.status);
+                            this.showForm = !this.showForm;
+                            this.getCompany();
+                            this.BackButton(1);
+                            this.$swal({
+                                title: "Reactive",
+                                text: "Wait for other admin to Approv it!",
+                                icon: 'success',
+                                confirmButtonText: 'Close'
+                            })
                         })
                         .catch((e) => {
                             console.log(e);
@@ -290,6 +359,7 @@ export default {
             } else if (data.status == 2) {
                 this.status = "Active"
                 this.colorStatus = "active"
+                this.actBtn = "Deactive"
 
             } else if (data.status == 3) {
                 this.status = "Reject"
@@ -298,6 +368,7 @@ export default {
             } else {
                 this.status = "Deactive"
                 this.colorStatus = "deactive"
+                this.actBtn = "Reactive"
 
             }
         },
