@@ -264,7 +264,6 @@ export default {
 
         showModalStatuss() {
             this.showModalStatus = !this.showModalStatus
-
         },
 
         // navigasi ke halaman berikutnya
@@ -278,8 +277,17 @@ export default {
             }
         },
 
-        //test doang ya
         accept() {
+            // random string
+            const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+            let randomString = '';
+            const charactersLength = characters.length;
+            const length = 8; // Desired length of the random string
+            for (let i = 0; i < length; i++) {
+                randomString += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+
+            // method acc
             let data = this.appUpdate;
             if (data.reqBy == this.$session.get('email')) {
                 this.$toast.warning('Action Disable', {
@@ -289,65 +297,85 @@ export default {
             } else {
                 data.status = 2;
                 data.apprBy = this.$session.get('email');
-                approvalService.saveApprov(data)
-                    .then((response) => {
-                        this.$toast.success('Status has been successfully Update!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                        console.log(response.status);
-                        this.showModalStatus = false;
-                        this.getApproval();
-                        this.showDetail = !this.showDetail
-                    })
-                    .catch((e) => {
-                        try {
-                            e["code"] === "ERR_NETWORK";
-                            console.log(e["code"]);
-                            this.$toast.error("ERROR NETWORK CONNECTION", {
-                                position: "top-right",
-                                timeout: 2500,
-                            });
-                        } catch (error) {
-                            this.$toast.error('Error', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
-                        }
-                    });
-                companyService.getCompanyById(data.companyId)
-                    .then((response) => {
-                        // console.log(response.data)
-                        let comData = response.data
-                        comData.status = 2
-                        if (data.reqType == "Deactive Company") {
-                            comData.status = 4
-                        }
-                        companyService.upload(comData)
-                        if (data.reqType == "Add Company") {
+                this.showModalStatus = !this.showModalStatus;
 
-                            let akun = this.buatAkun
-                            akun.email = comData.adminEmail;
-                            akun.name = comData.adminName;
-                            akun.status = 4;
-                            akun.pass = "testing";
-                            akun.roleId = 3;
-                            akun.statId = 4;
-                            akun.createdBy = this.$session.get('email');
-                            adds.register(akun)
-                            let semail = {
-                                "email": akun.email,
-                                "subject": "Your Credential Login",
-                                "body": akun.pass
-                            }
-                            // console.log(semail)
-                            userService.asemail(semail)
+                this.$swal({
+                    title: 'Are you sure?',
+                    text: 'You can\'t revert your action',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes Approve it!',
+                    cancelButtonText: 'No, Cancel!',
+                    showCloseButton: true,
+                    showLoaderOnConfirm: true
+                }).then((result) => {
+                    if (result.value) {
+                        approvalService.saveApprov(data)
+                            .then((response) => {
+                                this.$toast.success('Status has been successfully Update!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                                console.log(response.status);
+                                this.getApproval();
+                                this.showDetail = !this.showDetail
+                            })
+                            .catch((e) => {
+                                try {
+                                    e["code"] === "ERR_NETWORK";
+                                    console.log(e["code"]);
+                                    this.$toast.error("ERROR NETWORK CONNECTION", {
+                                        position: "top-right",
+                                        timeout: 2500,
+                                    });
+                                } catch (error) {
+                                    this.$toast.error('Error', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                }
+                            });
+                        companyService.getCompanyById(data.companyId)
+                            .then((response) => {
+                                // console.log(response.data)
+                                let comData = response.data
+                                comData.status = 2
+                                if (data.reqType == "Deactive Company") {
+                                    comData.status = 4
+                                }
+                                companyService.upload(comData)
+                                if (data.reqType == "Add Company") {
 
-                        }
-                    })
-                    .catch(() => {
-                    });
-                this.showModalStatus = false
+                                    let akun = this.buatAkun
+                                    akun.email = comData.adminEmail;
+                                    akun.name = comData.adminName;
+                                    akun.status = 4;
+                                    akun.pass = randomString;
+                                    akun.roleId = 3;
+                                    akun.statId = 4;
+                                    akun.createdBy = this.$session.get('email');
+                                    adds.register(akun)
+                                    let semail = {
+                                        "email": akun.email,
+                                        "subject": "Your Credential Login",
+                                        "body": akun.pass
+                                    }
+                                    // console.log(semail)
+                                    userService.asemail(semail)
+
+                                }
+                            })
+                            .catch(() => {
+                            });
+                    } else {
+                        this.$swal({
+                            confirmButtonText: "close",
+                            icon: "error",
+                            title: "Cancelled",
+                            text: "Your file is still intact"
+                        })
+                    }
+                })
             }
         },
 
@@ -361,32 +389,52 @@ export default {
             } else {
                 data.status = 3;
                 data.apprBy = this.$session.get('email');
-                approvalService.saveApprov(data)
-                    .then((response) => {
-                        this.$toast.success('Status has been successfully Update!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                        console.log(response.status);
-                        this.showModalStatus = false;
-                        this.getApproval();
-                        this.showDetail = !this.showDetail
-                    })
-                    .catch(() => {
-                        this.$toast.error('Error', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                    });
-                companyService.getCompanyById(data.companyId)
-                    .then((response) => {
-                        let comData = response.data
-                        comData.status = 3
-                        companyService.upload(response.data)
-                    })
-                    .catch(() => {
-                    });
-                this.showModalStatus = false
+                this.showModalStatus = !this.showModalStatus;
+
+                this.$swal({
+                    title: 'Are you sure?',
+                    text: 'You can\'t revert your action',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Yes Reject it!',
+                    cancelButtonText: 'No, Cancel!',
+                    showCloseButton: true,
+                    showLoaderOnConfirm: true
+                }).then((result) => {
+                    if (result.value) {
+                        approvalService.saveApprov(data)
+                            .then((response) => {
+                                this.$toast.success('Status has been successfully Update!', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                                console.log(response.status);
+                                this.getApproval();
+                                this.showDetail = !this.showDetail
+                            })
+                            .catch(() => {
+                                this.$toast.error('Error', {
+                                    position: 'top-right',
+                                    timeout: 2500,
+                                });
+                            });
+                        companyService.getCompanyById(data.companyId)
+                            .then((response) => {
+                                let comData = response.data
+                                comData.status = 3
+                                companyService.upload(response.data)
+                            })
+                            .catch(() => {
+                            });
+                    } else {
+                        this.$swal({
+                            confirmButtonText: "close",
+                            icon: "error",
+                            title: "Cancelled",
+                            text: "Your file is still intact"
+                        })
+                    }
+                })
             }
         },
 

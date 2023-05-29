@@ -82,7 +82,6 @@
                     </div>
                 </div>
 
-
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="postal_code">Postal Code</label>
@@ -122,12 +121,12 @@
                         :disabled="roleId === 1" v-model="companyDatas.address"></textarea>
                 </div>
 
-                <button type="submit" v-show="roleId === 2" class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
+                <button type="submit" v-if="companyDatas.status == 2" v-show="roleId === 2"
+                    class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
                 <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2"
-                    @click="deactiveFunc()">Deactive</button>
+                    @click="deactiveAlert()">Deactive</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
-
         </div>
     </section>
 </template>
@@ -194,21 +193,49 @@ export default {
         }
     },
     methods: {
+        BackButton(back) {
+            if (back == 1) {
+                this.showForm = false
+                this.getCompany();
+            }
+        },
+
+        deactiveAlert() {
+            this.$swal({
+                title: 'Are you sure?',
+                text: 'You can\'t revert your action',
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Update it!',
+                cancelButtonText: 'No, Cancel!',
+                showCloseButton: true,
+                showLoaderOnConfirm: true
+            }).then((result) => {
+                if (result.value) {
+                    this.deactiveFunc();
+                } else {
+                    this.BackButton(1);
+                    this.$swal({
+                        confirmButtonText: "close",
+                        icon: "error",
+                        title: "Cancelled",
+                        text: "Your file is still intact"
+                    })
+                }
+            })
+        },
+
         deactiveFunc() {
             let data = this.companyDatas;
             let apprv = this.apprvData;
             data.status = 1
             data.createdBy = this.$session.get('email');
+
             companyService.upload(data)
                 .then((response) => {
                     console.log("add Company");
                     console.log(response.status);
-                    this.$toast.success('Company Data has been successfully Update!', {
-                        position: 'top-right',
-                        timeout: 2500,
-                    });
                     this.showForm = !this.showForm;
-                    //
                     apprv.comName = data.comName;
                     apprv.companyId = response.data.id;
                     apprv.reqBy = data.createdBy;
@@ -222,6 +249,8 @@ export default {
                             console.log(response.status);
                             this.showForm = !this.showForm;
                             this.getCompany();
+                            this.BackButton(1);
+                            this.$swal('Deactive', 'Wait for other admin to approv it!', 'success')
                         })
                         .catch((e) => {
                             console.log(e);
@@ -358,53 +387,72 @@ export default {
             } else {
                 data.status = 1
                 data.createdBy = this.$session.get('email');
-                companyService.upload(data)
-                    .then((response) => {
-                        console.log("add Company");
-                        console.log(response.status);
-                        this.$toast.success('Company Data has been successfully Update!', {
-                            position: 'top-right',
-                            timeout: 2500,
-                        });
-                        this.showForm = !this.showForm;
-                        //
-                        apprv.comName = data.comName;
-                        apprv.companyId = response.data.id;
-                        apprv.reqBy = data.createdBy;
-                        apprv.reqType = "Update Company";
-                        apprv.status = data.status;
 
-                        // add table approv
-                        approvService.saveApprov(apprv)
+                this.$swal({
+                    title: 'Are you sure?',
+                    text: 'You can\'t revert your action',
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: 'Update it!',
+                    cancelButtonText: 'No, Cancel!',
+                    showCloseButton: true,
+                    showLoaderOnConfirm: true
+                }).then((result) => {
+                    if (result.value) {
+                        companyService.upload(data)
                             .then((response) => {
-                                console.log("add Approv");
+                                console.log("add Company");
                                 console.log(response.status);
                                 this.showForm = !this.showForm;
-                                this.getCompany();
+                                apprv.comName = data.comName;
+                                apprv.companyId = response.data.id;
+                                apprv.reqBy = data.createdBy;
+                                apprv.reqType = "Update Company";
+                                apprv.status = data.status;
+
+                                // add table approv
+                                approvService.saveApprov(apprv)
+                                    .then((response) => {
+                                        console.log("add Approv");
+                                        console.log(response.status);
+                                        this.showForm = !this.showForm;
+                                        this.getCompany();
+                                        this.BackButton(1);
+                                        this.$swal('Update', 'Wait for other admin to approv it!', 'success')
+                                    })
+                                    .catch((e) => {
+                                        console.log(e);
+                                        this.$toast.error('Error!', {
+                                            position: 'top-right',
+                                            timeout: 2500,
+                                        });
+                                    });
                             })
                             .catch((e) => {
-                                console.log(e);
-                                this.$toast.error('Error!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
+                                try {
+                                    e["code"] === "ERR_NETWORK";
+                                    console.log(e["code"]);
+                                    this.$toast.error("ERROR NETWORK CONNECTION", {
+                                        position: "top-right",
+                                        timeout: 2500,
+                                    });
+                                } catch (error) {
+                                    this.$toast.error('Error!', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                }
                             });
-                    })
-                    .catch((e) => {
-                        try {
-                            e["code"] === "ERR_NETWORK";
-                            console.log(e["code"]);
-                            this.$toast.error("ERROR NETWORK CONNECTION", {
-                                position: "top-right",
-                                timeout: 2500,
-                            });
-                        } catch (error) {
-                            this.$toast.error('Error!', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
-                        }
-                    });
+                    } else {
+                        this.BackButton(1);
+                        this.$swal({
+                            confirmButtonText: "close",
+                            icon: "error",
+                            title: "Cancelled",
+                            text: "Your file is still intact"
+                        })
+                    }
+                })
             }
 
 
@@ -437,13 +485,6 @@ export default {
 
         nextPage() {
             this.currentPage++;
-        },
-
-        BackButton(back) {
-            if (back == 1) {
-                this.showForm = false
-                this.getCompany();
-            }
         },
 
     },
