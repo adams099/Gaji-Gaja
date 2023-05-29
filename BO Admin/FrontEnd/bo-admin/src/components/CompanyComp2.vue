@@ -126,7 +126,8 @@
                 <button type="submit" v-if="companyDatas.status == 2 || submitBtn == 'Add Company'" v-show="roleId === 2"
                     class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
                 <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2"
-                    @click="deactiveAlert()">Deactive</button>
+                    @click.prevent="deactiveAlert()">Deactive</button>
+
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
         </div>
@@ -186,10 +187,7 @@ export default {
 
             itemsPerPage: 7,
             currentPage: 1,
-
-            companyData: {
-            },
-
+            companyData: {},
             showForm: false,
             showDetail: false,
         }
@@ -208,7 +206,7 @@ export default {
                 text: 'You can\'t revert your action',
                 icon: 'warning',
                 showCancelButton: true,
-                confirmButtonText: 'Update it!',
+                confirmButtonText: 'Deactive it!',
                 cancelButtonText: 'No, Cancel!',
                 showCloseButton: true,
                 showLoaderOnConfirm: true

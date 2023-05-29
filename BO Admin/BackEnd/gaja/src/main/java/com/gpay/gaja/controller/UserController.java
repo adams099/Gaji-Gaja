@@ -110,6 +110,8 @@ public class UserController {
         String asw = userDTO.getPass();
         if (testis.equals(asw)) {
             UserDTO gimm = service.findByEmail(userDTO.getEmail());
+            gimm.setLast(LocalDateTime.now());
+            service.save(gimm);
             String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
             test.setData(ancrit);
             test.setRoleId(gimm.getRoleId());

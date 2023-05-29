@@ -37,5 +37,7 @@ public class User {
     private String apprBy;
     @Column(name = "update_time")
     private LocalDateTime update;
+    @Column(name = "last_login")
+    private LocalDateTime last;
 
 }
