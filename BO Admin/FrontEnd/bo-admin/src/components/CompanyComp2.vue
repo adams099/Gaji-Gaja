@@ -60,10 +60,12 @@
                 </button>
             </div>
             <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
-                <div class="row d-flex flex-row justify-content-center">
+
+                <div class="row d-flex flex-row justify-content-center" v-if="submitBtn == 'Update Company'">
                     <h6 class="text-center mr-2 text-secondary ">Status Company Saat ini</h6>
                     <h6 :class="colorStatus">{{ status }}</h6>
                 </div>
+
                 <div class="form-group">
                     <label for="name_company">Company Name</label>
                     <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name"
@@ -253,6 +255,7 @@ export default {
             this.submitBtn = "Update Company"
             this.title = "Update"
             this.companyDatas = data;
+
             if (data.status == 1) {
                 this.status = "In Review"
                 this.colorStatus = "review"
@@ -560,7 +563,7 @@ form {
 .btn-add {
     display: flex;
     justify-content: flex-end;
-    margin-right: 80px;
+    /* margin-right: 80px; */
 }
 
 .btn-add-com {
@@ -639,6 +642,7 @@ h6 {
 table {
     border-collapse: separate !important;
     border-spacing: 0 !important;
+    width: 75vw;
 }
 
 table tr th,
@@ -680,4 +684,30 @@ table tr:last-child td:last-child {
 .btn-add-com {
     margin-right: 80px;
 } */
+
+input[type=file]::file-selector-button {
+    margin-right: 20px;
+    border: none;
+    background: #5a4de5;
+    padding: 5px 10px;
+    border-radius: 7px;
+    color: #fff;
+    cursor: pointer;
+    transition: background .2s ease-in-out;
+}
+
+input[type=file]::file-selector-button:hover {
+    background: #4a3ec6;
+}
+
+input[type=file] {
+    width: 100%;
+    max-width: 100%;
+    color: #444;
+    /* padding: 10px; */
+    height: 47px;
+    background: #fff;
+    border-radius: 10px;
+    border: 1px solid #555;
+}
 </style>

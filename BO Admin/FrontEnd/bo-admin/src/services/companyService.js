@@ -24,6 +24,17 @@ class Company {
   getLength() {
     return http.get(`/company/length`);
   }
+
+  uploadImage(image, companyId) {
+    let formData = new FormData();
+    formData.append("image", image);
+
+    return http.post(`/image/upload/${companyId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
 }
 
 export default new Company();

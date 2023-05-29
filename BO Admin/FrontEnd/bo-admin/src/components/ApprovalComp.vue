@@ -24,6 +24,13 @@
                             <div class="form justify-content-center d-flex flex-row bg-white shadow-lg" v-if="showDetail">
 
                                 <form class="form-detail-company flex-row" @submit.prevent="updateApprovFunc">
+
+                                    <div class=" mb-3 d-flex flex-row text-center  justify-content-center">
+                                        <h3 class="text-center mr-2 text-secondary ">Status Company Saat
+                                            ini</h3>
+                                        <h3 :class="colorStatus">{{ status }}</h3>
+                                    </div>
+
                                     <div class="form-group">
                                         <label for="name_company">Company Name</label>
                                         <input disabled type="text" class="form-control company-detail" id="name_company"
@@ -99,51 +106,62 @@
 
 
             <!------------------ START TABLE ------------------->
-            <table class="table" v-show="!showDetail">
-                <thead class="text-center">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col" style="width: 170px;">Company Name</th>
-                        <th scope="col" style="width: 150px;">Request Type</th>
-                        <th scope="col">Request By</th>
-                        <th scope="col" style="width: 150px;">Approve By</th>
-                        <th scope="col" style="width: 100px;">Status</th>
-                        <th scope="col">Action</th>
-                    </tr>
-                </thead>
-                <tbody v-if="appData.length > 0">
-                    <tr class="baris  shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
-                        <th scope="row" class="text-center">{{ item.id }}</th>
-                        <td>{{ item.comName }}</td>
-                        <td>{{ item.reqType }}</td>
-                        <td>{{ item.reqBy }}</td>
-                        <td>{{ item.apprBy }}</td>
-                        <div class="status blue mx-2 text-center" v-if="item.status == 1">In Review</div>
-                        <div class="status green mx-2 text-center" v-else-if="item.status == 2">Active</div>
-                        <div class="status red mx-2 text-center" v-else-if="item.status == 3">Rejected</div>
-                        <div class="status salmon mx-2 text-center" v-else>Deactive</div>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-detail" v-on:click="showDetails(item)">Detail</button>
-                        </td>
-                    </tr>
-                </tbody>
+            <div v-show="!showDetail">
+                <div class="input-group col mb-4 ml-1">
+                    <div class="form-outline">
+                        <input type="search" id="form1" class="form-control" />
+                    </div>
+                    <button type="button" class="btn btn-primary ml-2">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+                <table class="table">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col" style="width: 170px;">Company Name</th>
+                            <th scope="col" style="width: 150px;">Request Type</th>
+                            <th scope="col">Request By</th>
+                            <th scope="col" style="width: 150px;">Approve By</th>
+                            <th scope="col" style="width: 100px;">Status</th>
+                            <th scope="col">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody v-if="appData.length > 0">
+                        <tr class="baris  shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
+                            <th scope="row" class="text-center">{{ item.id }}</th>
+                            <td>{{ item.comName }}</td>
+                            <td>{{ item.reqType }}</td>
+                            <td>{{ item.reqBy }}</td>
+                            <td>{{ item.apprBy }}</td>
+                            <div class="status blue mx-2 text-center" v-if="item.status == 1">In Review</div>
+                            <div class="status green mx-2 text-center" v-else-if="item.status == 2">Active</div>
+                            <div class="status red mx-2 text-center" v-else-if="item.status == 3">Rejected</div>
+                            <div class="status salmon mx-2 text-center" v-else>Deactive</div>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-detail" v-on:click="showDetails(item)">Detail</button>
+                            </td>
+                        </tr>
+                    </tbody>
 
-                <tbody v-else>
-                    <tr class="msg-tr text-center">
-                        <td colspan="6" class="msg-null text-center">
-                            <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
-                        </td>
-                    </tr>
-                </tbody>
+                    <tbody v-else>
+                        <tr class="msg-tr text-center">
+                            <td colspan="6" class="msg-null text-center">
+                                <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
+                            </td>
+                        </tr>
+                    </tbody>
 
-            </table>
-            <div class="row d-flex justify-content-center next color-text">
-                <button type="button" class="btn btn-success" @click="previousPage"
-                    :disabled="currentPage == 1">Previous</button>
-                <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
-                <button type="button" class="btn btn-success" @click="nextPage"
-                    :disabled="currentPage == pageCount">Next</button>
+                </table>
+                <div class="row d-flex justify-content-center next color-text " v-if="!showDetail">
+                    <button type="button" class="btn btn-success" @click="previousPage"
+                        :disabled="currentPage == 1">Previous</button>
+                    <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
+                    <button type="button" class="btn btn-success" @click="nextPage"
+                        :disabled="currentPage == pageCount">Next</button>
+                </div>
             </div>
+
             <!------------------ END TABLE ------------------>
 
         </div>
@@ -163,6 +181,8 @@ export default {
     // DATA
     data() {
         return {
+            status: null,
+            colorStatus: null,
             itemsPerPage: 7,
             currentPage: 1,
 
@@ -222,6 +242,7 @@ export default {
 
     methods: {
         updateApprovFunc() {
+
             let data = this.appUpdateData;
 
             approvalService.saveApprov(data)
@@ -256,10 +277,28 @@ export default {
             this.currentPage--;
         },
 
-        showDetails(test) {
+        showDetails(data) {
             this.showDetail = !this.showDetail
-            this.appUpdateData = test;
-            this.appUpdate = test;
+            this.appUpdateData = data;
+            this.appUpdate = data;
+
+            if (data.status == 1) {
+                this.status = "In Review"
+                this.colorStatus = "review"
+
+            } else if (data.status == 2) {
+                this.status = "Active"
+                this.colorStatus = "active"
+
+            } else if (data.status == 3) {
+                this.status = "Reject"
+                this.colorStatus = "reject"
+
+            } else {
+                this.status = "Deactive"
+                this.colorStatus = "deactive"
+
+            }
         },
 
         showModalStatuss() {
@@ -625,5 +664,26 @@ form {
 .btn-detail:hover {
     background-color: #4e44ba;
     color: white;
+}
+
+/* color status */
+.review {
+    color: rgb(88, 88, 233);
+    font-weight: 600;
+}
+
+.active {
+    color: green;
+    font-weight: 600;
+}
+
+.reject {
+    color: red;
+    font-weight: 600;
+}
+
+.deactive {
+    color: grey;
+    font-weight: 600;
 }
 </style>

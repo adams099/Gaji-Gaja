@@ -9,7 +9,7 @@ import com.gpay.gaja.model.domain.Company;
 
 public interface AttachmentService {
 
-    Attachment uploadImage(MultipartFile file, Long idOwner) throws IOException;
+    Attachment uploadImage(MultipartFile file, Long companyId) throws IOException;
 
     byte[] downloadImage(String fileName);
 
