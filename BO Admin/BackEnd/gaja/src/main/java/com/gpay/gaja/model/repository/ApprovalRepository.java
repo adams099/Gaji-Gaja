@@ -11,4 +11,5 @@ public interface ApprovalRepository extends CrudRepository<Approval, Long> {
 
     Optional<Approval> findById(Long id);
 
+    Optional<Approval> findByStatus(int status);
 }
