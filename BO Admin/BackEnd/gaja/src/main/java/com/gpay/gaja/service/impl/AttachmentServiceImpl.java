@@ -27,8 +27,8 @@ public class AttachmentServiceImpl implements AttachmentService {
     // @Autowired
     // private ImageMapper mapper;
 
-    public Attachment uploadImage(MultipartFile file, Long idOwner) throws IOException {
-        Optional<Company> merchantsOptional = repository.findById(idOwner);
+    public Attachment uploadImage(MultipartFile file, Long companyId) throws IOException {
+        Optional<Company> merchantsOptional = repository.findById(companyId);
 
         Attachment image = new Attachment();
         image.setName(file.getOriginalFilename());

@@ -31,9 +31,10 @@ public class AttachmentController {
     private CompanyRepository repoCom;
 
     @ResponseStatus(value = HttpStatus.OK)
-    @PostMapping("/upload/{idOwner}")
-    public void uploadImage(@RequestParam("image") MultipartFile file, @PathVariable Long idOwner) throws IOException {
-        imageService.uploadImage(file, idOwner);
+    @PostMapping("/upload/{companyId}")
+    public void uploadImage(@RequestParam("image") MultipartFile file, @PathVariable Long companyId)
+            throws IOException {
+        imageService.uploadImage(file, companyId);
     }
 
     @GetMapping("/download/{fileName}")
