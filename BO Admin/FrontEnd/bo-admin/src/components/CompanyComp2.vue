@@ -123,7 +123,7 @@
                         :disabled="roleId === 1" v-model="companyDatas.address"></textarea>
                 </div>
 
-                <button type="submit" v-if="companyDatas.status == 2" v-show="roleId === 2"
+                <button type="submit" v-if="companyDatas.status == 2 || submitBtn == 'Add Company'" v-show="roleId === 2"
                     class="btn add-company mb-4 mt-4">{{ submitBtn }}</button>
                 <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2"
                     @click="deactiveAlert()">Deactive</button>
