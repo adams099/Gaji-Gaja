@@ -330,6 +330,15 @@ export default {
             } else {
                 data.status = 2;
                 data.apprBy = this.$session.get('email');
+
+                const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
+                let randomString = '';
+                const charactersLength = characters.length;
+                const length = 8;
+                for (let i = 0; i < length; i++) {
+                    randomString += characters.charAt(Math.floor(Math.random() * charactersLength));
+                }
+
                 approvalService.saveApprov(data)
                     .then((response) => {
                         this.$toast.success('Status has been successfully Update!', {
@@ -371,7 +380,7 @@ export default {
                             akun.email = comData.adminEmail;
                             akun.name = comData.adminName;
                             akun.status = 4;
-                            akun.pass = "testing";
+                            akun.pass = randomString;
                             akun.roleId = 3;
                             akun.statId = 4;
                             akun.createdBy = this.$session.get('email');

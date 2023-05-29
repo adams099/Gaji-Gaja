@@ -321,8 +321,8 @@ export default {
     },
 
     async addUser() {
-      const length = 10;
-      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+      const length = 8;
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
       let result = "";
       for (const property in this.error) {
         this.error[property] = false;
