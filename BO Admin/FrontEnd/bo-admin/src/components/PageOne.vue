@@ -3,9 +3,9 @@
         <div class="text text-center mb-5 ">Dashboard</div>
         <!---------------------------------- START CARD ---------------------------------->
         <h4 class="color-text">Cards</h4>
+
         <div class="multi-cards col">
             <div class="cards row d-flex flex-row justify-content-around ">
-                <!-- CARD 1 -->
                 <div class="card-1 text-left shadow-lg ">
                     <b-col class="col d-flex flex-column ml-5 mt-3">
                         <div class="icon"></div>
@@ -17,9 +17,8 @@
                     </b-col>
                 </div>
 
-                <!-- CARD 2 -->
                 <div class="card-2 text-left shadow-lg">
-                    <b-col class="col d-flex flex-column ml-5 mt-3">
+                    <b-col class="col d-fle x flex-column ml-5 mt-3">
                         <label class="jmlh">Need Approve</label>
                         <label class="angka" v-if="inReview > 0">{{ inReview }}</label>
                         <label class="angka mt-2" v-else
@@ -30,7 +29,6 @@
             </div>
 
             <div class="cards-2 row mt-5 d-flex flex-row justify-content-around mr-5 ml-5">
-                <!-- CARD 3 -->
                 <div class="card-3 text-center shadow">
                     <b-col class="d-flex flex-column">
                         <label class="jmlh">Approved</label>
@@ -41,7 +39,6 @@
                     </b-col>
                 </div>
 
-                <!-- CARD 4 -->
                 <div class="card-4 text-center shadow">
                     <b-col class="d-flex flex-column">
                         <label class="jmlh">Rejected</label>
@@ -52,7 +49,6 @@
                     </b-col>
                 </div>
 
-                <!-- CARD 5 -->
                 <div class="card-5 text-center shadow">
                     <b-col class="d-flex flex-column">
                         <label class="jmlh">Not Acctive</label>
@@ -63,8 +59,8 @@
                     </b-col>
                 </div>
             </div>
-            <!---------------------------------- END CARD ------------------------------------>
         </div>
+        <!---------------------------------- END CARD ------------------------------------>
 
     </section>
 </template>
@@ -371,5 +367,13 @@ h5 {
 
 p {
     margin-bottom: 0px;
+}
+
+.single-card {
+    margin-left: 50px;
+    margin-bottom: 20px;
+    width: 60vw;
+    height: 50vh;
+    border-radius: 60px;
 }
 </style>

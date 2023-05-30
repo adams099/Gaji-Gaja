@@ -113,7 +113,7 @@
                 <div class="form-group" v-if="submitBtn == 'Add Company'">
                     <div class="mb-3">
                         <label for="formFile" class="form-label">Choose File</label>
-                        <input class="form-control" type="file" id="formFile">
+                        <input @change="handleFileUpload('att', $event)" class="form-control" type="file" id="formFile">
                     </div>
                 </div>
 
@@ -183,6 +183,7 @@ export default {
                 createdTime: null,
                 apprBy: null,
                 updateTime: null,
+                file: null,
             },
 
             itemsPerPage: 7,
@@ -190,6 +191,7 @@ export default {
             companyData: {},
             showForm: false,
             showDetail: false,
+            attendance: null,
         }
     },
     methods: {
@@ -382,11 +384,26 @@ export default {
             this.title = "Add"
         },
 
+        handleFileUpload(fieldName, event) {
+            let file = event.target.files[0];
+
+            if (fieldName === 'att') {
+                let fileName = 'attachment';
+                let fileExtension = file.type.split("/")[1];
+                let newFile = new File([file], fileName + "." + fileExtension, { type: file.type });
+                this.attendance = newFile;
+            }
+        },
+
         async SubmitCompany() {
             let data = this.companyDatas;
             let apprv = this.apprvData;
             let dataAkun = this.akun;
             let found = this.isFound;
+
+            let idCompany = null;
+            let file1 = this.attendance
+
             dataAkun.email = this.companyDatas.adminEmail;
 
             await adds.findByEmail(dataAkun)
@@ -408,6 +425,7 @@ export default {
                 } else {
                     data.status = 1;
                     data.createdBy = this.$session.get('email')
+                    data.file = file1.name;
 
                     companyService.upload(data)
                         .then((response) => {
@@ -438,6 +456,19 @@ export default {
                                         timeout: 2500,
                                     });
                                 });
+
+                            // Uploda
+                            idCompany = apprv.companyId;
+
+                            companyService.uploadImage(file1, idCompany)
+                                .then(response => {
+                                    console.log(response.status);
+                                    console.log("uploading-attachment");
+                                })
+                                .catch(e => {
+                                    console.log(e);
+                                });
+
                         })
                         .catch((e) => {
                             try {

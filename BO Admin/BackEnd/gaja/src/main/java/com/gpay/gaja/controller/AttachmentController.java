@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @CrossOrigin(origins = "http://localhost:8080")
-@RequestMapping("/api/att")
+@RequestMapping("/att")
 public class AttachmentController {
     @Autowired
     private AttachmentService imageService;
