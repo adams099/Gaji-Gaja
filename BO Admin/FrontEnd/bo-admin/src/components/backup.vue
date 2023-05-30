@@ -106,62 +106,42 @@
                     </div>
                     <!-- search -->
                     <div class="">
-                        <div class="d-flex ">
-                            <div class="mr-3">
-
-                                <!-- button filter -->
-                                <b-button v-b-modal.modal-1 class="btn btn-primary text-white">
-                                    <i class="fas fa-filter"></i> Search by Filter
-                                </b-button>
-
-                                <b-modal id="modal-1" title="BootstrapVue" hide-footer hide-header>
-                                    <form action="" class="form-search p-3" @submit.prevent="s">
-                                        <div class="form-group">
-                                            <div class="input-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text w-100">
-                                                        <i class="fas fa-search"></i>
-                                                    </span>
-                                                </div>
-                                                <input type="text" v-model="snam" class="form-control input-search"
-                                                    placeholder="Search" required>
-                                            </div>
-
-                                            <div class="d-flex flex-column mt-4 mb-4">
-                                                <small class="form-text text-muted mb-1">Find By Status</small>
-                                                <button @click.prevent="sstat = 1"
-                                                    class="btn btn-status mb-3 text-left">Need
-                                                    Approve</button>
-                                                <button @click.prevent="sstat = 2"
-                                                    class="btn btn-status mb-3 text-left">Approved</button>
-                                                <button @click.prevent="sstat = 3"
-                                                    class="btn btn-status mb-3 text-left">Rejected</button>
-                                                <button @click.prevent="sstat = 4"
-                                                    class="btn btn-status text-left">Deactive</button>
-                                            </div>
-                                        </div>
-                                        <div class="d-flex flex-row justify-content-end">
-                                            <button @click.prevent="ComStSm()" class="btn btn-primary btn-search w-100 ">
-                                                <i class="fas fa-search"></i> Search
-                                            </button>
-                                        </div>
-
-                                    </form>
-                                </b-modal>
+                        <div class="d-flex">
+                            <div class="form-outline">
+                                <input type="search" v-model="snam" id="form1" class="form-control"
+                                    placeholder="Search Name" />
                             </div>
-
-                            <div @click="resetFunc()" class="btn btn-secondary mr-4">Reset</div>
-
-                            <!-- sort by asc & dsc button -->
-                            <div @click="sascdesc(1)" class="btn btn-warning mr-2 text-white">
-                                <i class="fas fa-arrow-up-a-z"></i> Asc
-                            </div>
-
-                            <div class="btn btn-success text-white mr-1" @click="sascdesc(2)"> <i
-                                    class="fas fa-arrow-down-z-a"></i> Dsc</div>
-
+                            <button @click.prevent="sname()" type="button" class="btn btn-primary ml-2">
+                                <i class="fas fa-search"></i>
+                            </button>
                         </div>
                     </div>
+
+                    <div class="">
+                        <div class="d-flex">
+                            <div class="form-outline">
+                                <input type="search" v-model="sstat" id="form1" class="form-control"
+                                    placeholder="Search by Status" />
+                            </div>
+                            <button type="button" @click.prevent="sstatus()" class="btn btn-primary ml-2">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="">
+                        <div class="d-flex">
+                            <div class="form-outline">
+                                <input type="search" v-model="sass" id="form1" class="form-control"
+                                    placeholder="Asc and Desc name" />
+                            </div>
+                            <button type="button" @click.prevent="sascdesc()" class="btn btn-primary ml-2">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button @click.prevent="resetFunc()">Reset</button>
 
                 </div>
                 <table class="table">
@@ -298,16 +278,6 @@ export default {
         resetFunc() {
             this.appData = this.bappData
         },
-        ComStSm() {
-            if (this.snam != null && this.snam != '') {
-                this.sname()
-            }
-            if (this.sstat !== null && this.sstat !== '') {
-                this.sstatus()
-            }
-            this.snam = null
-            this.sstat = null
-        },
         sstatus() {
             let data = this.sstat;
             console.log(data);
@@ -341,8 +311,8 @@ export default {
 
             this.appData = filteredObjects;
         },
-        sascdesc(dih) {
-            let data = dih;
+        sascdesc() {
+            let data = this.sass;
             console.log(data);
             const sortedArray = [...this.appData];
             sortedArray.sort((a, b) => {
@@ -671,13 +641,7 @@ table tr:last-child td:last-child {
     padding-right: 20px;
 }
 
-/* form {
-    width: 60vw;
-    padding: 40px 40px;
-    border-radius: 25px;
-} */
-
-.form-detail-company {
+form {
     width: 60vw;
     padding: 40px 40px;
     border-radius: 25px;
@@ -820,25 +784,5 @@ table tr:last-child td:last-child {
 .deactive {
     color: grey;
     font-weight: 600;
-}
-
-.input-search {
-    height: 60px;
-    border-radius: 10px;
-}
-
-.btn-search {
-    padding: 15px 15px;
-    border-radius: 15px;
-}
-
-.btn-status {
-    border: 1px solid #695cfe;
-    color: rgb(35, 32, 32);
-}
-
-.btn-status:hover {
-    background-color: #695cfe;
-    color: white;
 }
 </style>
