@@ -4,21 +4,8 @@
         <!---------------------------------- START CARD ---------------------------------->
         <h4 class="color-text">Cards</h4>
 
-        <div class="single-card bg-white shadow-lg">
-            <div class="row">
-                <div class="col">a</div>
-                <div class="col">b</div>
-            </div>
-            <div class="row">
-                <div class="col">c</div>
-                <div class="col">d</div>
-                <div class="col">e</div>
-            </div>
-        </div>
-
         <div class="multi-cards col">
             <div class="cards row d-flex flex-row justify-content-around ">
-                <!-- CARD 1 -->
                 <div class="card-1 text-left shadow-lg ">
                     <b-col class="col d-flex flex-column ml-5 mt-3">
                         <div class="icon"></div>
@@ -30,7 +17,6 @@
                     </b-col>
                 </div>
 
-                <!-- CARD 2 -->
                 <div class="card-2 text-left shadow-lg">
                     <b-col class="col d-flex flex-column ml-5 mt-3">
                         <label class="jmlh">Need Approve</label>
@@ -43,7 +29,6 @@
             </div>
 
             <div class="cards-2 row mt-5 d-flex flex-row justify-content-around mr-5 ml-5">
-                <!-- CARD 3 -->
                 <div class="card-3 text-center shadow">
                     <b-col class="d-flex flex-column">
                         <label class="jmlh">Approved</label>
@@ -54,7 +39,6 @@
                     </b-col>
                 </div>
 
-                <!-- CARD 4 -->
                 <div class="card-4 text-center shadow">
                     <b-col class="d-flex flex-column">
                         <label class="jmlh">Rejected</label>
@@ -65,7 +49,6 @@
                     </b-col>
                 </div>
 
-                <!-- CARD 5 -->
                 <div class="card-5 text-center shadow">
                     <b-col class="d-flex flex-column">
                         <label class="jmlh">Not Acctive</label>
@@ -76,8 +59,8 @@
                     </b-col>
                 </div>
             </div>
-            <!---------------------------------- END CARD ------------------------------------>
         </div>
+        <!---------------------------------- END CARD ------------------------------------>
 
     </section>
 </template>

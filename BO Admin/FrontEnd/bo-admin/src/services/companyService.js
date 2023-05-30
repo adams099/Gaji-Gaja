@@ -29,7 +29,7 @@ class Company {
     let formData = new FormData();
     formData.append("image", image);
 
-    return http.post(`/image/upload/${companyId}`, formData, {
+    return http.post(`/att/upload/${companyId}`, formData, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
