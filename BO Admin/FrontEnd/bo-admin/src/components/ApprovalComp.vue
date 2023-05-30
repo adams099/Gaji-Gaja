@@ -136,8 +136,6 @@
                                                     class="btn btn-status mb-3 text-left">Approved</button>
                                                 <button @click.prevent="sstat = 3"
                                                     class="btn btn-status mb-3 text-left">Rejected</button>
-                                                <button @click.prevent="sstat = 4"
-                                                    class="btn btn-status text-left">Deactive</button>
                                             </div>
                                         </div>
                                         <div class="d-flex flex-row justify-content-end">
@@ -299,18 +297,18 @@ export default {
             this.appData = this.bappData
         },
         ComStSm() {
+            console.log(this.snam + this.sstat);
             if (this.snam != null && this.snam != '') {
                 this.sname()
             }
-            if (this.sstat !== null && this.sstat !== '') {
+            if (this.sstat != null && this.sstat != '') {
                 this.sstatus()
             }
             this.snam = null
             this.sstat = null
         },
         sstatus() {
-            let data = this.sstat;
-            console.log(data);
+            let data = this.sstat.toString();
             const sortedArray = [...this.appData];
             sortedArray.sort((a, b) => {
                 return a.status - b.status;
@@ -318,24 +316,25 @@ export default {
             const filteredArray = sortedArray.filter(obj => obj.status == data);
             console.log(filteredArray);
             this.appData = filteredArray;
+            console.log(data);
         },
         sname() {
             let data = this.snam;
-            console.log(data);
             const searchQuery = data.toLowerCase().trim();
 
             if (!searchQuery) {
                 return this.appData;
             }
-
+            console.log(searchQuery);
             const filteredObjects = this.appData.filter(obj => {
-                const coName = obj.comName.toLowerCase().includes(searchQuery);
-                const reqbY = obj.reqBy.toLowerCase().includes(searchQuery);
-                const apprby = obj.apprBy.toLowerCase().includes(searchQuery);
-                const reqtyp = obj.reqType.toLowerCase().includes(searchQuery);
+                const coName = obj.comName && obj.comName.toLowerCase().includes(searchQuery);
+                const reqbY = obj.reqBy && obj.reqBy.toLowerCase().includes(searchQuery);
+                const apprby = obj.apprBy && obj.apprBy.toLowerCase().includes(searchQuery);
+                const reqtyp = obj.reqType && obj.reqType.toLowerCase().includes(searchQuery);
 
                 return coName || reqbY || apprby || reqtyp;
             });
+            console.log("2");
 
             console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
 
@@ -460,6 +459,15 @@ export default {
                                 comData.status = 2
                                 if (data.reqType == "Deactive Company") {
                                     comData.status = 4
+                                    let rey = {
+                                        email: comData.adminEmail
+                                    }
+                                    adds.findEmail(rey).then((response) => {
+                                        let akun = response.data
+                                        akun.status = 4
+                                        adds.register(akun)
+                                        console.log(response.data);
+                                    })
                                 }
                                 companyService.upload(comData)
 
@@ -467,7 +475,7 @@ export default {
                                     let akun = this.buatAkun
                                     akun.email = comData.adminEmail;
                                     akun.name = comData.adminName;
-                                    akun.status = 4;
+                                    akun.status = 2;
                                     akun.pass = randomString;
                                     akun.roleId = 3;
                                     akun.statId = 4;
