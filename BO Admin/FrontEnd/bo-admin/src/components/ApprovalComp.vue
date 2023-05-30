@@ -326,6 +326,8 @@ export default {
 
         //test doang ya
         accept() {
+            // alert conf
+
             let data = this.appUpdate;
             if (data.reqBy == this.$session.get('email')) {
                 this.$toast.warning('Action Disable', {
@@ -379,8 +381,8 @@ export default {
                             comData.status = 4
                         }
                         companyService.upload(comData)
-                        if (data.reqType == "Add Company") {
 
+                        if (data.reqType == "Add Company") {
                             let akun = this.buatAkun
                             akun.email = comData.adminEmail;
                             akun.name = comData.adminName;
@@ -399,6 +401,7 @@ export default {
                             userService.asemail(semail)
 
                         }
+
                     })
                     .catch(() => {
                     });
@@ -407,6 +410,8 @@ export default {
         },
 
         reject() {
+            // alert conf
+
             let data = this.appUpdate;
             if (data.reqBy == this.$session.get('email')) {
                 this.$toast.warning('Action Disable', {
