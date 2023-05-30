@@ -328,15 +328,17 @@ export default {
         this.error[property] = false;
       }
 
-      let data = this.inputData;
       for (let i = 0; i < length; i++) {
         const randomIndex = Math.floor(Math.random() * characters.length);
         result += characters.charAt(randomIndex);
       }
+
+      let data = this.inputData;
       data.pass = result
       data.roleId = 2;
       data.statId = 2;
       data.createdBy = this.$session.get("email");
+
       for (const property in data) {
         if (data[property] == null || data[property] == "") {
           this.error[property] = true;
@@ -356,16 +358,15 @@ export default {
           });
 
         if (this.error['emailada'] == false) {
-          // console.log(data)
           userService
             .register(data)
             .then((response) => {
               if (response.status == 201) {
                 this.semail.email = data.email
-                this.semail.subject = "Your Credential For Web"
-                this.semail.body = "Your Password " + data.pass
+                this.semail.subject = "Your Credential Login"
+                this.semail.body = data.pass
 
-                userService.semail(this.semail).then(() => {
+                userService.asemail(this.semail).then(() => {
                   this.showToast();
                 }).catch((e) => {
                   console.log(e);
