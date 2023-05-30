@@ -104,7 +104,6 @@
                 </div>
             </div>
 
-
             <!------------------ START TABLE ------------------->
             <div v-show="!showDetail">
                 <div class="input-group col mb-4 ml-1 d-flex flex-row  justify-content-between ">
