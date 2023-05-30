@@ -223,7 +223,7 @@ export default {
                 } else {
                     this.BackButton(1);
                     this.$swal({
-                        confirmButtonText: "close",
+                        confirmButtonText: "Close",
                         icon: "error",
                         title: "Cancelled",
                         text: "Your file is still intact"
@@ -518,7 +518,7 @@ export default {
                     } else {
                         this.BackButton(1);
                         this.$swal({
-                            confirmButtonText: "close",
+                            confirmButtonText: "Close",
                             icon: "error",
                             title: "Cancelled",
                             text: "Your file is still intact"
