@@ -1,57 +1,70 @@
 <template>
     <section class="home w-80" style="height: 100%;">
-        <div class="text text-center mb-5">Dashboard</div>
+        <div class="text text-center mb-5 ">Dashboard</div>
         <!---------------------------------- START CARD ---------------------------------->
         <h4 class="color-text">Cards</h4>
-        <div class="cards d-flex flex-row mb-5">
-            <!-- CARD 1 -->
-            <div class="card-1 text-center shadow-lg">
-                <b-col>
-                    <div class="icon"></div>
-                    <label class="jmlh">Jumlah Company</label>
-                    <p></p>
-                    <label class="angka" v-if="leng > 0">{{ leng }}</label>
-                    <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
-                        Kosong</label>
-                </b-col>
+        <div class="multi-cards col">
+            <div class="cards row d-flex flex-row justify-content-around ">
+                <!-- CARD 1 -->
+                <div class="card-1 text-left shadow-lg ">
+                    <b-col class="col d-flex flex-column ml-5 mt-3">
+                        <div class="icon"></div>
+                        <label class="jmlh row">Jumlah Company</label>
+                        <label class="angka row" v-if="leng > 0">{{ leng }}</label>
+                        <label class="angka mt-2 row" v-else
+                            style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Company
+                            Kosong</label>
+                    </b-col>
+                </div>
+
+                <!-- CARD 2 -->
+                <div class="card-2 text-left shadow-lg">
+                    <b-col class="col d-flex flex-column ml-5 mt-3">
+                        <label class="jmlh">Need Approve</label>
+                        <label class="angka" v-if="inReview > 0">{{ inReview }}</label>
+                        <label class="angka mt-2" v-else
+                            style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Approval
+                            Kosong</label>
+                    </b-col>
+                </div>
             </div>
 
-            <!-- CARD 2 -->
-            <div class="card-2 text-center shadow-lg">
-                <b-col>
-                    <label class="jmlh">Need Approve</label>
-                    <p></p>
-                    <label class="angka" v-if="inReview > 0">{{ inReview }}</label>
-                    <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Approval
-                        Kosong</label>
-                </b-col>
-            </div>
+            <div class="cards-2 row mt-5 d-flex flex-row justify-content-around mr-5 ml-5">
+                <!-- CARD 3 -->
+                <div class="card-3 text-center shadow">
+                    <b-col class="d-flex flex-column">
+                        <label class="jmlh">Approved</label>
+                        <label class="angka" v-if="approved > 0">{{ approved }}</label>
+                        <label class="angka mt-2" v-else
+                            style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Approved
+                            Kosong</label>
+                    </b-col>
+                </div>
 
-            <!-- CARD 3 -->
-            <div class="card-3 text-center shadow">
-                <b-col>
-                    <label class="jmlh">Approved</label>
-                    <p></p>
-                    <label class="angka" v-if="approved > 0">{{ approved }}</label>
-                    <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Approved
-                        Kosong</label>
-                </b-col>
+                <!-- CARD 4 -->
+                <div class="card-4 text-center shadow">
+                    <b-col class="d-flex flex-column">
+                        <label class="jmlh">Rejected</label>
+                        <label class="angka" v-if="rejected > 0">{{ rejected }}</label>
+                        <label class="angka mt-2" v-else
+                            style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Rejected
+                            Kosong</label>
+                    </b-col>
+                </div>
+
+                <!-- CARD 5 -->
+                <div class="card-5 text-center shadow">
+                    <b-col class="d-flex flex-column">
+                        <label class="jmlh">Not Acctive</label>
+                        <label class="angka" v-if="notActive > 0">{{ notActive }}</label>
+                        <label class="angka mt-2" v-else
+                            style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Not Active
+                            Kosong</label>
+                    </b-col>
+                </div>
             </div>
-            <div class="card-4 text-center shadow">
-                <b-col>
-                    <label class="jmlh">Rejected</label>
-                    <p></p>
-                    <label class="angka" v-if="rejected > 0">{{ rejected }}</label>
-                    <label class="angka mt-2" v-else
-                        style="font-size: 15px; border: 1px dashed white; padding: 5px; border-radius: 10px;">Rejected
-                        Kosong</label>
-                </b-col>
-            </div>
+            <!---------------------------------- END CARD ------------------------------------>
         </div>
-        <!---------------------------------- END CARD ------------------------------------>
 
     </section>
 </template>
@@ -70,6 +83,7 @@ export default {
             inReview: null,
             approved: null,
             rejected: null,
+            notActive: null,
             leng: null,
 
         };
@@ -127,6 +141,19 @@ export default {
                 });
         },
 
+        // COUNT COMPANY NOT ACTIVE
+        countNotActive() {
+            let status = 4
+            companyService
+                .getStatusCount(status)
+                .then((response) => {
+                    this.notActive = response.data;
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
         // COUNT LENGTH COMPANY DATA
         countLeng() {
             companyService
@@ -147,6 +174,7 @@ export default {
         this.countInReview();
         this.countApproved();
         this.countRejected();
+        this.countNotActive();
         this.countLeng();
     }
 }
@@ -254,11 +282,11 @@ table tr:last-child td:last-child {
 }
 
 .card-1 {
-    width: 250px;
-    height: 150px;
+    width: 400px;
+    height: 200px;
     background-color: #695CFE;
     border-radius: 30px;
-    margin-left: 40px;
+
 }
 
 .card-2:hover {
@@ -267,11 +295,10 @@ table tr:last-child td:last-child {
 }
 
 .card-2 {
-    width: 250px;
-    height: 150px;
+    width: 400px;
+    height: 200px;
     background-color: orange;
     border-radius: 30px;
-    margin-left: 40px;
 
 }
 
@@ -282,11 +309,11 @@ table tr:last-child td:last-child {
 }
 
 .card-3 {
-    width: 250px;
-    height: 150px;
+    width: 300px;
+    height: 170px;
     background-color: green;
     border-radius: 30px;
-    margin-left: 40px;
+
 
 
 }
@@ -297,12 +324,23 @@ table tr:last-child td:last-child {
 }
 
 .card-4 {
-    width: 250px;
-    height: 150px;
+    width: 300px;
+    height: 170px;
     background-color: rgba(0, 9, 128, 0.758);
     border-radius: 30px;
-    margin-left: 40px;
-    margin-right: 30px;
+
+}
+
+.card-5:hover {
+    transform: scale(1.2);
+    transition: transform 400ms;
+}
+
+.card-5 {
+    width: 300px;
+    height: 170px;
+    background-color: rgba(255, 0, 0, 0.694);
+    border-radius: 30px;
 
 }
 
