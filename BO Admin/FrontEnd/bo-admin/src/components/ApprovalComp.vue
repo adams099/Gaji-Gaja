@@ -111,13 +111,71 @@
                         <h5 class="color-text daftar-company" v-if="!showDetail" style="font-size: 25px;">Approval</h5>
                     </div>
                     <div class="">
-                        <div class="d-flex">
-                            <div class="form-outline">
+                        <div class="d-flex ">
+                            <!-- <div class="form-outline">
                                 <input type="search" id="form1" class="form-control" placeholder="Search by Status" />
-                            </div>
-                            <button type="button" class="btn btn-primary ml-2">
+                            </div> -->
+                            <!-- <button type="button" class="btn btn-primary ml-2">
                                 <i class="fas fa-search"></i>
-                            </button>
+                            </button> -->
+
+
+                            <!-- search show -->
+
+
+                            <div class="mr-3">
+
+                                <!-- button filter -->
+                                <b-button v-b-modal.modal-1 class="btn btn-primary text-white">
+                                    <i class="fas fa-filter"></i> Search by Filter
+                                </b-button>
+
+                                <b-modal id="modal-1" title="BootstrapVue" hide-footer hide-header>
+                                    <form action="" class="form-search p-3" @submit.prevent="s">
+                                        <div class="form-group">
+                                            <div class="input-group">
+                                                <div class="input-group-prepend">
+                                                    <span class="input-group-text w-100">
+                                                        <i class="fas fa-search"></i>
+                                                    </span>
+                                                </div>
+                                                <input type="text" class="form-control input-search" placeholder="Search"
+                                                    required>
+                                            </div>
+
+
+
+                                            <div class="d-flex flex-column mt-4 mb-4">
+                                                <small class="form-text text-muted mb-1">Find By Status</small>
+                                                <button @click.prevent="a" class="btn btn-btn-status
+btn-status mb-3 text-left">Need Approve</button>
+                                                <button @click.prevent="a" class="btn btn-btn-status
+btn-status mb-3 text-left">Approved</button>
+                                                <button @click.prevent="a" class="btn btn-btn-status
+btn-status mb-3 text-left">Rejected</button>
+                                                <button @click.prevent="a" class="btn btn-btn-status
+btn-status text-left">Deactive</button>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex flex-row justify-content-end">
+                                            <button class="btn btn-primary btn-search w-100 ">
+                                                <i class="fas fa-search"></i> Search
+                                            </button>
+                                        </div>
+
+                                    </form>
+                                </b-modal>
+                            </div>
+
+                            <div class="btn btn-secondary mr-4">Reset</div>
+
+                            <!-- sort by asc & dsc button -->
+                            <div class="btn btn-warning mr-2 text-white">
+                                <i class="fas fa-arrow-up-a-z"></i> Asc
+                            </div>
+
+                            <div class="btn btn-success text-white mr-1"> <i class="fas fa-arrow-down-z-a"></i> Dsc</div>
+
                         </div>
                     </div>
                 </div>
@@ -562,7 +620,13 @@ table tr:last-child td:last-child {
     padding-right: 20px;
 }
 
-form {
+/* form {
+    width: 60vw;
+    padding: 40px 40px;
+    border-radius: 25px;
+} */
+
+.form-detail-company {
     width: 60vw;
     padding: 40px 40px;
     border-radius: 25px;
@@ -705,5 +769,25 @@ form {
 .deactive {
     color: grey;
     font-weight: 600;
+}
+
+.input-search {
+    height: 60px;
+    border-radius: 10px;
+}
+
+.btn-search {
+    padding: 15px 15px;
+    border-radius: 15px;
+}
+
+.btn-status {
+    border: 1px solid #695cfe;
+    color: rgb(35, 32, 32);
+}
+
+.btn-status:hover {
+    background-color: #695cfe;
+    color: white;
 }
 </style>

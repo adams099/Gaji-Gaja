@@ -26,7 +26,7 @@
             <!-- Password -->
             <div class="form-input">
               <input :type="showPassword ? 'text' : 'password'" id="password" name="password"
-                class="form-control mb-5 password-input" placeholder="Password" required v-model="userLogin.pass" />
+                class="form-control mb-3 password-input" placeholder="Password" required v-model="userLogin.pass" />
               <span v-if="error.password" class="validation-message">Password harus diisi!</span>
               <i class="fas fass" :class="showPassword ? 'fa-eye' : 'fa-eye-slash'" @click="togglePasswordVisibility"></i>
             </div>
