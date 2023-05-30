@@ -18,7 +18,7 @@
                 </div>
 
                 <div class="card-2 text-left shadow-lg">
-                    <b-col class="col d-flex flex-column ml-5 mt-3">
+                    <b-col class="col d-fle x flex-column ml-5 mt-3">
                         <label class="jmlh">Need Approve</label>
                         <label class="angka" v-if="inReview > 0">{{ inReview }}</label>
                         <label class="angka mt-2" v-else

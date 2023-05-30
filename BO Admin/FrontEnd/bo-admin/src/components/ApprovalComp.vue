@@ -109,12 +109,15 @@
                         <div class="d-flex ">
                             <div class="mr-3">
 
+                                <span class="mr-3 btn info-search">
+                                    {{ infoSearch == null ? 'Nothing Search' : infoSearch }}
+                                </span>
                                 <!-- button filter -->
                                 <b-button v-b-modal.modal-1 class="btn btn-search-filter text-white">
                                     <i class="fas fa-filter"></i> Search by Filter
                                 </b-button>
 
-                                <b-modal id="modal-1" title="BootstrapVue" hide-footer hide-header>
+                                <b-modal id="modal-1" title="BootstrapVue" hide-footer hide-header ref="modalSearch">
                                     <form action="" class="form-search p-3" @submit.prevent="s">
                                         <div class="form-group">
                                             <div class="input-group">
@@ -124,19 +127,25 @@
                                                     </span>
                                                 </div>
                                                 <input type="text" v-model="snam" class="form-control input-search"
-                                                    placeholder="Search" required>
+                                                    placeholder="Search (Email, Name, Req Type etc)" required>
                                             </div>
 
                                             <div class="d-flex flex-column mt-4 mb-4">
                                                 <small class="form-text text-muted mb-1">Find By Status</small>
                                                 <button @click.prevent="sstat = 1"
-                                                    class="btn btn-status mb-3 text-left">Need
-                                                    Approve</button>
+                                                    :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 1 }]">
+                                                    Need Approve
+                                                </button>
                                                 <button @click.prevent="sstat = 2"
-                                                    class="btn btn-status mb-3 text-left">Approved</button>
+                                                    :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 2 }]">
+                                                    Approved
+                                                </button>
                                                 <button @click.prevent="sstat = 3"
-                                                    class="btn btn-status mb-3 text-left">Rejected</button>
+                                                    :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 3 }]">
+                                                    Rejected
+                                                </button>
                                             </div>
+
                                         </div>
                                         <div class="d-flex flex-row justify-content-end">
                                             <button @click.prevent="ComStSm()" class="btn btn-primary btn-search w-100 ">
@@ -233,7 +242,7 @@ export default {
             colorStatus: null,
             itemsPerPage: 7,
             currentPage: 1,
-
+            stats: null,
             companyData: {},
 
             buatAkun: {
@@ -289,21 +298,37 @@ export default {
             sstat: null,
             snam: null,
             sass: null,
+            infoSearch: null,
         }
     },
 
     methods: {
+        hideModalSearch() {
+            this.$refs.modalSearch.hide();
+        },
         resetFunc() {
             this.appData = this.bappData
         },
         ComStSm() {
+            console.log(this.sstat);
+            this.hideModalSearch();
             console.log(this.snam + this.sstat);
             if (this.snam != null && this.snam != '') {
                 this.sname()
             }
             if (this.sstat != null && this.sstat != '') {
                 this.sstatus()
+
+                if (this.sstat === 1) {
+                    this.dataStat = "Need Approve"
+                } else if (this.sstat === 2) {
+                    this.dataStat = "Approved"
+                } else if (this.sstat === 3) {
+                    this.dataStat = "Rejected"
+                }
             }
+
+            this.infoSearch = this.snam + " & " + this.dataStat
             this.snam = null
             this.sstat = null
         },
@@ -842,7 +867,6 @@ table tr:last-child td:last-child {
 
 .btn-status {
     border: 1px solid #695cfe;
-    color: rgb(35, 32, 32);
 }
 
 .btn-status:hover {
@@ -860,5 +884,18 @@ table tr:last-child td:last-child {
     color: white;
     background-color: #4e44ba;
     border: none;
+}
+
+.activee {
+    background-color: #695cfe;
+    color: white;
+}
+
+.info-search {
+    border: 1px dashed grey;
+}
+
+.info-search:hover {
+    cursor: none;
 }
 </style>
