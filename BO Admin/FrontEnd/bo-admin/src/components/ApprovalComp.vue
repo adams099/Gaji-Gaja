@@ -126,7 +126,7 @@
                             <div class="mr-3">
 
                                 <!-- button filter -->
-                                <b-button v-b-modal.modal-1 class="btn btn-primary text-white">
+                                <b-button v-b-modal.modal-1 class="btn btn-search-filter text-white">
                                     <i class="fas fa-filter"></i> Search by Filter
                                 </b-button>
 
@@ -143,18 +143,16 @@
                                                     required>
                                             </div>
 
-
-
                                             <div class="d-flex flex-column mt-4 mb-4">
                                                 <small class="form-text text-muted mb-1">Find By Status</small>
-                                                <button @click.prevent="a" class="btn btn-btn-status
-btn-status mb-3 text-left">Need Approve</button>
-                                                <button @click.prevent="a" class="btn btn-btn-status
-btn-status mb-3 text-left">Approved</button>
-                                                <button @click.prevent="a" class="btn btn-btn-status
-btn-status mb-3 text-left">Rejected</button>
-                                                <button @click.prevent="a" class="btn btn-btn-status
-btn-status text-left">Deactive</button>
+                                                <button @click.prevent="a" class="btn btn-status mb-3 text-left">Need
+                                                    Approve</button>
+                                                <button @click.prevent="a"
+                                                    class="btn btn-status mb-3 text-left">Approved</button>
+                                                <button @click.prevent="a"
+                                                    class="btn btn-status mb-3 text-left">Rejected</button>
+                                                <button @click.prevent="a"
+                                                    class="btn btn-status text-left">Deactive</button>
                                             </div>
                                         </div>
                                         <div class="d-flex flex-row justify-content-end">
@@ -167,7 +165,7 @@ btn-status text-left">Deactive</button>
                                 </b-modal>
                             </div>
 
-                            <div class="btn btn-secondary mr-4">Reset</div>
+                            <div class="btn btn-secondary mr-2">Reset</div>
 
                             <!-- sort by asc & dsc button -->
                             <div class="btn btn-warning mr-2 text-white">
@@ -789,5 +787,17 @@ table tr:last-child td:last-child {
 .btn-status:hover {
     background-color: #695cfe;
     color: white;
+}
+
+.btn-search-filter {
+    background-color: #695cfe;
+    color: white;
+    border: none;
+}
+
+.btn-search-filter:hover {
+    color: white;
+    background-color: #4e44ba;
+    border: none;
 }
 </style>
