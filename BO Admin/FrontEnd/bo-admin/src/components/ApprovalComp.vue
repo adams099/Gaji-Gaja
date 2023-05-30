@@ -6,7 +6,7 @@
             <button class="btn back text-white" v-if="showDetail" @click="BackButton(1)">
                 <i class="fas fa-arrow-left text-white"></i> Back
             </button>
-            <h5 class="color-text daftar-company" v-if="!showDetail" style="font-size: 25px;">Approval</h5>
+
         </div>
         <div class="table">
             <div class="d-flex flex-row justify-content-between mb-2">
@@ -104,16 +104,22 @@
                 </div>
             </div>
 
-
             <!------------------ START TABLE ------------------->
             <div v-show="!showDetail">
-                <div class="input-group col mb-4 ml-1">
-                    <div class="form-outline">
-                        <input type="search" id="form1" class="form-control" />
+                <div class="input-group col mb-4 ml-1 d-flex flex-row  justify-content-between ">
+                    <div class="">
+                        <h5 class="color-text daftar-company" v-if="!showDetail" style="font-size: 25px;">Approval</h5>
                     </div>
-                    <button type="button" class="btn btn-primary ml-2">
-                        <i class="fas fa-search"></i>
-                    </button>
+                    <div class="">
+                        <div class="d-flex">
+                            <div class="form-outline">
+                                <input type="search" id="form1" class="form-control" placeholder="Search by Status" />
+                            </div>
+                            <button type="button" class="btn btn-primary ml-2">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <table class="table">
                     <thead class="text-center">
@@ -181,6 +187,7 @@ export default {
     // DATA
     data() {
         return {
+            searchByStatus: "",
             status: null,
             colorStatus: null,
             itemsPerPage: 7,
@@ -241,6 +248,7 @@ export default {
     },
 
     methods: {
+
         updateApprovFunc() {
             let data = this.appUpdateData;
 
@@ -657,7 +665,6 @@ form {
 }
 
 .daftar-company {
-    margin-left: 37px;
     font-size: 30px;
 }
 

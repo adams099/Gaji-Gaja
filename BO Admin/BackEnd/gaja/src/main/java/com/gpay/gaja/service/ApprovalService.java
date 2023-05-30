@@ -9,4 +9,5 @@ public interface ApprovalService {
     ApprovalDTO save(ApprovalDTO approvalDTO);
 
     List<ApprovalDTO> getAll();
+
 }
