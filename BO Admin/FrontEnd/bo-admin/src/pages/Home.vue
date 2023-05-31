@@ -8,6 +8,8 @@
       <AllUser v-if="pa3"></AllUser>
       <Approval v-if="pa4"></Approval>
       <ProfileComp v-if="pa5"></ProfileComp>
+      <EmployeeVue v-if="pa6"></EmployeeVue>
+      <ApprovalEmpl v-if="pa7"></ApprovalEmpl>
     </body>
   </div>
 </template>
@@ -19,6 +21,8 @@ import CompanyComp2 from "../components/CompanyComp2.vue";
 import AllUser from "../components/AllUserComp.vue";
 import ProfileComp from "../components/ProfileComp.vue";
 import Approval from "../components/ApprovalComp.vue"
+import EmployeeVue from '@/components/EmployeeComp.vue';
+import ApprovalEmpl from "@/components/ApprovalEmpl.vue";
 
 export default {
   name: "SidebarS",
@@ -29,7 +33,9 @@ export default {
     AllUser,
     ProfileComp,
     Approval,
-  },
+    EmployeeVue,
+    ApprovalEmpl,
+},
   data() {
     return {
       isDark: false,
@@ -38,6 +44,8 @@ export default {
       pa3: false,
       pa4: false,
       pa5: false,
+      pa6: false,
+      pa7: false,
     };
   },
   methods: {
@@ -62,30 +70,56 @@ export default {
         this.pa4 = false;
         this.pa4 = false;
         this.pa5 = false;
+        this.pa6 = false;
+        this.pa7 = false;
       } else if (n == 2) {
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = true;
         this.pa4 = false;
         this.pa5 = false;
+        this.pa6 = false;
+        this.pa7 = false;
       } else if (n == 3) {
         this.pa1 = false;
         this.pa2 = true;
         this.pa3 = false;
         this.pa4 = false;
         this.pa5 = false;
+        this.pa6 = false;
+        this.pa7 = false;
       } else if (n == 4) {
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = true;
         this.pa5 = false;
-      } else {
+        this.pa6 = false;
+        this.pa7 = false;
+      } else if (n== 5) {
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = false;
         this.pa5 = true;
+        this.pa6 = false;
+        this.pa7 = false;
+      } else if ( n == 6){
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = false;
+        this.pa5 = false;
+        this.pa6 = true;
+        this.pa7 = false;
+      } else {
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = false;
+        this.pa5 = false;
+        this.pa6 = false;
+        this.pa7 = true;
       }
     },
   },

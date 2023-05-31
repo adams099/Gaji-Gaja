@@ -54,22 +54,23 @@
           <!--------------- COMPANY --------------->
           <a v-if="sidebarItem || !sidebarItem" class="side-btn" v-show="firstLogin">
             <li class="">
-              <a @click="NyobaEmis(3)" :class="{ active: pa3 }">
+              <a @click="NyobaEmis(banjir)" :class="{ active: pa3 }">
                 <b-icon icon="building" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
                     margin-left: 10px;
                     background-color: #695cfe;
                   "></b-icon>
-                <span class="link-container" style="margin-left: 5px" v-if="!isClose">Company</span>
+                <span class="link-container" style="margin-left: 5px" v-if="!isClose">{{ ahok }}</span>
               </a>
             </li>
           </a>
 
+
           <!--------------- APPROVAL --------------->
           <a v-if="sidebarItem" class="side-btn" v-show="firstLogin">
             <li class="">
-              <a @click="NyobaEmis(4)" :class="{ active: pa4 }">
+              <a @click="NyobaEmis(ngapainsih)" :class="{ active: pa4 }">
                 <b-icon icon="check2-circle" class="rounded-circle p-1" variant="light" style="
                     width: 30px;
                     height: 30px;
@@ -157,6 +158,9 @@ export default {
       pa3: false,
       pa4: false,
       pa5: false,
+      ahok: "Company",
+      banjir:3,
+      ngapainsih:4,
 
       tipeUser: null,
       sidebarItem: true,
@@ -171,6 +175,7 @@ export default {
       this.isClose = !this.isClose;
     },
     NyobaEmis(n) {
+      console.log(n)
       if (n == 1) {
         this.$emit("TestEmit2", 1);
         this.pa1 = true;
@@ -199,13 +204,28 @@ export default {
         this.pa3 = false;
         this.pa4 = true;
         this.pa5 = false;
-      } else {
+      } else if (n == 5) {
         this.$emit("TestEmit2", 5);
         this.pa1 = false;
         this.pa2 = false;
         this.pa3 = false;
         this.pa4 = false;
         this.pa5 = true;
+      }
+      else if (n == 6) {
+        this.$emit("TestEmit2", 6);
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = true;
+        this.pa4 = false;
+        this.pa5 = false;
+      } else {
+        this.$emit("TestEmit2", 7);
+        this.pa1 = false;
+        this.pa2 = false;
+        this.pa3 = false;
+        this.pa4 = true;
+        this.pa5 = false;
       }
     },
     ModeLandD() {
@@ -231,6 +251,11 @@ export default {
     if (this.$session.get("jwt").roleId == 1) {
       console.log(this.$session.get("jwt").roleId);
       this.sidebarItem = false;
+    }
+    if (this.$session.get("jwt").roleId == 3) {
+      this.ahok = "Employee"
+      this.banjir = 6
+      this.ngapainsih = 7
     }
   },
   mounted() {
