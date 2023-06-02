@@ -5,29 +5,17 @@ class Employee {
     return http.get("/employee/getAll");
   }
 
-  upload(data) {
-    return http.post("/employee/save", data);
+  addEmploye() {
+    return http.post("/employee/save");
   }
 
   getEmployeeById(id) {
     return http.get(`/employee/id/${id}`);
   }
 
-  addEmployee() {
-    return http.post("/employee/save");
-  }
-
-  getStatusCount(status) {
-    return http.get(`/employee/count/${status}`);
-  }
-
-  getLength() {
-    return http.get(`/employee/length`);
-  }
-
   uploadImage(image, employeeId) {
     let formData = new FormData();
-    formData.append("image", image);
+    formData.append("imgDoc", image);
 
     return http.post(`/att/upload/${employeeId}`, formData, {
       headers: {
