@@ -1,10 +1,92 @@
 <template>
-    <section class="home w-80" style="height: 100%;">
+    <section class="home w-80" style="height: 100%; display: ">
         <div class="text text-center mb-5 ">Dashboard</div>
         <!---------------------------------- START CARD ---------------------------------->
-        <h4 class="color-text">Cards</h4>
 
-        <div class="multi-cards col">
+        <div class="statistic col d-flex flex-column justify-content-between align-items-center flex-wrap">
+
+            <div class="need-action-card">
+                <h4 class="color-text">Cards</h4>
+
+                <div class="d-flex justify-content-between row-first ">
+
+                    <div class="col card-a  d-flex justify-content-between">
+                        <div class="first-card bg-white row row-cols-1 d-flex  flex-row align-items-center">
+                            <div class="col-sm">
+                                <i class="fas fa-building icon-1"></i>
+                            </div>
+                            <div class="col-sm ">
+                                <h6>All Company</h6>
+                                <h1 v-if="leng > 0">{{ leng }}</h1>
+                                <p v-else style="font-size: 12px; color: rgba(255, 0, 0, 0.864);" class="mt-2">Company is
+                                    Empty</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="col card-b   d-flex flex-row ">
+                        <div class="first-card bg-white row row-cols-1 align-items-center">
+                            <div class="col-sm">
+                                <i class="fa-sharp fa-solid fa-clipboard-question icon-1"></i>
+                            </div>
+                            <div class="col-sm ">
+                                <h6>Need Approve</h6>
+                                <h1 v-if="inReview > 0">{{ inReview }}</h1>
+                                <p v-else style="font-size: 12px; color: rgba(255, 0, 0, 0.864);">Need Approve is Empty</p>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class=" row-second bg-white shadow-lg d-flex  justify-content-around align-items-center ">
+                <div class="cardss d-flex flex-row justify-content-between flex-wrap">
+
+                    <div class="group-card">
+                        <div class="second-card">
+                            <div class="card-c d-flex align-items-center justify-content-around">
+                                <i class="fa-solid fa-circle-check icon-2"></i>
+                            </div>
+                            <h1 class="mt-2" v-if="approved > 0">{{ approved }}</h1>
+                            <h1 class="mt-2" v-else style="font-size: 12px; color: rgba(255, 0, 0, 0.864);">Approved is
+                                Empty</h1>
+                            <p class="text-secondary">Approved</p>
+                        </div>
+                    </div>
+
+                    <div class="group-card">
+                        <div class="second-card">
+                            <div class="card-e d-flex align-items-center justify-content-around">
+                                <i class="fa-solid fa-circle-xmark icon-2"></i>
+                            </div>
+                            <h1 class="mt-2" v-if="rejected > 0">{{ rejected }}</h1>
+                            <p v-else style="font-size: 12px; color: rgba(255, 0, 0, 0.864);">Rejected is Empty</p>
+                            <p class="text-secondary">Rejected</p>
+                        </div>
+                    </div>
+
+                    <div class="group-card">
+                        <div class="second-card">
+                            <div class="card-d d-flex align-items-center justify-content-around">
+                                <i class="fa-sharp fa-solid fa-clock icon-2"></i>
+                            </div>
+                            <h1 class="mt-2" v-if="notActive > 0">{{ notActive }}</h1>
+                            <p v-else style="color: rgba(255, 0, 0, 0.864); font-size: 12px;">Not Active is Empty</p>
+                            <p class="text-secondary">Not Active</p>
+                        </div>
+                    </div>
+
+
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <!-- <div class="multi-cards col">
             <div class="cards row d-flex flex-row justify-content-around ">
                 <div class="card-1 text-left shadow-lg ">
                     <b-col class="col d-flex flex-column ml-5 mt-3">
@@ -59,7 +141,7 @@
                     </b-col>
                 </div>
             </div>
-        </div>
+        </div> -->
         <!---------------------------------- END CARD ------------------------------------>
 
     </section>
@@ -353,7 +435,7 @@ table tr:last-child td:last-child {
 }
 
 h4 {
-    margin-left: 40px;
+    margin-left: 50px;
     color: gray;
     margin-bottom: 20px;
     font-size: 30px;
@@ -369,11 +451,98 @@ p {
     margin-bottom: 0px;
 }
 
-.single-card {
+.card-c {
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    border-radius: 100%;
+    margin-top: 10px;
+}
+
+.card-e {
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    border-radius: 100%;
+    margin-top: 10px;
+}
+
+.card-d {
+    width: 90px;
+    height: 90px;
+    background-color: white;
+    border-radius: 100%;
+    margin-top: 10px;
+}
+
+.row-second {
+    width: 50vw;
+    height: 40vh;
     margin-left: 50px;
-    margin-bottom: 20px;
-    width: 60vw;
-    height: 50vh;
-    border-radius: 60px;
+    border-radius: 50px;
+    margin-top: 50px;
+}
+
+.row-first {
+    margin-left: 50px;
+    width: 50vw;
+}
+
+.second-card {
+    width: 200px;
+    height: 220px;
+    margin: 20px 20px;
+    /* background-color: whitesmoke; */
+    background-color: #695cfe26;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.first-card {
+    width: 355px;
+    height: 170px;
+    border-radius: 30px;
+    padding: 30px;
+}
+
+.icon-1 {
+    width: 100px;
+    height: 100px;
+    /* background-color: whitesmoke; */
+    border-radius: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 35px;
+}
+
+.icon-2 {
+    font-size: 40px;
+}
+
+.fa-building {
+    background-color: #695CFE;
+    color: white;
+}
+
+.fa-clipboard-question {
+    color: white;
+    background-color: rgb(14, 186, 129);
+}
+
+.fa-circle-check {
+    color: rgb(59, 172, 59);
+}
+
+.fa-circle-xmark {
+    color: orange;
+}
+
+.fa-clock {
+    color: rgb(201, 55, 55);
 }
 </style>

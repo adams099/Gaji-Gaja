@@ -3,12 +3,17 @@
     <div class="text text-center color-text">All User</div>
     <div class="table">
       <div class="d-flex flex-row justify-content-between mb-2">
-        <h5 class="color-text">Daftar User</h5>
+        <h5 class="color-text">Daftar Admin Company</h5>
         <div>
           <div class="container mr-3">
             <!-------------------------- START ADD USER ---------------->
             <div>
-              <b-button id="show-btn" @click="showModal" class="btn-add">Add</b-button>
+              <template>
+                <b-button id="show-btn" @click="showModal" class="btn-add">
+                  <i class="fa-sharp fa-regular fa-plus"></i> Admin Company
+                </b-button>
+              </template>
+
               <b-modal ref="add-modal" hide-footer title="Add Admin User">
                 <div class="d-block">
                   <div class="form">
@@ -620,7 +625,7 @@ table tr:last-child td:last-child {
   color: white;
   border: none;
   border-radius: 10px;
-  width: 60px;
+  width: auto;
 }
 
 .btn-add:hover {

@@ -15,11 +15,12 @@ public class EmployeeDTO {
     private String nik;
     private String nip;
     private String npwp;
+    private String fullName;
     private String mobilePhone;
     private String division;
     private String directSupervisor;
     private String status;
-    private String createBy;
+    private String createdBy;
     private String approveBy;
     private String companyEmail;
 

@@ -34,6 +34,8 @@ public class Employee {
     private String nip;
     @Column(name = "npwp")
     private String npwp;
+    @Column(name = "full_name")
+    private String fullName;
     @Column(name = "mobile_phone")
     private String mobilePhone;
     @Column(name = "division")
@@ -42,8 +44,8 @@ public class Employee {
     private String directSupervisor;
     @Column(name = "status")
     private String status;
-    @Column(name = "create_by")
-    private String createBy;
+    @Column(name = "created_by")
+    private String createdBy;
     @Column(name = "approve_by")
     private String approveBy;
     @Column(name = "company_email")
