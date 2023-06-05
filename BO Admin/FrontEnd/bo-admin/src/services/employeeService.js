@@ -5,12 +5,16 @@ class Employee {
     return http.get("/employee/getAll");
   }
 
-  addEmploye() {
+  addEmployee() {
     return http.post("/employee/save");
   }
 
   getEmployeeById(id) {
     return http.get(`/employee/id/${id}`);
+  }
+
+  upload(data) {
+    return http.post("/employee/save", data);
   }
 
   uploadImage(image, employeeId) {
