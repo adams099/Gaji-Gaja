@@ -24,7 +24,7 @@
                         <th scope="col" style="width: 200px;">Action</th>
                     </tr>
                 </thead>
-                <tbody v-if="employeeData.length > 0">
+                <tbody v-if="employeeDatas.length > 0">
                     <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
                         <th scope="row" class="text-center">{{ item?.id }}</th>
                         <td>{{ item?.fullName }}</td>
@@ -54,7 +54,7 @@
         </div>
 
 
-        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && employeeData.length > 7">
+        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && employeeDatas.length > 7">
             <button type="button" class="btn btn-success" @click="previousPage"
                 :disabled="currentPage == 1">Previous</button>
             <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -89,12 +89,12 @@
                     <div class="form-group col-md-6">
                         <label for="name_employee">Full Name</label>
                         <input type="text" class="form-control company-detail" id="name_employee"
-                            placeholder="Employee Name" required v-model="employeeData.fullName" :disabled="roleId === 1">
+                            placeholder="Employee Name" required v-model="employeeData.fullName" :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="email_employee">Email Employee</label>
                         <input type="email" class="form-control" id="email_employee" placeholder="Email" required
-                            v-model="employeeData.companyEmail" :disabled="roleId === 1">
+                            v-model="employeeData.companyEmail" :disabled="!showUpdateBtn">
                     </div>
                 </div>
 
@@ -104,12 +104,12 @@
                     <div class="form-group col-md-6">
                         <label for="phone">Mobile Phone</label>
                         <input type="number" class="form-control" id="phone_employee" placeholder="Enter phone Number"
-                            required v-model="employeeData.mobilePhone" :disabled="roleId === 1">
+                            required v-model="employeeData.mobilePhone" :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="nik_employee">NIK</label>
                         <input type="number" class="form-control company-detail" id="nik_employee" placeholder="Postal Code"
-                            required v-model="employeeData.nik" :disabled="roleId === 1">
+                            required v-model="employeeData.nik" :disabled="!showUpdateBtn">
                     </div>
                 </div>
 
@@ -117,13 +117,13 @@
 
                     <div class="form-group col-md-6">
                         <label for="bday">Date of Birth</label>
-                        <input type="date" class="form-control" id="bday" required v-model="employeeData.dateBirth"
-                            :disabled="roleId === 1">
+                        <input type="date" class="form-control" id="bday" required v-model="employeeData.dateBirths"
+                            :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="join_date">Join Date</label>
-                        <input type="date" class="form-control" id="join_date" required v-model="employeeData.joinDate"
-                            :disabled="roleId === 1">
+                        <input type="date" class="form-control" id="join_date" required v-model="employeeData.joinDates"
+                            :disabled="!showUpdateBtn">
                     </div>
                 </div>
 
@@ -131,12 +131,12 @@
                     <div class="form-group col-md-6">
                         <label for="nip_employee">NIP</label>
                         <input type="number" class="form-control" id="nip_employee" placeholder="Enter NIP" required
-                            v-model="employeeData.nip" :disabled="roleId === 1">
+                            v-model="employeeData.nip" :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="npwp_employee">NPWP</label>
                         <input type="number" class="form-control" id="npwp_employee" placeholder="Enter NPWP" required
-                            v-model="employeeData.npwp" :disabled="roleId === 1">
+                            v-model="employeeData.npwp" :disabled="!showUpdateBtn">
                     </div>
 
                 </div>
@@ -144,17 +144,17 @@
                     <div class="form-group col-md-4">
                         <label for="division">Division</label>
                         <input type="text" class="form-control" id="division" placeholder="Enter Division" required
-                            v-model="employeeData.division" :disabled="roleId === 1">
+                            v-model="employeeData.division" :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="supervisor">Direct Supervisor</label>
                         <input type="text" class="form-control" id="supervisor" placeholder="Enter Supervisor" required
-                            v-model="employeeData.directSupervisor" :disabled="roleId === 1">
+                            v-model="employeeData.directSupervisor" :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="salary">Salary</label>
                         <input type="number" class="form-control" id="salary" placeholder="Enter Salary" required
-                            v-model="employeeData.salary" :disabled="roleId === 1">
+                            v-model="employeeData.salary" :disabled="!showUpdateBtn">
                     </div>
                 </div>
                 <div class="form-row">
@@ -162,7 +162,7 @@
                     <div class="form-group col-md-6">
                         <label for="leave">Leaves Dates</label>
                         <input type="number" class="form-control" id="leave" placeholder="Enter leave date" required
-                            v-model="employeeData.leaveDays" :disabled="roleId === 1">
+                            v-model="employeeData.leaveDays" :disabled="!showUpdateBtn">
                     </div>
 
                     <!-- <div class="form-group" v-if="submitBtn == 'Add Employee'">
@@ -173,18 +173,10 @@
                     </div> -->
                 </div>
 
-                <div class="form-row">
+                <button type="submit" v-if="employeeData.status == 2 || submitBtn == 'Add Employee'" v-show="showUpdateBtn"
+                    :class="clasSubmit">{{ submitBtn }}</button>
 
-
-                </div>
-
-
-                <button class=" update-btn text-center"
-                    v-if="showUpdateBtn && submitBtn == 'Update Employee'">Update</button>
-
-                <button type="submit" v-if="employeeData.status == 2 || submitBtn == 'Add Employee'" v-show="roleId === 3"
-                    class="btn add-employee mb-4 mt-4">{{ submitBtn }}</button>
-
+                <!-- class="btn update-btn mb-4 mt-4" -->
                 <button class="btn btn-deactive mb-4" v-if="employeeData.status == 2 || employeeData.status == 3"
                     @click.prevent="deactiveAlert()">{{ actBtn }}</button>
             </form>
@@ -196,7 +188,6 @@
 <script>
 import employeeService from '@/services/employeeService';
 import approvalService from '@/services/approvalService';
-import adds from '@/services/userService.js';
 
 export default {
     name: "EmployeeS",
@@ -205,31 +196,16 @@ export default {
     data() {
         return {
             // status: null,
-
+            submitBtn: null,
             updateBtn: null,
             title: null,
             tableBtn: null,
             roleId: this.$session.get("jwt").roleId,
             colorStatus: null,
             actBtn: null,
+            clasSubmit: null,
 
-            akun: {
-                email: null,
-            },
             isFound: false,
-
-            apprvData: {
-                id: null,
-                status: null,
-                employeeName: null,
-                reqType: null,
-                reqBy: null,
-                createdTime: null,
-                apprBy: null,
-                updateTime: null,
-                companyId: null,
-                employeeId: null
-            },
 
             employeeData: {
                 id: null,
@@ -246,8 +222,8 @@ export default {
                 approveBy: 1,
                 companyEmail: null,
                 salary: null,
-                dateBirth: null,
-                joinDate: null,
+                dateBirths: null,
+                joinDates: null,
                 createdTime: null,
                 updatedTime: null,
                 document: null
@@ -263,6 +239,7 @@ export default {
     },
     methods: {
         BackButton(back) {
+            this.showUpdateBtn = false;
             if (back == 1) {
                 this.showForm = false
                 this.getEmployee();
@@ -272,8 +249,9 @@ export default {
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Employee"
+            this.clasSubmit = "btn update-btn mb-4 mt-4"
             this.title = "Update"
-            this.employeeDatas = data;
+            this.employeeData = data;
 
             if (data.status == 1) {
                 this.status = "In Review"
@@ -300,105 +278,51 @@ export default {
             for (const property in this.employeeData) {
                 this.employeeData[property] = null;
             }
+            this.showUpdateBtn = true;
             this.showForm = !this.showForm;
             this.submitBtn = "Add Employee"
             this.title = "Add"
+            this.clasSubmit = "btn add-employee mb-4 mt-4";
         },
 
         // POST METHOD
         async SubmitEmployee() {
             let data = this.employeeData;
             let apprv = this.apprvData;
-            let dataAkun = this.akun;
-            let found = this.isFound;
 
-            let idEmployee = null;
-            let file1 = this.attendance
-
-            dataAkun.email = this.employeeData.adminEmail;
-
-            await adds.findByEmail(dataAkun)
-                .then((response) => {
-                    if (response.status == 200) {
-                        found = true
-                    }
-                })
-                .catch(() => {
-                    console.log("valid-email");
-                });
+            // let idEmployee = null;
+            // let file1 = this.attendance
 
             if (this.submitBtn === "Add Employee") {
-                if (found) {
-                    this.$toast.warning('Email Company is already in use!', {
+                let data = this.employeeData
+                // const formattedDate = date.toISOString()
+                data.status = 2;
+                data.dateBirths = data.dateBirths + " 00:00"
+                data.joinDates = data.joinDates + " 00:00"
+
+                employeeService.upload(data).then((response) => {
+                    console.log(response.status);
+                    this.$toast.success('Employee Data has been successfully added!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
-                } else {
-                    data.status = 1;
-                    data.createdBy = this.$session.get('email')
-                    data.file = file1.name;
-
-                    employeeService.upload(data)
-                        .then((response) => {
-                            console.log("add Employee");
-                            console.log(response.status);
-                            apprv.comName = data.comName;
-                            // apprv.companyId = response.data.id;
-                            apprv.employeeId = response.data.id;
-                            apprv.reqBy = data.createdBy;
-                            apprv.reqType = "Add Company";
-                            apprv.status = data.status;
-                            this.$toast.success('CompanyData has been successfully added!', {
-                                position: 'top-right',
-                                timeout: 2500,
-                            });
-
-                            // add table approv
-                            approvalService.saveApprov(apprv)
-                                .then((response) => {
-                                    console.log("add Approv");
-                                    console.log(response.status);
-                                    this.showForm = !this.showForm;
-                                    this.getEmployee();
-                                })
-                                .catch((e) => {
-                                    console.log(e);
-                                    this.$toast.error('Error!', {
-                                        position: 'top-right',
-                                        timeout: 2500,
-                                    });
-                                });
-
-                            // Uploda
-                            idEmployee = apprv.employeeId;
-
-                            employeeService.uploadImage(file1, idEmployee)
-                                .then(response => {
-                                    console.log(response.status);
-                                    console.log("uploading-attachment");
-                                })
-                                .catch(e => {
-                                    console.log(e);
-                                });
-
-                        })
-                        .catch((e) => {
-                            try {
-                                e["code"] === "ERR_NETWORK";
-                                console.log(e["code"]);
-                                this.$toast.error("ERROR NETWORK CONNECTION", {
-                                    position: "top-right",
-                                    timeout: 2500,
-                                });
-                            } catch (error) {
-                                this.$toast.error('Error!', {
-                                    position: 'top-right',
-                                    timeout: 2500,
-                                });
-                            }
+                    this.getEmployee();
+                    this.showForm = !this.showForm;
+                }).catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
                         });
-
-                }
+                    } catch (error) {
+                        this.$toast.error('Error!', {
+                            position: 'top-right',
+                            timeout: 2500,
+                        });
+                    }
+                });
             } else {
                 data.status = 1
                 data.createdBy = this.$session.get('email');
@@ -479,7 +403,7 @@ export default {
             employeeService
                 .getAll()
                 .then((response) => {
-                    this.employeeData = response.data;
+                    this.employeeDatas = response.data;
                     console.log("get Employee");
                 })
                 .catch((e) => {
@@ -512,7 +436,7 @@ export default {
     computed: {
         // hitung jumlah halaman
         pageCount() {
-            const itemCount = this.employeeData.length;
+            const itemCount = this.employeeDatas.length;
             const pageCount = Math.ceil(itemCount / this.itemsPerPage);
             return pageCount;
         },
@@ -520,7 +444,7 @@ export default {
         paginatedData() {
             const startIndex = (this.currentPage - 1) * this.itemsPerPage;
             const endIndex = startIndex + this.itemsPerPage;
-            return this.employeeData.slice(startIndex, endIndex);
+            return this.employeeDatas.slice(startIndex, endIndex);
         },
     },
 

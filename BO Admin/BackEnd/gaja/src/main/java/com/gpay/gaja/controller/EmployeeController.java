@@ -4,6 +4,7 @@ import com.gpay.gaja.common.dto.EmployeeDTO;
 import com.gpay.gaja.service.EmployeeService;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,12 @@ public class EmployeeController {
 
     @PostMapping("/save")
     public ResponseEntity<EmployeeDTO> save(@RequestBody EmployeeDTO employeeDTO) {
+        // employeeDTO.setDateBirth(LocalDateTime.parse(employeeDTO.getDateBirth()));
+        employeeDTO.setDateBirth(
+                LocalDateTime.parse(employeeDTO.getDateBirths(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        employeeDTO.setJoinDate(
+                LocalDateTime.parse(employeeDTO.getJoinDates(), DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+
         if (employeeDTO.getId() == null || employeeDTO.getId() == 0) {
             employeeDTO.setCreatedTime(LocalDateTime.now());
         } else {

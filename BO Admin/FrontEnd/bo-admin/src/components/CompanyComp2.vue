@@ -1,17 +1,10 @@
 <template>
   <section class="home w-80" style="height: 100%">
-    <div
-      class="btn-add mt-3 d-flex flex-row text-white justify-content-between align-items-center"
-    >
+    <div class="btn-add mt-3 d-flex flex-row text-white justify-content-between align-items-center">
       <div class="text text-center" v-if="!showForm" style="font-size: 25px">
         Company Table
       </div>
-      <button
-        class="btn btn-add-com"
-        @click="addFunc()"
-        v-if="roleId === 2"
-        v-show="!showForm"
-      >
+      <button class="btn btn-add-com" @click="addFunc()" v-if="roleId === 2" v-show="!showForm">
         Add Company
       </button>
     </div>
@@ -28,22 +21,14 @@
         </tr>
       </thead>
       <tbody v-if="companyData.length > 0">
-        <tr
-          class="baris text-center shadow-lg bg-white"
-          v-for="(item, index) in paginatedData"
-          :key="index"
-        >
+        <tr class="baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
           <th scope="row" class="text-center">{{ item?.id }}</th>
           <td>{{ item?.comName }}</td>
           <td>{{ item?.mailAddress }}</td>
           <button type="button" class="status blue" v-if="item.status == 1">
             In Review
           </button>
-          <button
-            type="button"
-            class="status green"
-            v-else-if="item.status == 2"
-          >
+          <button type="button" class="status green" v-else-if="item.status == 2">
             Active
           </button>
           <button type="button" class="status red" v-else-if="item.status == 3">
@@ -51,11 +36,7 @@
           </button>
           <button type="button" class="status salmon" v-else>Deactive</button>
           <td class="text-center">
-            <button
-              type="button"
-              class="btn btn-detail"
-              @click="updateFunc(item)"
-            >
+            <button type="button" class="btn btn-detail" @click="updateFunc(item)">
               {{ tableBtn }}
             </button>
           </td>
@@ -71,27 +52,14 @@
       </tbody>
     </table>
 
-    <div
-      class="row d-flex justify-content-center next color-text"
-      v-if="!showForm && companyData.length > 7"
-    >
-      <button
-        type="button"
-        class="btn btn-success"
-        @click="previousPage"
-        :disabled="currentPage == 1"
-      >
+    <div class="row d-flex justify-content-center next color-text" v-if="!showForm && companyData.length > 7">
+      <button type="button" class="btn btn-success" @click="previousPage" :disabled="currentPage == 1">
         Previous
       </button>
       <p class="ml-4 mr-4 font-italic mt-2">
         {{ currentPage }} / {{ pageCount }}
       </p>
-      <button
-        type="button"
-        class="btn btn-success"
-        @click="nextPage"
-        :disabled="currentPage == pageCount"
-      >
+      <button type="button" class="btn btn-success" @click="nextPage" :disabled="currentPage == pageCount">
         Next
       </button>
     </div>
@@ -100,28 +68,16 @@
 
     <!--------------------- START ADD COMPANY -------------------------->
     <div class="form" v-show="showForm">
-      <div
-        class="form-company d-flex flex-row justify-content-between align-items-center"
-      >
+      <div class="form-company d-flex flex-row justify-content-between align-items-center">
         <h6 class="color-text">
           Form {{ roleId == 1 ? "Detail" : title }} Company
         </h6>
-        <button
-          class="btn back text-white mb-3 mt-2"
-          v-if="showForm"
-          v-on:click="BackButton(1)"
-        >
+        <button class="btn back text-white mb-3 mt-2" v-if="showForm" v-on:click="BackButton(1)">
           <i class="fas fa-arrow-left text-white"></i> Back
         </button>
       </div>
-      <form
-        class="iseng form-detail-company flex-row bg-white shadow-lg"
-        @submit.prevent="SubmitCompany"
-      >
-        <div
-          class="row d-flex flex-row justify-content-center"
-          v-if="submitBtn == 'Update Company'"
-        >
+      <form class="iseng form-detail-company flex-row bg-white shadow-lg" @submit.prevent="SubmitCompany">
+        <div class="row d-flex flex-row justify-content-center" v-if="submitBtn == 'Update Company'">
           <h6 class="text-center mr-2 text-secondary">
             Status Company Saat ini
           </h6>
@@ -130,135 +86,67 @@
 
         <div class="form-group">
           <label for="name_company">Company Name</label>
-          <input
-            type="text"
-            class="form-control company-detail"
-            id="name_company"
-            placeholder="Company Name"
-            required
-            :disabled="roleId === 1"
-            v-model="companyDatas.comName"
-          />
+          <input type="text" class="form-control company-detail" id="name_company" placeholder="Company Name" required
+            :disabled="roleId === 1" v-model="companyDatas.comName" />
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="email_company">Email Company</label>
-            <input
-              type="email"
-              class="form-control"
-              id="email_company"
-              placeholder="Email"
-              required
-              :disabled="roleId === 1"
-              v-model="companyDatas.mailAddress"
-            />
+            <input type="email" class="form-control" id="email_company" placeholder="Email" required
+              :disabled="roleId === 1" v-model="companyDatas.mailAddress" />
           </div>
           <div class="form-group col-md-6">
             <label for="NPWP">NPWP</label>
-            <input
-              type="text"
-              class="form-control"
-              id="NPWP"
-              placeholder="Enter NPWP Number"
-              required
-              :disabled="roleId === 1"
-              v-model="companyDatas.comTaxNum"
-            />
+            <input type="text" class="form-control" id="NPWP" placeholder="Enter NPWP Number" required
+              :disabled="roleId === 1" v-model="companyDatas.comTaxNum" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="postal_code">Postal Code</label>
-            <input
-              type="number"
-              class="form-control company-detail"
-              id="postal_code"
-              placeholder="Postal Code"
-              v-model="companyDatas.postal"
-              required
-              :disabled="roleId === 1"
-            />
+            <input type="number" class="form-control company-detail" id="postal_code" placeholder="Postal Code"
+              v-model="companyDatas.postal" required :disabled="roleId === 1" />
           </div>
           <div class="form-group col-md-6">
             <label for="siup">SIUP</label>
-            <input
-              type="text"
-              class="form-control"
-              id="siup"
-              placeholder="Enter SIUP number"
-              v-model="companyDatas.siup"
-              required
-              :disabled="roleId === 1"
-            />
+            <input type="text" class="form-control" id="siup" placeholder="Enter SIUP number" v-model="companyDatas.siup"
+              required :disabled="roleId === 1" />
           </div>
         </div>
 
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="admin_name">Admin Name</label>
-            <input
-              type="text"
-              class="form-control"
-              id="admin_name"
-              placeholder="Enter Admin Name"
-              required
-              :disabled="roleId === 1"
-              v-model="companyDatas.adminName"
-            />
+            <input type="text" class="form-control" id="admin_name" placeholder="Enter Admin Name" required
+              :disabled="roleId === 1" v-model="companyDatas.adminName" />
           </div>
           <div class="form-group col-md-6">
             <label for="admin_email">Admin Email</label>
-            <input
-              type="text"
-              class="form-control"
-              id="admin_email"
-              placeholder="Enter Admin Email"
-              required
-              :disabled="roleId === 1 || submitBtn === 'Update Company'"
-              v-model="companyDatas.adminEmail"
-            />
+            <input type="text" class="form-control" id="admin_email" placeholder="Enter Admin Email" required
+              :disabled="roleId === 1 || submitBtn === 'Update Company'" v-model="companyDatas.adminEmail" />
           </div>
         </div>
 
         <div class="form-group" v-if="submitBtn == 'Add Company'">
           <div class="mb-3">
             <label for="formFile" class="form-label">Choose File</label>
-            <input
-              @change="handleFileUpload('att', $event)"
-              class="form-control"
-              type="file"
-              id="formFile"
-            />
+            <input @change="handleFileUpload('att', $event)" class="form-control" type="file" id="formFile" />
           </div>
         </div>
 
         <div class="form-group">
           <label for="address">Address</label>
-          <textarea
-            class="form-control"
-            placeholder="Input Address"
-            id="address"
-            rows="3"
-            required
-            :disabled="roleId === 1"
-            v-model="companyDatas.address"
-          ></textarea>
+          <textarea class="form-control" placeholder="Input Address" id="address" rows="3" required
+            :disabled="roleId === 1" v-model="companyDatas.address"></textarea>
         </div>
 
-        <button
-          type="submit"
-          v-if="companyDatas.status == 2 || submitBtn == 'Add Company'"
-          v-show="roleId === 2"
-          class="btn add-company mb-4 mt-4"
-        >
+        <button type="submit" v-if="companyDatas.status == 2 || submitBtn == 'Add Company'" v-show="roleId === 2"
+          class="btn add-company mb-4 mt-4">
           {{ submitBtn }}
         </button>
-        <button
-          class="btn btn-deactive mb-4"
-          v-if="companyDatas.status == 2 || companyDatas.status == 4"
-          @click.prevent="deactiveAlert()"
-        >
+        <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2 || companyDatas.status == 4"
+          @click.prevent="deactiveAlert()">
           {{ actBtn }}
         </button>
       </form>
@@ -540,6 +428,10 @@ export default {
       let file1 = this.attendance;
 
       dataAkun.email = this.companyDatas.adminEmail;
+
+      console.log(typeof data);
+      console.log(typeof dataAkun);
+      console.log(typeof apprv);
 
       await adds
         .findByEmail(dataAkun)

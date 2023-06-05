@@ -3,6 +3,7 @@ package com.gpay.gaja.common.dto;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import lombok.Data;
 
@@ -25,6 +26,11 @@ public class EmployeeDTO {
     private String companyEmail;
 
     private Float salary;
+
+    // @JsonIgnore
+    private String dateBirths;
+    // @JsonIgnore
+    private String joinDates;
 
     @JsonFormat(pattern = "yyyy-MM-dd")
     private LocalDateTime dateBirth;
