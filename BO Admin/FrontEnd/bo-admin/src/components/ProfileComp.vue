@@ -1,5 +1,5 @@
 <template>
-  <section class="home h-100">
+  <section class="home">
     <div class="text text-center color-text" style="margin-right: 100px;">
       {{ isFormVisible ? "Change Password Page" : "Profile" }}
     </div>

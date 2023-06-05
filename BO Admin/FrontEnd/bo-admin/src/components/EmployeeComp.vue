@@ -1,5 +1,5 @@
 <template>
-    <section class="home w-80" style="height: 100%;">
+    <section class="home " style="height: 100vh;">
         <div class="btn-add mt-3 d-flex flex-row text-white  justify-content-between  align-items-center">
             <div class="text text-center" v-if="!showForm" style="font-size: 25px;">Employee Table</div>
 
@@ -85,33 +85,44 @@
                     <h6 :class="colorStatus">{{ status }}</h6>
                 </div>
 
-                <div class="form-group">
-                    <label for="name_employee">Full Name</label>
-                    <input type="text" class="form-control company-detail" id="name_employee" placeholder="Employee Name"
-                        required v-model="employeeData.fullName" :disabled="roleId === 1">
-                </div>
                 <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="name_employee">Full Name</label>
+                        <input type="text" class="form-control company-detail" id="name_employee"
+                            placeholder="Employee Name" required v-model="employeeData.fullName" :disabled="roleId === 1">
+                    </div>
                     <div class="form-group col-md-6">
                         <label for="email_employee">Email Employee</label>
                         <input type="email" class="form-control" id="email_employee" placeholder="Email" required
                             v-model="employeeData.companyEmail" :disabled="roleId === 1">
                     </div>
+                </div>
+
+
+                <div class="form-row">
+
                     <div class="form-group col-md-6">
                         <label for="phone">Mobile Phone</label>
                         <input type="number" class="form-control" id="phone_employee" placeholder="Enter phone Number"
                             required v-model="employeeData.mobilePhone" :disabled="roleId === 1">
                     </div>
-                </div>
-
-                <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="nik_employee">NIK</label>
                         <input type="number" class="form-control company-detail" id="nik_employee" placeholder="Postal Code"
                             required v-model="employeeData.nik" :disabled="roleId === 1">
                     </div>
+                </div>
+
+                <div class="form-row">
+
                     <div class="form-group col-md-6">
                         <label for="bday">Date of Birth</label>
                         <input type="date" class="form-control" id="bday" required v-model="employeeData.dateBirth"
+                            :disabled="roleId === 1">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="join_date">Join Date</label>
+                        <input type="date" class="form-control" id="join_date" required v-model="employeeData.joinDate"
                             :disabled="roleId === 1">
                     </div>
                 </div>
@@ -123,48 +134,48 @@
                             v-model="employeeData.nip" :disabled="roleId === 1">
                     </div>
                     <div class="form-group col-md-6">
-                        <label for="join_date">Join Date</label>
-                        <input type="date" class="form-control" id="join_date" required v-model="employeeData.joinDate"
-                            :disabled="roleId === 1">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
                         <label for="npwp_employee">NPWP</label>
                         <input type="number" class="form-control" id="npwp_employee" placeholder="Enter NPWP" required
                             v-model="employeeData.npwp" :disabled="roleId === 1">
                     </div>
-                    <div class="form-group col-md-6">
+
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-4">
+                        <label for="division">Division</label>
+                        <input type="text" class="form-control" id="division" placeholder="Enter Division" required
+                            v-model="employeeData.division" :disabled="roleId === 1">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="supervisor">Direct Supervisor</label>
+                        <input type="text" class="form-control" id="supervisor" placeholder="Enter Supervisor" required
+                            v-model="employeeData.directSupervisor" :disabled="roleId === 1">
+                    </div>
+                    <div class="form-group col-md-4">
                         <label for="salary">Salary</label>
                         <input type="number" class="form-control" id="salary" placeholder="Enter Salary" required
                             v-model="employeeData.salary" :disabled="roleId === 1">
                     </div>
                 </div>
                 <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="division">Division</label>
-                        <input type="text" class="form-control" id="division" placeholder="Enter Division" required
-                            v-model="employeeData.division" :disabled="roleId === 1">
-                    </div>
+
                     <div class="form-group col-md-6">
                         <label for="leave">Leaves Dates</label>
                         <input type="number" class="form-control" id="leave" placeholder="Enter leave date" required
                             v-model="employeeData.leaveDays" :disabled="roleId === 1">
                     </div>
-                </div>
 
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label for="supervisor">Direct Supervisor</label>
-                        <input type="text" class="form-control" id="supervisor" placeholder="Enter Supervisor" required
-                            v-model="employeeData.directSupervisor" :disabled="roleId === 1">
-                    </div>
-                    <div class="form-group" v-if="submitBtn == 'Add Employee'">
+                    <!-- <div class="form-group" v-if="submitBtn == 'Add Employee'">
                         <div class="mb-3">
                             <label for="formFile" class="form-label">Choose File</label>
                             <input @change="handleFileUpload('att', $event)" class="form-control" type="file" id="formFile">
                         </div>
-                    </div>
+                    </div> -->
+                </div>
+
+                <div class="form-row">
+
+
                 </div>
 
 
@@ -174,7 +185,7 @@
                 <button type="submit" v-if="employeeData.status == 2 || submitBtn == 'Add Employee'" v-show="roleId === 3"
                     class="btn add-employee mb-4 mt-4">{{ submitBtn }}</button>
 
-                <button class="btn btn-deactive mb-4" v-if="employeeData.status == 2 || employeeData.status == 4"
+                <button class="btn btn-deactive mb-4" v-if="employeeData.status == 2 || employeeData.status == 3"
                     @click.prevent="deactiveAlert()">{{ actBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
@@ -258,9 +269,6 @@ export default {
             }
         },
 
-
-
-
         updateFunc(data) {
             this.showForm = !this.showForm;
             this.submitBtn = "Update Employee"
@@ -297,13 +305,14 @@ export default {
             this.title = "Add"
         },
 
+        // POST METHOD
         async SubmitEmployee() {
             let data = this.employeeData;
             let apprv = this.apprvData;
             let dataAkun = this.akun;
             let found = this.isFound;
 
-            let idCompany = null;
+            let idEmployee = null;
             let file1 = this.attendance
 
             dataAkun.email = this.employeeData.adminEmail;
@@ -320,7 +329,7 @@ export default {
 
             if (this.submitBtn === "Add Employee") {
                 if (found) {
-                    this.$toast.warning('Admin Email is already in use!', {
+                    this.$toast.warning('Email Company is already in use!', {
                         position: 'top-right',
                         timeout: 2500,
                     });
@@ -334,7 +343,8 @@ export default {
                             console.log("add Employee");
                             console.log(response.status);
                             apprv.comName = data.comName;
-                            apprv.companyId = response.data.id;
+                            // apprv.companyId = response.data.id;
+                            apprv.employeeId = response.data.id;
                             apprv.reqBy = data.createdBy;
                             apprv.reqType = "Add Company";
                             apprv.status = data.status;
@@ -360,9 +370,9 @@ export default {
                                 });
 
                             // Uploda
-                            idCompany = apprv.companyId;
+                            idEmployee = apprv.employeeId;
 
-                            employeeService.uploadImage(file1, idCompany)
+                            employeeService.uploadImage(file1, idEmployee)
                                 .then(response => {
                                     console.log(response.status);
                                     console.log("uploading-attachment");
@@ -410,7 +420,8 @@ export default {
                                 console.log(response.status);
                                 this.showForm = !this.showForm;
                                 apprv.comName = data.comName;
-                                apprv.companyId = response.data.id;
+                                // apprv.companyId = response.data.id;
+                                apprv.employeeId = response.data.id;
                                 apprv.reqBy = data.createdBy;
                                 apprv.reqType = "Update Employee";
                                 apprv.status = data.status;
@@ -588,6 +599,11 @@ form {
     border-radius: 15px;
 }
 
+.add-employee:hover {
+    background-color: #4a3ec6;
+    color: white;
+}
+
 .btn-deactive {
     color: grey;
     width: 100%;
@@ -735,14 +751,15 @@ table tr:last-child td:last-child {
 } */
 
 input[type=file]::file-selector-button {
-    margin-right: 20px;
+    margin-right: 15px;
     border: none;
     background: #5a4de5;
-    padding: 5px 10px;
-    border-radius: 7px;
+    padding: 2px 7px;
+    border-radius: 15px;
     color: #fff;
     cursor: pointer;
     transition: background .2s ease-in-out;
+    font-size: 14px;
 }
 
 input[type=file]::file-selector-button:hover {
@@ -754,10 +771,10 @@ input[type=file] {
     max-width: 100%;
     color: #444;
     /* padding: 10px; */
-    height: 47px;
+    height: 40px;
     background: #fff;
     border-radius: 10px;
-    border: 1px solid #555;
+    border: 1px solid #455;
 }
 
 .update-btn {

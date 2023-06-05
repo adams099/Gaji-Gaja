@@ -3,9 +3,9 @@ package com.gpay.gaja.common.mapper;
 import java.util.List;
 
 public interface EntityToDTOMapper<Entity, DTO> {
-	
+
 	Entity createEntity(DTO dto);
-	
+
 	Entity updateEntity(DTO dto);
 
 	DTO convertToDto(Entity entity);
