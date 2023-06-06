@@ -31,13 +31,20 @@
                             :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 1 }]">
                             Need Approve
                         </button>
+
                         <button @click.prevent="sstat = 2"
                             :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 2 }]">
                             Approved
                         </button>
+
                         <button @click.prevent="sstat = 3"
                             :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 3 }]">
                             Rejected
+                        </button>
+
+                        <button @click.prevent="sstat = 4"
+                            :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 4 }]">
+                            Deactive
                         </button>
                     </div>
 
@@ -56,6 +63,7 @@
         <div class="container-table">
 
             <div class="filter-search row d-flex flex-row justify-content-end mr-3" v-if="!showForm">
+
                 <span class="mr-3 btn info-search">
                     {{ infoSearch == null ? 'Nothing Search' : infoSearch }}
                 </span>
@@ -63,7 +71,7 @@
                 <b-button v-b-modal.modal-1 class="btn btn-search-filter text-white mr-3">
                     <i class="fas fa-filter"></i> Search by Filter
                 </b-button>
-                <button class="btn btn-secondary mr-5" @click="resetFunc()">reset</button>
+                <button class="btn btn-secondary mr-5" @click="resetFunc()">Reset</button>
 
                 <!-- ASC & DSC -->
                 <div @click="sascdesc(1)" class="btn btn-warning mr-2 text-white">
@@ -317,6 +325,7 @@ export default {
         },
         resetFunc() {
             this.employeeDatas = this.bappData
+            this.infoSearch = null;
         },
         BackButton(back) {
             this.showUpdateBtn = false;
@@ -488,10 +497,18 @@ export default {
                     this.dataStat = "Approved"
                 } else if (this.sstat === 3) {
                     this.dataStat = "Rejected"
+                } else {
+                    this.dataStat = "Deactive"
                 }
             }
 
-            this.infoSearch = this.snam + " & " + this.dataStat
+            if (this.snam != null && this.dataStat != null) {
+                this.infoSearch = this.snam + " & " + this.dataStat
+            } else if (this.dataStat == null) {
+                this.infoSearch = this.snam
+            } else {
+                this.infoSearch = this.dataStat
+            }
             this.snam = null
             this.sstat = null
         },

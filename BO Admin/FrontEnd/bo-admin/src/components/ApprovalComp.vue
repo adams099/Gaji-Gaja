@@ -308,6 +308,7 @@ export default {
         },
         resetFunc() {
             this.appData = this.bappData
+            this.infoSearch = null
         },
         ComStSm() {
             console.log(this.sstat);
@@ -328,7 +329,13 @@ export default {
                 }
             }
 
-            this.infoSearch = this.snam + " & " + this.dataStat
+            if (this.snam != null && this.dataStat != null) {
+                this.infoSearch = this.snam + " & " + this.dataStat
+            } else if (this.dataStat == null) {
+                this.infoSearch = this.snam
+            } else {
+                this.infoSearch = this.dataStat
+            }
             this.snam = null
             this.sstat = null
         },
