@@ -193,12 +193,12 @@
 
                     <div class="form-group col-md-6">
                         <label for="bday">Date of Birth</label>
-                        <input type="date" class="form-control" id="bday" required v-model="employeeData.dateBirths"
+                        <input type="date" class="form-control" id="bday" required v-model="employeeData.dateBirth"
                             :disabled="!showUpdateBtn">
                     </div>
                     <div class="form-group col-md-6">
                         <label for="join_date">Join Date</label>
-                        <input type="date" class="form-control" id="join_date" required v-model="employeeData.joinDates"
+                        <input type="date" class="form-control" id="join_date" required v-model="employeeData.joinDate"
                             :disabled="!showUpdateBtn">
                     </div>
                 </div>
@@ -253,7 +253,7 @@
                     :class="clasSubmit">{{ submitBtn }}</button>
 
                 <!-- class="btn update-btn mb-4 mt-4" -->
-                <button class="btn btn-deactive mb-4" v-if="employeeData.status == 2 || employeeData.status == 3"
+                <button class="btn btn-deactive mb-4" v-if="employeeData.status == 2 || employeeData.status == 4"
                     @click.prevent="deactiveAlert()">{{ actBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
@@ -298,7 +298,9 @@ export default {
                 companyEmail: null,
                 salary: null,
                 dateBirths: null,
+                dateBirth: null,
                 joinDates: null,
+                joinDate: null,
                 createdTime: null,
                 updatedTime: null,
                 document: null
@@ -333,6 +335,105 @@ export default {
                 this.showForm = false
                 this.getEmployee();
             }
+        },
+
+        deactiveAlert() {
+            let data = this.employeeData;
+
+            this.$swal({
+                title: "Are you sure?",
+                text: "You can't revert your action",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: data.status == 2 ? "Deactive it!" : "Reactive it!",
+                cancelButtonText: "No, Cancel!",
+                showCloseButton: true,
+                showLoaderOnConfirm: true,
+            }).then((result) => {
+                if (result.value) {
+                    if (data.status == 2) {
+                        this.deactiveFunc();
+                    } else {
+                        this.reactiveFunc();
+                    }
+                } else {
+                    this.BackButton(1);
+                    this.$swal({
+                        confirmButtonText: "Close",
+                        icon: "error",
+                        title: "Cancelled",
+                        text: "Your file is still intact",
+                    });
+                }
+            });
+        },
+
+        deactiveFunc() {
+            let data = this.employeeData;
+            data.status = 4;
+            data.joinDates = data.joinDate + " 00:00"
+            data.dateBirths = data.dateBirth + " 00:00"
+            data.joinDate = null
+            data.dateBirth = null
+
+            employeeService
+                .upload(data)
+                .then((response) => {
+                    console.log("DEACTIVE");
+                    console.log(response.status);
+                    this.showForm = !this.showForm;
+                    this.getEmployee();
+                    this.BackButton(1);
+                })
+                .catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        this.$toast.error("Error!", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    }
+                });
+        },
+
+        reactiveFunc() {
+            let data = this.employeeData;
+            data.status = 2;
+            data.joinDates = data.joinDate + " 00:00"
+            data.dateBirths = data.dateBirth + " 00:00"
+            data.joinDate = null
+            data.dateBirth = null
+
+            employeeService
+                .upload(data)
+                .then((response) => {
+                    console.log("REACTIVE");
+                    console.log(response.status);
+                    this.showForm = !this.showForm;
+                    this.getEmployee();
+                    this.BackButton(1);
+                })
+                .catch((e) => {
+                    try {
+                        e["code"] === "ERR_NETWORK";
+                        console.log(e["code"]);
+                        this.$toast.error("ERROR NETWORK CONNECTION", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    } catch (error) {
+                        this.$toast.error("Error!", {
+                            position: "top-right",
+                            timeout: 2500,
+                        });
+                    }
+                });
         },
 
         updateFunc(data) {
@@ -383,10 +484,12 @@ export default {
             data.createdBy = this.$session.get('email');
 
             if (this.submitBtn === "Add Employee") {
-                // const formattedDate = date.toISOString()
-                data.dateBirths = data.dateBirths + " 00:00"
-                data.joinDates = data.joinDates + " 00:00"
                 data.status = 2;
+                data.createdBy = this.$session.get('email');
+                data.joinDates = data.joinDate + " 00:00"
+                data.dateBirths = data.dateBirth + " 00:00"
+                data.joinDate = null
+                data.dateBirth = null
 
                 employeeService.upload(data).then((response) => {
                     console.log(response.status);
@@ -412,7 +515,10 @@ export default {
                     }
                 });
             } else {
-                data.status = 1
+                data.joinDates = data.joinDate + " 00:00"
+                data.dateBirths = data.dateBirth + " 00:00"
+                data.joinDate = null
+                data.dateBirth = null
 
                 this.$swal({
                     title: 'Are you sure?',
@@ -427,29 +533,26 @@ export default {
                     if (result.value) {
                         employeeService.upload(data)
                             .then((response) => {
-                                console.log("add Employee");
+                                console.log("Update Employee");
                                 console.log(response.status);
                                 this.showForm = !this.showForm;
-                                // add table approv
                                 this.getEmployee();
                                 this.BackButton(1);
-                                this.$swal('Update', 'Wait for other admin to approv it!', 'success')
                             })
                             .catch((e) => {
-                                console.log(e);
-                                // try {
-                                //     e["code"] === "ERR_NETWORK";
-                                //     console.log(e["code"]);
-                                //     this.$toast.error("ERROR NETWORK CONNECTION", {
-                                //         position: "top-right",
-                                //         timeout: 2500,
-                                //     });
-                                // } catch (error) {
-                                //     this.$toast.error('Error!', {
-                                //         position: 'top-right',
-                                //         timeout: 2500,
-                                //     });
-                                // }
+                                try {
+                                    e["code"] === "ERR_NETWORK";
+                                    console.log(e["code"]);
+                                    this.$toast.error("ERROR NETWORK CONNECTION", {
+                                        position: "top-right",
+                                        timeout: 2500,
+                                    });
+                                } catch (error) {
+                                    this.$toast.error('Error!', {
+                                        position: 'top-right',
+                                        timeout: 2500,
+                                    });
+                                }
                             });
                     } else {
                         this.BackButton(1);
@@ -462,8 +565,6 @@ export default {
                     }
                 })
             }
-
-
         },
 
         // GET COMPANY
