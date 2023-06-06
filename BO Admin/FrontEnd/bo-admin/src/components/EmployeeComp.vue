@@ -8,49 +8,114 @@
                 Employee</button>
         </div>
 
-        <!------------------ START TABLE ------------------->
-        <div class="table-responsive text-nowrap" v-show="!showForm">
-            <table class="table table-striped w-auto">
-                <thead class="text-center">
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col" style="width: 200px;">Full Name</th>
-                        <th scope="col" style="width: 200px;">Mobile Phone</th>
-                        <th scope=" col" style="width: 200px;">NIP</th>
-                        <th scope="col" style="width: 200px;">Division</th>
-                        <th scope="col" style="width: 200px;">Salary</th>
-                        <th scope="col">Join Date</th>
-                        <th scope="col" style="width: 120px;">Status</th>
-                        <th scope="col" style="width: 200px;">Action</th>
-                    </tr>
-                </thead>
-                <tbody v-if="employeeDatas.length > 0">
-                    <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
-                        <th scope="row" class="text-center">{{ item?.id }}</th>
-                        <td>{{ item?.fullName }}</td>
-                        <td>{{ item?.mobilePhone }}</td>
-                        <td>{{ item?.nip }}</td>
-                        <td>{{ item?.division }}</td>
-                        <td>{{ item?.salary }}</td>
-                        <td>{{ item?.joinDate }}</td>
-                        <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
-                        <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
-                        <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
-                        <button type="button" class="status salmon" v-else>Deactive</button>
-                        <td class="text-center">
-                            <button type="button" class="btn btn-detail" @click="updateFunc(item)">{{ tableBtn }}</button>
-                        </td>
-                    </tr>
-                </tbody>
+        <!-- Modal search -->
 
-                <tbody v-else>
-                    <tr class="msg-tr text-center">
-                        <td colspan="9" class="msg-null text-center">
-                            <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+
+        <b-modal id="modal-1" title="BootstrapVue" hide-footer hide-header ref="modalSearch"
+            class="col col-lg-12 bg-primary">
+            <form action="" class="form-search p-3 col col-lg-12 p-3" @submit.prevent="s">
+                <div class="form-group">
+                    <div class="input-group">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text w-100">
+                                <i class="fas fa-search"></i>
+                            </span>
+                        </div>
+                        <input type="text" class="form-control input-search"
+                            placeholder="Search (Email, Name, Req Type etc)" v-model="snam" required>
+                    </div>
+
+                    <div class="d-flex flex-column mt-4 mb-4">
+                        <small class="form-text text-muted mb-1">Find By Status</small>
+                        <button @click.prevent="sstat = 1"
+                            :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 1 }]">
+                            Need Approve
+                        </button>
+                        <button @click.prevent="sstat = 2"
+                            :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 2 }]">
+                            Approved
+                        </button>
+                        <button :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 3 }]">
+                            Rejected
+                        </button>
+                    </div>
+
+                </div>
+                <div class="d-flex flex-row justify-content-end">
+                    <button class="btn btn-primary btn-search w-100 " @click.prevent="EmpSearch()">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+
+            </form>
+        </b-modal>
+
+
+        <!------------------ START TABLE ------------------->
+        <div class="filter">
+            <div class="filter-search row d-flex flex-row justify-content-end mr-3">
+                <span class="mr-3 btn info-search">
+                    {{ infoSearch == null ? 'Nothing Search' : infoSearch }}
+                </span>
+                <b-button v-b-modal.modal-1 class="btn btn-search-filter text-white">
+                    <i class="fas fa-filter"></i> Search by Filter
+                </b-button>
+                <button class="btn btn-secondary mr-5" @click="resetFunc()">reset</button>
+
+                <!-- ASC & DSC -->
+                <div @click="sascdesc(1)" class="btn btn-warning mr-2 text-white">
+                    <i class="fas fa-arrow-up-a-z"></i> Asc
+                </div>
+
+                <button class="btn btn-success text-white mr-1" @click="sascdesc(2)"> <i class="fas fa-arrow-down-z-a"></i>
+                    Dsc
+                </button>
+            </div>
+            <div class="table-responsive text-nowrap" v-show="!showForm">
+                <table class="table table-striped w-auto">
+                    <thead class="text-center">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col" style="width: 200px;">Full Name</th>
+                            <th scope="col" style="width: 200px;">Mobile Phone</th>
+                            <th scope=" col" style="width: 200px;">NIP</th>
+                            <th scope="col" style="width: 200px;">Division</th>
+                            <th scope="col" style="width: 200px;">Salary</th>
+                            <th scope="col">Join Date</th>
+                            <th scope="col" style="width: 120px;">Status</th>
+                            <th scope="col" style="width: 200px;">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody v-if="employeeDatas.length > 0">
+                        <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData"
+                            :key="index">
+                            <th scope="row" class="text-center">{{ item?.id }}</th>
+                            <td>{{ item?.fullName }}</td>
+                            <td>{{ item?.mobilePhone }}</td>
+                            <td>{{ item?.nip }}</td>
+                            <td>{{ item?.division }}</td>
+                            <td>{{ item?.salary }}</td>
+                            <td>{{ item?.joinDate }}</td>
+                            <button type="button" class="status blue" v-if="item.status == 1">In Review</button>
+                            <button type="button" class="status green" v-else-if="item.status == 2">Active</button>
+                            <button type="button" class="status red" v-else-if="item.status == 3">Rejected</button>
+                            <button type="button" class="status salmon" v-else>Deactive</button>
+                            <td class="text-center">
+                                <button type="button" class="btn btn-detail" @click="updateFunc(item)">{{ tableBtn
+                                }}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                    <tbody v-else>
+                        <tr class="msg-tr text-center">
+                            <td colspan="9" class="msg-null text-center">
+                                <h3 class="color-text">Saat ini Tidak Ada Data Terkini !</h3>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
 
 
@@ -187,7 +252,6 @@
   
 <script>
 import employeeService from '@/services/employeeService';
-import approvalService from '@/services/approvalService';
 
 export default {
     name: "EmployeeS",
@@ -232,12 +296,25 @@ export default {
             itemsPerPage: 7,
             currentPage: 1,
             employeeDatas: {},
+            bappData: {},
             showForm: false,
             showDetail: false,
-            showUpdateBtn: false
+            showUpdateBtn: false,
+
+            // search data
+            infoSearch: null,
+            sstat: null,
+            snam: null,
+            sass: null,
         }
     },
     methods: {
+        hideModalSearch() {
+            this.$refs.modalSearch.hide();
+        },
+        resetFunc() {
+            this.employeeDatas = this.bappData
+        },
         BackButton(back) {
             this.showUpdateBtn = false;
             if (back == 1) {
@@ -288,17 +365,16 @@ export default {
         // POST METHOD
         async SubmitEmployee() {
             let data = this.employeeData;
-            let apprv = this.apprvData;
-
             // let idEmployee = null;
             // let file1 = this.attendance
 
+            data.createdBy = this.$session.get('email');
+
             if (this.submitBtn === "Add Employee") {
-                let data = this.employeeData
                 // const formattedDate = date.toISOString()
-                data.status = 2;
                 data.dateBirths = data.dateBirths + " 00:00"
                 data.joinDates = data.joinDates + " 00:00"
+                data.status = 2;
 
                 employeeService.upload(data).then((response) => {
                     console.log(response.status);
@@ -325,7 +401,6 @@ export default {
                 });
             } else {
                 data.status = 1
-                data.createdBy = this.$session.get('email');
 
                 this.$swal({
                     title: 'Are you sure?',
@@ -343,45 +418,26 @@ export default {
                                 console.log("add Employee");
                                 console.log(response.status);
                                 this.showForm = !this.showForm;
-                                apprv.comName = data.comName;
-                                // apprv.companyId = response.data.id;
-                                apprv.employeeId = response.data.id;
-                                apprv.reqBy = data.createdBy;
-                                apprv.reqType = "Update Employee";
-                                apprv.status = data.status;
-
                                 // add table approv
-                                approvalService.saveApprov(apprv)
-                                    .then((response) => {
-                                        console.log("add Approv");
-                                        console.log(response.status);
-                                        this.showForm = !this.showForm;
-                                        this.getEmployee();
-                                        this.BackButton(1);
-                                        this.$swal('Update', 'Wait for other admin to approv it!', 'success')
-                                    })
-                                    .catch((e) => {
-                                        console.log(e);
-                                        this.$toast.error('Error!', {
-                                            position: 'top-right',
-                                            timeout: 2500,
-                                        });
-                                    });
+                                this.getEmployee();
+                                this.BackButton(1);
+                                this.$swal('Update', 'Wait for other admin to approv it!', 'success')
                             })
                             .catch((e) => {
-                                try {
-                                    e["code"] === "ERR_NETWORK";
-                                    console.log(e["code"]);
-                                    this.$toast.error("ERROR NETWORK CONNECTION", {
-                                        position: "top-right",
-                                        timeout: 2500,
-                                    });
-                                } catch (error) {
-                                    this.$toast.error('Error!', {
-                                        position: 'top-right',
-                                        timeout: 2500,
-                                    });
-                                }
+                                console.log(e);
+                                // try {
+                                //     e["code"] === "ERR_NETWORK";
+                                //     console.log(e["code"]);
+                                //     this.$toast.error("ERROR NETWORK CONNECTION", {
+                                //         position: "top-right",
+                                //         timeout: 2500,
+                                //     });
+                                // } catch (error) {
+                                //     this.$toast.error('Error!', {
+                                //         position: 'top-right',
+                                //         timeout: 2500,
+                                //     });
+                                // }
                             });
                     } else {
                         this.BackButton(1);
@@ -409,6 +465,80 @@ export default {
                 .catch((e) => {
                     console.log(e);
                 });
+        },
+
+        // FILTER EMPLOYEE
+        EmpSearch() {
+            console.log(this.sstat);
+            this.hideModalSearch();
+            console.log(this.snam + this.sstat);
+            if (this.snam != null && this.snam != '') {
+                this.sname()
+            }
+            if (this.sstat != null && this.sstat != '') {
+                this.sstatus()
+
+                if (this.sstat === 1) {
+                    this.dataStat = "Need Approve"
+                } else if (this.sstat === 2) {
+                    this.dataStat = "Approved"
+                } else if (this.sstat === 3) {
+                    this.dataStat = "Rejected"
+                }
+            }
+
+            this.infoSearch = this.snam + " & " + this.dataStat
+            this.snam = null
+            this.sstat = null
+        },
+
+        sstatus() {
+            let data = this.sstat.toString();
+            const sortedArray = [...this.employeeDatas];
+            sortedArray.sort((a, b) => {
+                return a.status - b.status;
+            });
+            const filteredArray = sortedArray.filter(obj => obj.status == data);
+            console.log(filteredArray);
+            this.employeeDatas = filteredArray;
+            console.log(data);
+        },
+
+        sname() {
+            let data = this.snam;
+            const searchQuery = data.toLowerCase().trim();
+
+            if (!searchQuery) {
+                return this.employeeDatas;
+            }
+            console.log(searchQuery);
+            const filteredObjects = this.employeeDatas.filter(obj => {
+                const coName = obj.fullName && obj.fullName.toLowerCase().includes(searchQuery);
+                const reqbY = obj.reqBy && obj.reqBy.toLowerCase().includes(searchQuery);
+                const apprby = obj.apprBy && obj.apprBy.toLowerCase().includes(searchQuery);
+                const reqtyp = obj.reqType && obj.reqType.toLowerCase().includes(searchQuery);
+
+                return coName || reqbY || apprby || reqtyp;
+            });
+            console.log("2");
+
+            console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
+
+            this.appData = filteredObjects;
+        },
+        sascdesc(dih) {
+            let data = dih;
+            console.log(data);
+            const sortedArray = [...this.employeeDatas];
+            sortedArray.sort((a, b) => {
+                if (data == 1) {
+                    return a.comName.localeCompare(b.comName);
+                } else {
+                    return b.comName.localeCompare(a.comName);
+                }
+            });
+            // console.log(sortedArray);
+            this.appData = sortedArray;
         },
 
         previousPage() {
@@ -724,5 +854,50 @@ input[type=file] {
     border: none;
     border-radius: 7px;
     padding: 7px 15px;
+}
+
+/* filter css */
+.input-search {
+    height: 60px;
+    border-radius: 10px;
+}
+
+.btn-search {
+    padding: 15px 15px;
+    border-radius: 15px;
+}
+
+.btn-status {
+    border: 1px solid #695cfe;
+}
+
+.btn-status:hover {
+    background-color: #695cfe;
+    color: white;
+}
+
+.btn-search-filter {
+    background-color: #695cfe;
+    color: white;
+    border: none;
+}
+
+.btn-search-filter:hover {
+    color: white;
+    background-color: #4e44ba;
+    border: none;
+}
+
+.activee {
+    background-color: #695cfe;
+    color: white;
+}
+
+.info-search {
+    border: 1px dashed grey;
+}
+
+.info-search:hover {
+    cursor: none;
 }
 </style>
