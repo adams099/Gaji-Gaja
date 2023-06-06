@@ -53,8 +53,9 @@
 
 
         <!------------------ START TABLE ------------------->
-        <div class="filter">
-            <div class="filter-search row d-flex flex-row justify-content-end mr-3">
+        <div class="container-table">
+
+            <div class="filter-search row d-flex flex-row justify-content-end mr-3" v-if="!showForm">
                 <span class="mr-3 btn info-search">
                     {{ infoSearch == null ? 'Nothing Search' : infoSearch }}
                 </span>
@@ -70,9 +71,9 @@
                 </div>
 
                 <button class="btn btn-success text-white mr-1" @click="sascdesc(2)"> <i class="fas fa-arrow-down-z-a"></i>
-                    Dsc
-                </button>
+                    Dsc</button>
             </div>
+
             <div class="table-responsive text-nowrap" v-show="!showForm">
                 <table class="table table-striped w-auto">
                     <thead class="text-center">
