@@ -35,7 +35,8 @@
                             :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 2 }]">
                             Approved
                         </button>
-                        <button :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 3 }]">
+                        <button @click.prevent="sstat = 3"
+                            :class="['btn', 'btn-status', 'mb-3', 'text-left', { 'activee': sstat === 3 }]">
                             Rejected
                         </button>
                     </div>
@@ -57,7 +58,8 @@
                 <span class="mr-3 btn info-search">
                     {{ infoSearch == null ? 'Nothing Search' : infoSearch }}
                 </span>
-                <b-button v-b-modal.modal-1 class="btn btn-search-filter text-white">
+
+                <b-button v-b-modal.modal-1 class="btn btn-search-filter text-white mr-3">
                     <i class="fas fa-filter"></i> Search by Filter
                 </b-button>
                 <button class="btn btn-secondary mr-5" @click="resetFunc()">reset</button>
@@ -460,6 +462,7 @@ export default {
                 .getAll()
                 .then((response) => {
                     this.employeeDatas = response.data;
+                    this.bappData = response.data;
                     console.log("get Employee");
                 })
                 .catch((e) => {
@@ -513,18 +516,17 @@ export default {
             }
             console.log(searchQuery);
             const filteredObjects = this.employeeDatas.filter(obj => {
-                const coName = obj.fullName && obj.fullName.toLowerCase().includes(searchQuery);
-                const reqbY = obj.reqBy && obj.reqBy.toLowerCase().includes(searchQuery);
-                const apprby = obj.apprBy && obj.apprBy.toLowerCase().includes(searchQuery);
-                const reqtyp = obj.reqType && obj.reqType.toLowerCase().includes(searchQuery);
+                const fullName = obj.fullName && obj.fullName.toLowerCase().includes(searchQuery);
+                const nip = obj.nip && obj.nip.toLowerCase().includes(searchQuery);
+                const division = obj.division && obj.division.toLowerCase().includes(searchQuery);
 
-                return coName || reqbY || apprby || reqtyp;
+                return fullName || nip || division;
             });
             console.log("2");
 
             console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
 
-            this.appData = filteredObjects;
+            this.employeeDatas = filteredObjects;
         },
         sascdesc(dih) {
             let data = dih;
@@ -532,13 +534,13 @@ export default {
             const sortedArray = [...this.employeeDatas];
             sortedArray.sort((a, b) => {
                 if (data == 1) {
-                    return a.comName.localeCompare(b.comName);
+                    return a.fullName.localeCompare(b.fullName);
                 } else {
-                    return b.comName.localeCompare(a.comName);
+                    return b.fullName.localeCompare(a.fullName);
                 }
             });
             // console.log(sortedArray);
-            this.appData = sortedArray;
+            this.employeeDatas = sortedArray;
         },
 
         previousPage() {
