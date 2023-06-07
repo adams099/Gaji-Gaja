@@ -146,7 +146,7 @@
           {{ submitBtn }}
         </button>
         <button class="btn btn-deactive mb-4" v-if="companyDatas.status == 2 || companyDatas.status == 4"
-          @click.prevent="deactiveAlert()">
+          v-show="roleId != 1" @click.prevent="deactiveAlert()">
           {{ actBtn }}
         </button>
       </form>
