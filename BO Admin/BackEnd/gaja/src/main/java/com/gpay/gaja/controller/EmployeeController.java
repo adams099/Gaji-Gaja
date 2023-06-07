@@ -48,4 +48,10 @@ public class EmployeeController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
+    @GetMapping("/comName/{comName}")
+    public ResponseEntity<List<EmployeeDTO>> getByComName(@PathVariable String comName) {
+        List<EmployeeDTO> dtos = service.getByComName(comName);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
+
 }

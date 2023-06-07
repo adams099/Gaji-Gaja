@@ -37,4 +37,10 @@ public class EmployeeServiceImpl implements EmployeeService {
         return mapper.convertToDto(test);
     }
 
+    @Override
+    public List<EmployeeDTO> getByComName(String comName) {
+        List<Employee> employees = repository.findByComName(comName);
+        return mapper.convertToDto(employees);
+    }
+
 }

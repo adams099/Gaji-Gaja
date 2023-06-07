@@ -23,6 +23,7 @@ public class EmployeeDTO {
     private String createdBy;
     private String approveBy;
     private String companyEmail;
+    private String comName;
 
     private Float salary;
 
