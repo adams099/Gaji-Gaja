@@ -52,6 +52,8 @@ public class Employee {
     private String companyEmail;
     @Column(name = "document")
     private String document;
+    @Column(name = "company_name")
+    private String comName;
 
     @Column(name = "salary")
     private Float salary;

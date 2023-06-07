@@ -12,4 +12,6 @@ public interface EmployeeService {
 
     List<EmployeeDTO> getAll();
 
+    List<EmployeeDTO> getByComName(String comName);
+
 }
