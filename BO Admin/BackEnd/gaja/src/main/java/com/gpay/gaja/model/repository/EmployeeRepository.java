@@ -13,5 +13,5 @@ public interface EmployeeRepository extends CrudRepository<Employee, Long> {
 
     Optional<Employee> findById(Long id);
 
-    List<Employee> findByComName(String comName);
+    List<Employee> findByCompanyId(Long companyId);
 }

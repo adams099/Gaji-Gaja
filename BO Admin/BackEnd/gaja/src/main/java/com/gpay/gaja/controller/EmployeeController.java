@@ -48,9 +48,9 @@ public class EmployeeController {
         return new ResponseEntity<>(dto, HttpStatus.OK);
     }
 
-    @GetMapping("/comName/{comName}")
-    public ResponseEntity<List<EmployeeDTO>> getByComName(@PathVariable String comName) {
-        List<EmployeeDTO> dtos = service.getByComName(comName);
+    @GetMapping("/comId/{comId}")
+    public ResponseEntity<List<EmployeeDTO>> getByCompanyId(@PathVariable Long comId) {
+        List<EmployeeDTO> dtos = service.getCompanyId(comId);
         return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 

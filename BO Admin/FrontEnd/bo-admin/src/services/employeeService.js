@@ -5,6 +5,10 @@ class Employee {
     return http.get("/employee/getAll");
   }
 
+  getAllByComId(data) {
+    return http.get(`/employee/comId/${data}`);
+  }
+
   addEmployee() {
     return http.post("/employee/save");
   }
