@@ -13,7 +13,7 @@
     <table class="table" v-show="!showForm">
       <thead class="text-center">
         <tr>
-          <th scope="col">ID</th>
+          <th scope="col">No</th>
           <th scope="col">Company Name</th>
           <th scope="col">Mail Address</th>
           <th scope="col">Status</th>
@@ -22,7 +22,7 @@
       </thead>
       <tbody v-if="companyData.length > 0">
         <tr class="baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData" :key="index">
-          <th scope="row" class="text-center">{{ item?.id }}</th>
+          <th scope="row" class="text-center">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
           <td>{{ item?.comName }}</td>
           <td>{{ item?.mailAddress }}</td>
           <button type="button" class="status blue" v-if="item.status == 1">
@@ -131,7 +131,8 @@
         <div class="form-group" v-if="submitBtn == 'Add Company'">
           <div class="mb-3">
             <label for="formFile" class="form-label">Choose File</label>
-            <input @change="handleFileUpload('att', $event)" class="form-control" type="file" id="formFile" />
+            <input @change="handleFileUpload('att', $event)" ref="fileInput" class="form-control" type="file"
+              id="formFile" required />
           </div>
         </div>
 
@@ -477,6 +478,7 @@ export default {
                   console.log("add Approv");
                   console.log(response.status);
                   this.showForm = !this.showForm;
+                  this.$refs.fileInput.value = null;
                   this.getCompany();
                 })
                 .catch((e) => {

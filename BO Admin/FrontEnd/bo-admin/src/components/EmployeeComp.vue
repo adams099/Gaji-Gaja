@@ -86,7 +86,7 @@
                 <table class="table table-striped w-auto">
                     <thead class="text-center">
                         <tr>
-                            <th scope="col">ID</th>
+                            <th scope="col">No</th>
                             <th scope="col" style="width: 200px;">Full Name</th>
                             <th scope="col" style="width: 200px;">Mobile Phone</th>
                             <th scope=" col" style="width: 200px;">NIP</th>
@@ -100,7 +100,7 @@
                     <tbody v-if="employeeDatas.length > 0">
                         <tr class=" baris text-center shadow-lg bg-white" v-for="(item, index) in paginatedData"
                             :key="index">
-                            <th scope="row" class="text-center">{{ item?.id }}</th>
+                            <th scope="row" class="text-center">{{ (currentPage - 1) * itemsPerPage + index + 1 }}</th>
                             <td>{{ item?.fullName }}</td>
                             <td>{{ item?.mobilePhone }}</td>
                             <td>{{ item?.nip }}</td>
