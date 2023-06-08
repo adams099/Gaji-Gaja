@@ -130,7 +130,7 @@
         </div>
 
 
-        <div class="row d-flex justify-content-center next color-text" v-if="!showForm && employeeDatas.length > 7">
+        <div class="row d-flex justify-content-center next color-text" v-if="employeeDatas.length > 7 && !showForm">
             <button type="button" class="btn btn-success" @click="previousPage"
                 :disabled="currentPage == 1">Previous</button>
             <p class="ml-4 mr-4 font-italic mt-2">{{ currentPage }} / {{ pageCount }}</p>
@@ -576,9 +576,39 @@ export default {
             }
         },
 
-        // GET COMPANY
+
+        async getData() {
+            try {
+                await this.getUser();
+                this.getEmployee();
+            } catch (error) {
+                console.log(error);
+            }
+        },
+
+        getUser() {
+            return new Promise((resolve, reject) => {
+                let data = this.userData;
+                data.email = this.$session.get("email");
+
+                userService
+                    .findEmail(data)
+                    .then((response) => {
+                        if (response.status === 200) {
+                            this.comId = response.data.companyId;
+                            resolve(); // Menandakan bahwa getUser telah selesai dengan baik
+                        } else {
+                            reject("Error: getUser failed"); // Menandakan bahwa getUser gagal
+                        }
+                    })
+                    .catch((e) => {
+                        reject(e);
+                    });
+            });
+        },
+
         getEmployee() {
-            let data = this.comId
+            let data = this.comId;
 
             employeeService
                 .getAllByComId(data)
@@ -586,22 +616,6 @@ export default {
                     this.employeeDatas = response.data;
                     this.bappData = response.data;
                     console.log("get Employee");
-                })
-                .catch((e) => {
-                    console.log(e);
-                });
-        },
-
-        getUser() {
-            let data = this.userData;
-            data.email = this.$session.get("email");
-
-            userService
-                .findEmail(data)
-                .then((response) => {
-                    if (response.status === 200) {
-                        this.comId = response.data.companyId
-                    }
                 })
                 .catch((e) => {
                     console.log(e);
@@ -685,7 +699,6 @@ export default {
                     return b.fullName.localeCompare(a.fullName);
                 }
             });
-            // console.log(sortedArray);
             this.employeeDatas = sortedArray;
         },
 
@@ -718,6 +731,7 @@ export default {
             const pageCount = Math.ceil(itemCount / this.itemsPerPage);
             return pageCount;
         },
+
         // ambil data sesuai halaman saat ini
         paginatedData() {
             const startIndex = (this.currentPage - 1) * this.itemsPerPage;
@@ -726,9 +740,10 @@ export default {
         },
     },
 
-    mounted() {
-        this.getEmployee();
-        this.getUser();
+    async mounted() {
+        this.getData().catch((error) => {
+            console.log(error);
+        });
 
         if (this.roleId === 3) {
             this.tableBtn = "Detail"
