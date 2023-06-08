@@ -12,6 +12,6 @@ public interface EmployeeService {
 
     List<EmployeeDTO> getAll();
 
-    List<EmployeeDTO> getByComName(String comName);
+    List<EmployeeDTO> getCompanyId(Long companyId);
 
 }

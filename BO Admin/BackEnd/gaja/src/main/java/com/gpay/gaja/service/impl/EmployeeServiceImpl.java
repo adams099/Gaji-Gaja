@@ -38,8 +38,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public List<EmployeeDTO> getByComName(String comName) {
-        List<Employee> employees = repository.findByComName(comName);
+    public List<EmployeeDTO> getCompanyId(Long companyId) {
+        List<Employee> employees = repository.findByCompanyId(companyId);
         return mapper.convertToDto(employees);
     }
 

@@ -263,6 +263,7 @@
   
 <script>
 import employeeService from '@/services/employeeService';
+import userService from "@/services/userService";
 
 export default {
     name: "EmployeeS",
@@ -279,8 +280,14 @@ export default {
             colorStatus: null,
             actBtn: null,
             clasSubmit: null,
-
             isFound: false,
+            comId: null,
+
+            userData: {
+                id: null,
+                email: null,
+                companyId: null,
+            },
 
             employeeData: {
                 id: null,
@@ -303,7 +310,8 @@ export default {
                 joinDate: null,
                 createdTime: null,
                 updatedTime: null,
-                document: null
+                document: null,
+                companyId: null,
             },
 
             itemsPerPage: 7,
@@ -490,6 +498,7 @@ export default {
                 data.dateBirths = data.dateBirth + " 00:00"
                 data.joinDate = null
                 data.dateBirth = null
+                data.companyId = this.comId
 
                 employeeService.upload(data).then((response) => {
                     console.log(response.status);
@@ -569,12 +578,30 @@ export default {
 
         // GET COMPANY
         getEmployee() {
+            let data = this.comId
+
             employeeService
-                .getAll()
+                .getAllByComId(data)
                 .then((response) => {
                     this.employeeDatas = response.data;
                     this.bappData = response.data;
                     console.log("get Employee");
+                })
+                .catch((e) => {
+                    console.log(e);
+                });
+        },
+
+        getUser() {
+            let data = this.userData;
+            data.email = this.$session.get("email");
+
+            userService
+                .findEmail(data)
+                .then((response) => {
+                    if (response.status === 200) {
+                        this.comId = response.data.companyId
+                    }
                 })
                 .catch((e) => {
                     console.log(e);
@@ -701,6 +728,7 @@ export default {
 
     mounted() {
         this.getEmployee();
+        this.getUser();
 
         if (this.roleId === 3) {
             this.tableBtn = "Detail"
