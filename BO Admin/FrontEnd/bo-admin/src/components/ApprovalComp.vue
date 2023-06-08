@@ -512,6 +512,7 @@ export default {
                                     akun.roleId = 3;
                                     akun.statId = 4;
                                     akun.createdBy = this.$session.get('email');
+                                    akun.companyId = data.companyId;
                                     adds.register(akun)
                                     let semail = {
                                         "email": akun.email,

@@ -254,7 +254,7 @@
 
                 <!-- class="btn update-btn mb-4 mt-4" -->
                 <button class="btn btn-deactive mb-4" v-if="employeeData.status == 2 || employeeData.status == 4"
-                    @click.prevent="deactiveAlert()">{{ actBtn }}</button>
+                    v-show="showUpdateBtn" @click.prevent="deactiveAlert()">{{ actBtn }}</button>
             </form>
             <!--------------------- END ADD COMPANY -------------------------->
         </div>
