@@ -175,7 +175,6 @@ export default {
       this.isClose = !this.isClose;
     },
     NyobaEmis(n) {
-      console.log(n);
       if (n == 1) {
         this.$emit("TestEmit2", 1);
         this.pa1 = true;

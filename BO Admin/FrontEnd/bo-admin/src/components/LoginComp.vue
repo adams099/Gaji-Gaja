@@ -356,13 +356,6 @@ export default {
 
         }
       }
-
-      // if (this.gantipw.pw1 != this.gantipw.pw2) {
-      //   this.$toast.error("Confirmation Password Didn't Match!", {
-      //     position: "top-right",
-      //     timeout: 2500,
-      //   });
-      // }
     },
 
     stopLoading(timer) {
@@ -404,12 +397,21 @@ export default {
           userService
             .login(data)
             .then((response) => {
-              if (response.status === 200) {
+              console.log(response.data.statId);
+              if (response.data.statId === 2) {
                 this.$session.start();
-
                 this.$session.set("jwt", response.data);
                 this.$session.set("email", data.email);
                 this.$router.push("/");
+              } else {
+                this.$swal({
+                  cancelButtonText: "Close",
+                  showCancelButton: true,
+                  showConfirmButton: false,
+                  icon: "error",
+                  title: "Error",
+                  text: "Your account is inactive. Please contact support for assistance.",
+                });
               }
             })
             .catch((e) => {
