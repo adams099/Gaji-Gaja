@@ -72,6 +72,12 @@ public class UserController {
             userDTO.setCreated(LocalDateTime.now());
         } else {
             userDTO.setUpdate(LocalDateTime.now());
+            if (userDTO.getStatId() == 4) {
+                UserDTO dtos = service.save(userDTO);
+                return new ResponseEntity<>(dtos, HttpStatus.CREATED);
+            } else if (userDTO.getStatId() == 2) {
+                userDTO.setUpdate(null);
+            }
         }
         userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
         UserDTO dto = service.save(userDTO);
@@ -115,6 +121,7 @@ public class UserController {
             String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
             test.setData(ancrit);
             test.setRoleId(gimm.getRoleId());
+            test.setStatId(gimm.getStatId());
             return new ResponseEntity<>(test, HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);

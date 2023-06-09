@@ -3,21 +3,20 @@
     <div class="text text-center color-text">All User</div>
     <div class="table">
       <div class="d-flex flex-row justify-content-between mb-2">
-        <h5 class="color-text">Daftar Admin Company</h5>
+        <h5 class="color-text">{{ roleId == 1 ? '' : 'Daftar Admin Company' }}</h5>
         <div>
           <div class="container mr-3">
             <!-------------------------- START ADD USER ---------------->
             <div>
               <template>
-                <b-button id="show-btn" @click="showModal" class="btn-add">
-                  <i class="fa-sharp fa-regular fa-plus"></i> Admin Company
+                <b-button id="show-btn" @click="showModalAdd" class="btn-add">
+                  <i class="fa-sharp fa-regular fa-plus"></i> {{ roleId == 1 ? 'Admin' : 'Admin Company' }}
                 </b-button>
               </template>
 
               <b-modal ref="add-modal" hide-footer title="Add Admin User">
                 <div class="d-block">
                   <div class="form">
-
                     <div class="form-group">
                       <label for="name">Name</label>
                       <input type="text" class="form-control" id="name" placeholder="Enter Name" required
@@ -41,13 +40,12 @@
                       <span class="valid" v-if="error.email">Email harus diisi!</span>
                     </div>
 
-
-                    <div class="form-group" v-if="false">
+                    <!-- <div class="form-group" v-if="false">
                       <label for="pass">Password</label>
                       <input type="password" class="form-control" id="pass" placeholder="Enter password" required
-                        v-model="inputData.pass" />
+                        :readonly="!" v-model="inputData.pass" />
                       <span class="valid" v-if="error.pass">Password harus diisi!</span>
-                    </div>
+                    </div> -->
 
                   </div>
                 </div>
@@ -60,53 +58,67 @@
             </div>
             <!------------------------ END ADD USER ------------------------->
 
-            <!---------------------- START UPDATE -------------------------->
+
+            <!-- modal detail -->
             <div>
-              <b-modal ref="update-modal" hide-footer title="Update User Data">
+              <b-modal ref="up-modal" hide-footer title="Add Admin User">
                 <div class="d-block">
+
+                  <div class="row d-flex flex-row justify-content-center">
+                    <h6 class="text-center mr-2 text-secondary">
+                      Status User Saat ini
+                    </h6>
+                    <h6 :class="colorStatus">{{ status }}</h6>
+                  </div>
+
                   <div class="form">
                     <div class="form-group">
                       <label for="name">Name</label>
-                      <input type="text" class="form-control" id="name" placeholder="Enter Name" />
+                      <input type="text" class="form-control" id="name" placeholder="Enter Name" required readonly
+                        v-model="detail.name" />
                     </div>
+
+                    <div class="form-group">
+                      <label for="phone_number">Phone Number</label>
+                      <input type="text" class="form-control" id="phone_number" placeholder="Enter Phone Number" required
+                        readonly v-model="detail.phone" />
+                    </div>
+
                     <div class="form-group">
                       <label for="email">Email</label>
-                      <input type="email" class="form-control" id="email" placeholder="Enter email" />
+                      <input type="email" class="form-control" id="email" placeholder="Enter email" required readonly
+                        v-model="detail.email" />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="creationDate">Creation Date</label>
+                      <input type="creationDate" class="form-control" id="creationDate" readonly
+                        v-model="detail.created" />
                     </div>
                     <div class="form-group">
-                      <label for="pass">Password</label>
-                      <input type="password" class="form-control" id="pass" placeholder="Enter password" />
+                      <label for="lastUpdated">Last Updated</label>
+                      <input type="lastUpdated" class="form-control" id="lastUpdated" readonly v-model="detail.update" />
+                    </div>
+
+                    <div class="form-group">
+                      <label for="lastLogin">Last Login</label>
+                      <input type="lastLogin" class="form-control" id="lastLogin" readonly v-model="detail.last" />
                     </div>
                   </div>
                 </div>
-
                 <div class="dflex justify-content-center">
-                  <b-button variant="primary" block @click="showModal">Update</b-button>
-                  <b-button variant="danger" block @click="toggleModal">Cancel</b-button>
+                  <b-button variant="warning" class="text-white" block v-if="detail.statId == 2 || detail.statId == 4"
+                    @click.prevent="deactiveAlert()">
+                    {{ actBtn }}
+                  </b-button>
+                  <b-button variant="danger" block @click="toggleModalUps">Cancel</b-button>
                 </div>
-              </b-modal>
-            </div>
-            <!---------------------- END UPDATE -------------------------->
-            <div>
-              <b-modal v-model="showModalStatus">
-                <b-modal v-model="showModalStatus" hide-footer>
-                  <div>
-                    <h6 class="text-center pb-2"> Status Confirmation</h6>
-                    <!-- <p>Are you sure you want to perform this action?</p> -->
-                    <b-col>
-                      <div class="initombol">
-                        <button @click="accept" class="btn btn-success mr-3">Accept</button>
-                        <button @click="reject" class="btn btn-danger mr-3">Reject</button>
-                        <button @click="deadactive" class="btn btn-primary mr-3">Deadactive</button>
-                      </div>
-                    </b-col>
-                  </div>
-                </b-modal>
               </b-modal>
             </div>
           </div>
         </div>
       </div>
+
       <!---------------------- START USER TABLE -------------------------->
       <table class="table ">
         <thead class="text-center">
@@ -127,10 +139,9 @@
             <button type="button" class="status blue" v-if="item.statId == 1">In Review</button>
             <button type="button" class="status green" v-else-if="item.statId == 2">Active</button>
             <button type="button" class="status red" v-else-if="item.statId == 3">Rejected</button>
-            <button type="button" class="status salmon" v-else>Deactive</button>
+            <button type="button" class="status red" v-else>Deactive</button>
             <td class="text-center">
-              <button type="button" class="btn btn-primary" @click="toggleModal">Update</button>
-              <button type="button" class="btn btn-delete text-white " @click="showModalStatuss(item)">Status</button>
+              <button type="button" class="btn btn-primary" @click="toggleModalUp(item)">Detail</button>
             </td>
           </tr>
         </tbody>
@@ -165,9 +176,10 @@ export default {
   data() {
     return {
       showModalStatus: false,
-      userData: {
-      },
+      userData: {},
+      roleId: this.$session.get("jwt").roleId,
       inputData: {
+        id: null,
         name: null,
         email: null,
         pass: null,
@@ -177,7 +189,8 @@ export default {
         approved: null,
         phone: null,
       },
-      updateData: {
+
+      detail: {
         id: null,
         name: null,
         email: null,
@@ -186,9 +199,14 @@ export default {
         statId: null,
         createdBy: null,
         approved: null,
+        phone: null,
+        created: null,
+        update: null,
+        last: null,
       },
-      showData: {
-      },
+
+      showData: {},
+
       error: {
         "name": false,
         "email": false,
@@ -202,89 +220,60 @@ export default {
         "subject": null,
         "body": null
       },
+
       indexing: 1,
       maxdata: null,
       dikurangin: null,
-
+      colorStatus: null,
+      status: null,
+      actBtn: null,
     }
   },
 
   // METHODS
   methods: {
-    accept() {
-      // handle accept action
-      let data = this.updateData;
-      data.statId = 2;
-      userService.register(data)
-        .then((response) => {
-          this.$toast.success('Company status has been successfully Update!', {
-            position: 'top-right',
-            timeout: 2500,
-          });
-          console.log(response.status);
-          this.showModalStatus = false;
-          this.getUser()
-        })
-        .catch((e) => {
-          try {
-            e["code"] === "ERR_NETWORK";
-            console.log(e["code"]);
-            this.$toast.error("ERROR NETWORK CONNECTION", {
-              position: "top-right",
-              timeout: 2500,
-            });
-          } catch (error) {
-            this.$toast.error("Error", {
-              position: "top-right",
-              timeout: 2500,
-            });
+    deactiveAlert() {
+      let data = this.detail;
+
+      this.$swal({
+        title: "Are you sure?",
+        text: "You can't revert your action",
+        icon: "warning",
+        showCancelButton: true,
+        confirmButtonText: data.statId === 2 ? "Deactive it!" : "Reactive it!",
+        cancelButtonText: "No, Cancel!",
+        showCloseButton: true,
+        showLoaderOnConfirm: true,
+      }).then((result) => {
+        if (result.value) {
+          if (data.statId === 2) {
+            this.deactiveFunc();
+          } else {
+            this.reactiveFunc();
           }
-        });
-    },
-    reject() {
-      // handle reject action
-      let data = this.updateData;
-      data.statId = 3;
-      userService.register(data)
-        .then((response) => {
-          this.$toast.success('Company status has been successfully Rejected!', {
-            position: 'top-right',
-            timeout: 2500,
+        } else {
+          this.BackButton(1);
+          this.$swal({
+            confirmButtonText: "Close",
+            icon: "error",
+            title: "Cancelled",
+            text: "Your file is still intact",
           });
-          // console.log(response.data);
-          console.log(response.status);
-          this.showModalStatus = false;
-          this.getUser()
-        })
-        .catch((e) => {
-          try {
-            e["code"] === "ERR_NETWORK";
-            console.log(e["code"]);
-            this.$toast.error("ERROR NETWORK CONNECTION", {
-              position: "top-right",
-              timeout: 2500,
-            });
-          } catch (error) {
-            this.$toast.error("Error", {
-              position: "top-right",
-              timeout: 2500,
-            });
-          }
-        });
+        }
+      });
     },
 
-    deadactive() {
-      // handle review action
-      let data = this.updateData;
+    deactiveFunc() {
+      let data = this.detail;
       data.statId = 4;
       userService.register(data)
         .then((response) => {
-          this.$toast.success('Company status has been successfully Deactive!', {
+          this.$toast.success('User status has been successfully Deactive!', {
             position: 'top-right',
             timeout: 2500,
           });
           console.log(response.status);
-          this.showModalStatus = false;
+          this.toggleModalUps();
           this.getUser()
         })
         .catch(() => {
@@ -295,13 +284,62 @@ export default {
         });
     },
 
-    showModalStatuss(test) {
-      this.showModalStatus = !this.showModalStatus
-      // console.log(test);
-      console.log("set data");
-      for (const property in this.updateData) {
-        this.updateData[property] = test[property];
+    reactiveFunc() {
+      const length = 8;
+      const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
+      let result = "";
+      for (const property in this.error) {
+        this.error[property] = false;
       }
+      for (let i = 0; i < length; i++) {
+        const randomIndex = Math.floor(Math.random() * characters.length);
+        result += characters.charAt(randomIndex);
+      }
+
+      let data = this.detail;
+      data.pass = result;
+      data.update = null,
+        data.last = null,
+        data.statId = 2;
+
+      userService.register(data)
+        .then((response) => {
+          this.semail.email = data.email
+          this.semail.subject = "Account Reactivated: Welcome Back!"
+          this.semail.body = data.pass
+
+          userService.asemail(this.semail).then(() => {
+            this.$toast.success('User status has been successfully Active!', {
+              position: 'top-right',
+              timeout: 2500,
+            });
+          }).catch((e) => {
+            console.log(e);
+            try {
+              e["code"] === "ERR_NETWORK";
+              console.log(e["code"]);
+              this.$toast.error("ERROR NETWORK CONNECTION", {
+                position: "top-right",
+                timeout: 2500,
+              });
+            } catch (error) {
+              this.$toast.error('Failed to send the password to the email!', {
+                position: 'top-right',
+                timeout: 2500,
+              });
+            }
+          });
+
+          console.log(response.status)
+          this.toggleModalUps();
+          this.getUser()
+        })
+        .catch(() => {
+          this.$toast.error('Error', {
+            position: 'top-right',
+            timeout: 2500,
+          });
+        });
     },
 
     showToast() {
@@ -312,8 +350,9 @@ export default {
     },
 
     // MODAL BOX
-    showModal() {
+    showModalAdd() {
       this.$refs["add-modal"].show();
+
       for (const property in this.error) {
         this.error[property] = false;
       }
@@ -321,6 +360,37 @@ export default {
         this.inputData[property] = null;
       }
     },
+
+    toggleModalUp(data) {
+      this.detail = data;
+
+      if (data.statId == 1) {
+        this.status = "In Review";
+        this.colorStatus = "review";
+      } else if (data.statId == 2) {
+        this.status = "Active";
+        this.colorStatus = "active";
+        this.actBtn = "Deactive";
+      } else if (data.statId == 3) {
+        this.status = "Reject";
+        this.colorStatus = "reject";
+      } else {
+        this.status = "Deactive";
+        this.colorStatus = "deactive";
+        this.actBtn = "Reactive";
+      }
+
+      this.toggleModalUps()
+    },
+
+    toggleModal() {
+      this.$refs["add-modal"].toggle("#toggle-btn");
+    },
+
+    toggleModalUps() {
+      this.$refs["up-modal"].toggle("#toggle-btn");
+    },
+
     hideModal() {
       this.$refs["add-modal"].hide();
     },
@@ -409,10 +479,6 @@ export default {
 
     },
 
-    toggleModal() {
-      this.$refs["add-modal"].toggle("#toggle-btn");
-    },
-
     LimitData(nigga) {
       if (nigga == 1) {
         this.indexing--
@@ -466,15 +532,13 @@ export default {
             console.log(e);
           }
         });
-    }
-
-
+    },
   },
 
 
   created() {
     this.getUser();
-  }
+  },
 };
 </script>
 
@@ -605,11 +669,6 @@ table tr:last-child td:last-child {
   color: blue;
 }
 
-.salmon {
-  border: 2px solid salmon;
-  color: salmon;
-}
-
 .red {
   border: 2px solid red;
   color: red;
@@ -632,5 +691,25 @@ table tr:last-child td:last-child {
   background-color: #6155e4;
   color: white;
   border: none;
+}
+
+.review {
+  color: rgb(88, 88, 233);
+  font-weight: 600;
+}
+
+.active {
+  color: green;
+  font-weight: 600;
+}
+
+.reject {
+  color: red;
+  font-weight: 600;
+}
+
+.deactive {
+  color: red;
+  font-weight: 600;
 }
 </style>
