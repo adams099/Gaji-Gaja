@@ -311,9 +311,7 @@ export default {
             this.infoSearch = null
         },
         ComStSm() {
-            console.log(this.sstat);
             this.hideModalSearch();
-            console.log(this.snam + this.sstat);
             if (this.snam != null && this.snam != '') {
                 this.sname()
             }
@@ -346,9 +344,8 @@ export default {
                 return a.status - b.status;
             });
             const filteredArray = sortedArray.filter(obj => obj.status == data);
-            console.log(filteredArray);
+            // console.log(filteredArray);
             this.appData = filteredArray;
-            console.log(data);
         },
         sname() {
             let data = this.snam;
@@ -357,7 +354,7 @@ export default {
             if (!searchQuery) {
                 return this.appData;
             }
-            console.log(searchQuery);
+            // console.log(searchQuery);
             const filteredObjects = this.appData.filter(obj => {
                 const coName = obj.comName && obj.comName.toLowerCase().includes(searchQuery);
                 const reqbY = obj.reqBy && obj.reqBy.toLowerCase().includes(searchQuery);
@@ -366,15 +363,13 @@ export default {
 
                 return coName || reqbY || apprby || reqtyp;
             });
-            console.log("2");
 
-            console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
+            // console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
 
             this.appData = filteredObjects;
         },
         sascdesc(dih) {
             let data = dih;
-            console.log(data);
             const sortedArray = [...this.appData];
             sortedArray.sort((a, b) => {
                 if (data == 1) {

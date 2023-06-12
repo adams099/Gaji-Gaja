@@ -255,6 +255,10 @@ export default {
       this.banjir = 6;
       this.ngapainsih = 7;
     }
+    if (this.$session.get("jwt").roleId == 4) {
+      this.ahok = "Employee";
+      this.banjir = 6;
+    }
   },
   mounted() {
     let data = {

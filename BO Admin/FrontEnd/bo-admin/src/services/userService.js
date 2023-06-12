@@ -40,6 +40,10 @@ class User {
   asemail(data){
     return http.post("/user/akunsemail",data)
   }
+
+  getAllByComId(data) {
+    return http.get(`/user/comId/${data}`);
+  }
 }
 
 export default new User();
