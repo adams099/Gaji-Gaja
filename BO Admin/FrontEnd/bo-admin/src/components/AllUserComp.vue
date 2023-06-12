@@ -178,6 +178,13 @@ export default {
       showModalStatus: false,
       userData: {},
       roleId: this.$session.get("jwt").roleId,
+
+      userCredential: {
+        id: null,
+        email: null,
+        companyId: null,
+      },
+
       inputData: {
         id: null,
         name: null,
@@ -188,6 +195,7 @@ export default {
         createdBy: null,
         approved: null,
         phone: null,
+        companyId: null,
       },
 
       detail: {
@@ -227,11 +235,19 @@ export default {
       colorStatus: null,
       status: null,
       actBtn: null,
+      comId: null,
     }
   },
 
   // METHODS
   methods: {
+    getUsers() {
+      if (this.roleId === 3) {
+        this.getData()
+      } else {
+        this.getUser();
+      }
+    },
     deactiveAlert() {
       let data = this.detail;
 
@@ -252,7 +268,6 @@ export default {
             this.reactiveFunc();
           }
         } else {
-          this.BackButton(1);
           this.$swal({
             confirmButtonText: "Close",
             icon: "error",
@@ -274,7 +289,7 @@ export default {
           });
           console.log(response.status);
           this.toggleModalUps();
-          this.getUser()
+          this.getUsers()
         })
         .catch(() => {
           this.$toast.error('Error', {
@@ -332,7 +347,7 @@ export default {
 
           console.log(response.status)
           this.toggleModalUps();
-          this.getUser()
+          this.getUsers()
         })
         .catch(() => {
           this.$toast.error('Error', {
@@ -395,6 +410,54 @@ export default {
       this.$refs["add-modal"].hide();
     },
 
+    async getData() {
+      try {
+        await this.getUserCredential();
+        this.getUsersByComId();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    getUserCredential() {
+      return new Promise((resolve, reject) => {
+        let data = this.userCredential;
+        data.email = this.$session.get("email");
+
+        userService
+          .findEmail(data)
+          .then((response) => {
+            if (response.status === 200) {
+              this.comId = response.data.companyId;
+              resolve(); // Menandakan bahwa getUser telah selesai dengan baik
+            } else {
+              reject("Error: getUser failed"); // Menandakan bahwa getUser gagal
+            }
+          })
+          .catch((e) => {
+            reject(e);
+          });
+      });
+    },
+
+    getUsersByComId() {
+      let data = this.comId;
+
+      userService
+        .getAllByComId(data)
+        .then((response) => {
+          this.userData = response.data;
+          var njir = this.userData.length / 7
+          this.maxdata = Math.ceil(njir)
+          var suiiii = this.userData.length % 7
+          this.dikurangin = 7 - suiiii
+          this.LimitData();
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
     async addUser() {
       const length = 8;
       const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()";
@@ -433,6 +496,13 @@ export default {
           });
 
         if (this.error['emailada'] == false) {
+          // if login role 3, set role 4 & set companyId
+
+          if (this.roleId === 3) {
+            data.roleId = 4;
+            data.companyId = this.comId;
+          }
+
           userService
             .register(data)
             .then((response) => {
@@ -463,7 +533,7 @@ export default {
                 // console.log(response.data);
                 console.log("success regis user");
                 this.$refs["add-modal"].toggle("#toggle-btn");
-                this.getUser()
+                this.getUsers()
               }
             })
             .catch((e) => {
@@ -537,7 +607,7 @@ export default {
 
 
   created() {
-    this.getUser();
+    this.getUsers();
   },
 };
 </script>

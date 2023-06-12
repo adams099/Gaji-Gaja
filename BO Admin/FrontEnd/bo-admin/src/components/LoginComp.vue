@@ -397,7 +397,6 @@ export default {
           userService
             .login(data)
             .then((response) => {
-              console.log(response.data.statId);
               if (response.data.statId === 2) {
                 this.$session.start();
                 this.$session.set("jwt", response.data);

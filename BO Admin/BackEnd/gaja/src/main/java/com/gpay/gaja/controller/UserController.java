@@ -195,4 +195,10 @@ public class UserController {
         }
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
     }
+
+    @GetMapping("/comId/{comId}")
+    public ResponseEntity<List<UserDTO>> getByCompanyId(@PathVariable Long comId) {
+        List<UserDTO> dtos = service.getCompanyId(comId);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
+    }
 }

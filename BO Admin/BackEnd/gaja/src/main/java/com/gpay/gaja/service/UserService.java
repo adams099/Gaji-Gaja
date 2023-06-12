@@ -16,4 +16,5 @@ public interface UserService {
 
     String login(UserDTO userDTO);
 
+    List<UserDTO> getCompanyId(Long companyId);
 }

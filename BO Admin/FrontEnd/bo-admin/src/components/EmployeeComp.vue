@@ -624,9 +624,7 @@ export default {
 
         // FILTER EMPLOYEE
         EmpSearch() {
-            console.log(this.sstat);
             this.hideModalSearch();
-            console.log(this.snam + this.sstat);
             if (this.snam != null && this.snam != '') {
                 this.sname()
             }
@@ -662,9 +660,9 @@ export default {
                 return a.status - b.status;
             });
             const filteredArray = sortedArray.filter(obj => obj.status == data);
-            console.log(filteredArray);
+            // console.log(filteredArray);
             this.employeeDatas = filteredArray;
-            console.log(data);
+            // console.log(data);
         },
 
         sname() {
@@ -674,7 +672,7 @@ export default {
             if (!searchQuery) {
                 return this.employeeDatas;
             }
-            console.log(searchQuery);
+            // console.log(searchQuery);
             const filteredObjects = this.employeeDatas.filter(obj => {
                 const fullName = obj.fullName && obj.fullName.toLowerCase().includes(searchQuery);
                 const nip = obj.nip && obj.nip.toLowerCase().includes(searchQuery);
@@ -682,15 +680,15 @@ export default {
 
                 return fullName || nip || division;
             });
-            console.log("2");
+            // console.log("2");
 
-            console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
+            // console.log('Filtered Objects:', filteredObjects); // Log the filtered objects
 
             this.employeeDatas = filteredObjects;
         },
         sascdesc(dih) {
             let data = dih;
-            console.log(data);
+            // console.log(data);
             const sortedArray = [...this.employeeDatas];
             sortedArray.sort((a, b) => {
                 if (data == 1) {
