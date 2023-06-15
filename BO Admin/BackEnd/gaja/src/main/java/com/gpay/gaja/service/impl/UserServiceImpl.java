@@ -52,4 +52,10 @@ public class UserServiceImpl implements UserService {
         Optional<User> UserOptional = repository.findByEmail(id);
         return mapper.convertToDto(UserOptional.get());
     }
+
+    @Override
+    public List<UserDTO> getCompanyId(Long companyId) {
+        List<User> users = repository.findByCompanyId(companyId);
+        return mapper.convertToDto(users);
+    }
 }

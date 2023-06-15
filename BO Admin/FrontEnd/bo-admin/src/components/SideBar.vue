@@ -175,7 +175,6 @@ export default {
       this.isClose = !this.isClose;
     },
     NyobaEmis(n) {
-      console.log(n);
       if (n == 1) {
         this.$emit("TestEmit2", 1);
         this.pa1 = true;
@@ -255,6 +254,10 @@ export default {
       this.ahok = "Employee";
       this.banjir = 6;
       this.ngapainsih = 7;
+    }
+    if (this.$session.get("jwt").roleId == 4) {
+      this.ahok = "Employee";
+      this.banjir = 6;
     }
   },
   mounted() {

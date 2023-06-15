@@ -72,6 +72,12 @@ public class UserController {
             userDTO.setCreated(LocalDateTime.now());
         } else {
             userDTO.setUpdate(LocalDateTime.now());
+            if (userDTO.getStatId() == 4) {
+                UserDTO dtos = service.save(userDTO);
+                return new ResponseEntity<>(dtos, HttpStatus.CREATED);
+            } else if (userDTO.getStatId() == 2) {
+                userDTO.setUpdate(null);
+            }
         }
         userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
         userDTO.setPin(SafetyConfiguration.encrypt(userDTO.getPin()));
@@ -207,5 +213,11 @@ public class UserController {
             }
         }
         return new ResponseEntity<>(res, HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/comId/{comId}")
+    public ResponseEntity<List<UserDTO>> getByCompanyId(@PathVariable Long comId) {
+        List<UserDTO> dtos = service.getCompanyId(comId);
+        return new ResponseEntity<>(dtos, HttpStatus.OK);
     }
 }
