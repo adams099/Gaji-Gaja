@@ -38,7 +38,13 @@ public class UserServiceImpl implements UserService {
     @Override
     public String login(UserDTO userDTO) {
         User UserOptional = repository.findByEmail(userDTO.getEmail()).get();
-        return UserOptional.getPass();
+        String test = userDTO.getPass();
+        String tees = userDTO.getPin();
+        if (test == null && tees != null) {
+            return UserOptional.getPin();
+        } else {
+            return UserOptional.getPass();
+        }
     }
 
     @Override
