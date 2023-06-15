@@ -74,6 +74,7 @@ public class UserController {
             userDTO.setUpdate(LocalDateTime.now());
         }
         userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
+        userDTO.setPin(SafetyConfiguration.encrypt(userDTO.getPin()));
         UserDTO dto = service.save(userDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
@@ -107,15 +108,34 @@ public class UserController {
         NgaturLuwh test = new NgaturLuwh();
         String gaa = service.login(userDTO);
         String testis = SafetyConfiguration.decrypt(gaa);
-        String asw = userDTO.getPass();
-        if (testis.equals(asw)) {
-            UserDTO gimm = service.findByEmail(userDTO.getEmail());
-            gimm.setLast(LocalDateTime.now());
-            service.save(gimm);
-            String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
-            test.setData(ancrit);
-            test.setRoleId(gimm.getRoleId());
-            return new ResponseEntity<>(test, HttpStatus.OK);
+        String asw = "";
+        String asy = "";
+        if (userDTO.getPass() == null && userDTO.getPin() != null) {
+            asy = userDTO.getPin();
+        } else {
+            asw = userDTO.getPass();
+        }
+        if (userDTO.getPass() == null && userDTO.getPin() != null) {
+            if (testis.equals(asy)) {
+                UserDTO gimm = service.findByEmail(userDTO.getEmail());
+                gimm.setLast(LocalDateTime.now());
+                service.save(gimm);
+                String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
+                test.setData(ancrit);
+                test.setRoleId(gimm.getRoleId());
+                return new ResponseEntity<>(test, HttpStatus.OK);
+            }
+        } else {
+
+            if (testis.equals(asw)) {
+                UserDTO gimm = service.findByEmail(userDTO.getEmail());
+                gimm.setLast(LocalDateTime.now());
+                service.save(gimm);
+                String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
+                test.setData(ancrit);
+                test.setRoleId(gimm.getRoleId());
+                return new ResponseEntity<>(test, HttpStatus.OK);
+            }
         }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

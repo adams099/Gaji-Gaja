@@ -20,6 +20,8 @@ public class User {
     @Column(name = "email", unique = true)
     private String email;
     @Column(name = "password", length = 1000)
+    private String pin;
+    @Column(name = "pin")
     private String pass;
     @Column(name = "role_id")
     private int roleId;
