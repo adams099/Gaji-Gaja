@@ -79,8 +79,13 @@ public class UserController {
                 userDTO.setUpdate(null);
             }
         }
-        userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
-        userDTO.setPin(SafetyConfiguration.encrypt(userDTO.getPin()));
+        if (userDTO.getPass() != null) {
+
+            userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
+        }
+        if (userDTO.getPin() != null) {
+            userDTO.setPin(SafetyConfiguration.encrypt(userDTO.getPin()));
+        }
         UserDTO dto = service.save(userDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
