@@ -129,6 +129,7 @@ public class UserController {
                 String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
                 test.setData(ancrit);
                 test.setRoleId(gimm.getRoleId());
+                test.setStatId(gimm.getStatId());
                 return new ResponseEntity<>(test, HttpStatus.OK);
             }
         } else {
@@ -140,6 +141,7 @@ public class UserController {
                 String ancrit = LocalDateTime.now().plus(30, ChronoUnit.MINUTES).toString() + gimm.getEmail();
                 test.setData(ancrit);
                 test.setRoleId(gimm.getRoleId());
+                test.setStatId(gimm.getStatId());
                 return new ResponseEntity<>(test, HttpStatus.OK);
             }
         }
