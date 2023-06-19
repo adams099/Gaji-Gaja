@@ -60,8 +60,23 @@ public class UserController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) {
-        userDTO.setCreated(LocalDateTime.now());
+    public ResponseEntity<UserDTO> save(@RequestBody UserDTO userDTO) throws Exception {
+        // HttpStatus hmm = new HttpStatus();
+        if (userDTO.getId() == null || userDTO.getId() == 0) {
+            userDTO.setCreated(LocalDateTime.now());
+        } else {
+            userDTO.setUpdate(LocalDateTime.now());
+        }
+        try {
+            SafetyConfiguration.decrypt(userDTO.getPin());
+        } catch (Exception e) {
+            userDTO.setPin(SafetyConfiguration.encrypt(userDTO.getPin()));
+        }
+        try {
+            SafetyConfiguration.decrypt(userDTO.getPass());
+        } catch (Exception e) {
+            userDTO.setPass(SafetyConfiguration.encrypt(userDTO.getPass()));
+        }
         UserDTO dto = service.save(userDTO);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
