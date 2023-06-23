@@ -25,20 +25,20 @@ class User {
     return http.get("/user/id/{id}");
   }
 
-  potp(data){
-    return http.post("/user/otp",data)
+  potp(data) {
+    return http.post("/user/otp", data);
   }
 
-  cotp(data){
-    return http.post("/user/cekotp",data)
+  cotp(data) {
+    return http.post("/user/cekotp", data);
   }
 
-  semail(data){
-    return http.post("/user/semail",data)
+  semail(data) {
+    return http.post("/user/semail", data);
   }
 
-  asemail(data){
-    return http.post("/user/akunsemail",data)
+  asemail(data) {
+    return http.post("/user/akunsemail", data);
   }
 
   getAllByComId(data) {

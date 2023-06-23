@@ -5,15 +5,15 @@ import VueRouter from "vue-router";
 import Routes from "./routes.js";
 import VueSession from "vue-session";
 import VueBootstrapModal from "vue-bootstrap-modal";
-import VueSweetalert2 from 'vue-sweetalert2';
-import 'sweetalert2/dist/sweetalert2.min.css';
+import VueSweetalert2 from "vue-sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 import Toast from "vue-toastification";
 import "vue-toastification/dist/index.css";
 
 const options = {
-  confirmButtonColor: '#41b882',
-  cancelButtonColor: '#ff7674',
+  confirmButtonColor: "#41b882",
+  cancelButtonColor: "#ff7674",
 };
 
 import "bootstrap/dist/css/bootstrap.css";
